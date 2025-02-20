@@ -1,59 +1,26 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand" href="#top">
+      <a class="navbar-brand" href="#">
         <img
           src="@/assets/images/logo/logo.png"
           alt="Jenny's Flowers Logo"
-          height="100"
+          height="150"
         />
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-            >
-              Gallery
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#occasions">Occasions</a></li>
-              <li>
-                <a class="dropdown-item" href="#luxe-design">Luxe Design</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#reviews">Reviews</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#faqs">FAQs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
-        </ul>
+      <div>
+        <TheNavigation />
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import TheNavigation from './TheNavigation.vue'
 export default {
-  name: 'TheHeader'
+  name: 'TheHeader',
+  components: {
+    TheNavigation
+  }
 }
 </script>
