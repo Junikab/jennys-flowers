@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-wrapper">
     <TheHeader />
     <HomePage msg="Welcome to Jennys Flowers" />
     <TheFooter />
@@ -26,8 +26,13 @@ export default {
   text-align: center;
   color: #291422;
 }
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .body {
-  /* background-color: #4d2525; */
-  padding-bottom: 250px;
+  background-color: #e8cece;
+  /* padding-bottom: 250px; */
 }
 </style>

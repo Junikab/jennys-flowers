@@ -41,10 +41,16 @@
           </p>
         </div>
         <div class="col-md-6 text-md-end">
-          <a href="#" class="text-muted me-3"
+          <a
+            href="https://www.facebook.com/profile.php?id=61565467934102"
+            target="_blank"
+            class="text-muted me-3"
             ><i class="fab fa-facebook"></i
           ></a>
-          <a href="#" class="text-muted me-3"
+          <a
+            href="https://www.instagram.com/Jennysflowers_au/#"
+            target="blank"
+            class="text-muted me-3"
             ><i class="fab fa-instagram"></i
           ></a>
         </div>
@@ -61,9 +67,9 @@ export default {
 
 <style scoped>
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
+  /* bottom: 0;
+  width: 100%; */
   /* height: 150px; */
 }
 .footer a {
