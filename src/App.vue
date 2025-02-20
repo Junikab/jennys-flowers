@@ -1,19 +1,23 @@
 <template>
-  <TheHeader />
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <TheHeader />
+    <HelloWorld msg="Welcome to Jennys Flowers" />
+    <TheFooter />
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import TheHeader from "./components/layout/TheHeader.vue";
+import HelloWorld from './components/HelloWorld.vue'
+import TheFooter from './components/layout/TheFooter.vue'
+import TheHeader from './components/layout/TheHeader.vue'
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TheHeader,
     HelloWorld,
-  },
-};
+    TheFooter
+  }
+}
 </script>
 
 <style>

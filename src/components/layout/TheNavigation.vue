@@ -18,6 +18,6 @@
 
 <script>
 export default {
-  name: "TheNavigation",
-};
+  name: 'TheNavigation'
+}
 </script>
