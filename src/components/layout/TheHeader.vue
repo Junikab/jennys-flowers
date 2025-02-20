@@ -1,13 +1,13 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand" href="#">
+      <router-link class="navbar-brand" to="/">
         <img
           src="@/assets/images/logo/logo.png"
           alt="Jenny's Flowers Logo"
           height="150"
         />
-      </a>
+      </router-link>
       <div>
         <TheNavigation />
       </div>

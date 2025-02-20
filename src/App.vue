@@ -1,20 +1,21 @@
 <template>
   <div class="app-wrapper">
     <TheHeader />
-    <HomePage msg="Welcome to Jennys Flowers" />
+    <!-- <HomePage msg="Welcome to Jennys Flowers" /> -->
+    <router-view></router-view>
     <TheFooter />
   </div>
 </template>
 
 <script>
-import HomePage from './views/HomePage.vue'
+// import HomePage from './views/HomePage.vue'
 import TheFooter from './components/layout/TheFooter.vue'
 import TheHeader from './components/layout/TheHeader.vue'
 export default {
   name: 'App',
   components: {
     TheHeader,
-    HomePage,
+    // HomePage,
     TheFooter
   }
 }

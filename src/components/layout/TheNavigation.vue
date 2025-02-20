@@ -46,7 +46,10 @@
             <a class="nav-link" href="#faqs">FAQs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
+            <router-link class="nav-link" to="/contact">Contact</router-link>
+            <!-- <router-link class="nav-link" :to="{ name: 'Contact' }"
+              >Contact</router-link
+            > -->
           </li>
         </ul>
       </div>
@@ -55,7 +58,23 @@
 </template>
 
 <script>
+// import { ContactMe } from '../home/ContactMe.vue'
 export default {
   name: 'TheNavigation'
+  //   components: {
+  //     ContactMe
+  //   }
 }
 </script>
+
+<style scoped>
+.nav-link {
+  cursor: pointer; /* Make sure the cursor changes to pointer on hover */
+  color: #291422;
+  font-weight: 800;
+}
+.nav-item {
+  color: #291422;
+  font-weight: 800;
+}
+</style>
