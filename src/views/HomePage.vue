@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">
+  <div class="container mt-5 home-page">
     <h1>{{ msg }}</h1>
     <p>
       We are here to fill your world with fresh blooms and vibrant arrangements

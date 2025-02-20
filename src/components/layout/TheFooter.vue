@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-light text-dark py-4 mt-5">
+  <footer class="footer text-light py-4 mt-5">
     <div class="container">
       <div class="row">
         <!-- Company Info -->
@@ -68,6 +68,7 @@ export default {
 <style scoped>
 .footer {
   margin-top: auto;
+  background-color: #5b2344;
   /* bottom: 0;
   width: 100%; */
   /* height: 150px; */
@@ -77,7 +78,7 @@ export default {
 }
 
 .footer a:hover {
-  color: rgb(46, 23, 23) !important;
+  color: #b46298 !important;
   transition: color 0.3s ease;
 }
 </style>

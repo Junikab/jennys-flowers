@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <button
         class="navbar-toggler"
@@ -70,11 +70,17 @@ export default {
 <style scoped>
 .nav-link {
   cursor: pointer; /* Make sure the cursor changes to pointer on hover */
-  color: #291422;
+  color: #fff0fa;
   font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.nav-link:hover {
+  color: #b46298;
 }
 .nav-item {
   color: #291422;
   font-weight: 800;
+  font-size: 1.2rem;
 }
 </style>

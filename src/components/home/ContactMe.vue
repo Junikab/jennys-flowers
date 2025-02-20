@@ -1,22 +1,31 @@
 <template>
-  <div id="contact">
+  <div class="container mt-5" id="contact">
     <h1>Contact me</h1>
-    <p>
+    <p class="mb-5">
       If you have any questions or would like to place an order, please don't
       hesitate to contact me.
     </p>
-    <div class="mb-3">
-      <h5>Contact Us</h5>
-      <ul class="list-unstyled text-muted">
-        <li>123 Flower Street</li>
-        <li>Bloomington, IN 47401</li>
-        <li>Phone: (555) 123-4567</li>
-        <li>Email: info@jennysflowers.com</li>
-      </ul>
-    </div>
-    <div class="mb-3">
-      <h5>Map</h5>
-      <!-- <img src="@/assets/images/map.png" alt="Map" /> -->
+    <div class="row mb-3">
+      <div class="contact col-md-4 mb-3">
+        <h5>Contact Us</h5>
+        <ul class="list-unstyled text-muted">
+          <li>Voller St,</li>
+          <li>Ropes Crossing NSW 2760</li>
+          <li>Phone: 0420 450 149</li>
+          <li>Email: warsievgeniya@gmail.com</li>
+        </ul>
+      </div>
+      <div class="opening col-md-4 mb-3">
+        <h5>Opening Hours</h5>
+        <ul class="list-unstyled text-muted">
+          <li>Saturday - Thursday: 7:00 AM - 7:00 PM</li>
+          <li>Friday: 7:00 AM - 10:00 PM</li>
+        </ul>
+      </div>
+      <div class="location col-md-4 mb-3">
+        <h5>Location</h5>
+        <!-- <img src="@/assets/images/map.png" alt="Map" /> -->
+      </div>
     </div>
   </div>
 </template>
