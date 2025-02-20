@@ -1,20 +1,20 @@
 <template>
   <div>
     <TheHeader />
-    <HelloWorld msg="Welcome to Jennys Flowers" />
+    <HomePage msg="Welcome to Jennys Flowers" />
     <TheFooter />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HomePage from './views/HomePage.vue'
 import TheFooter from './components/layout/TheFooter.vue'
 import TheHeader from './components/layout/TheHeader.vue'
 export default {
   name: 'App',
   components: {
     TheHeader,
-    HelloWorld,
+    HomePage,
     TheFooter
   }
 }

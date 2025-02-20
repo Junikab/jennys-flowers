@@ -1,8 +1,8 @@
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'HomePage',
+    component: HomePage
   }
   // Uncomment when ready for payment functionality
   // {
