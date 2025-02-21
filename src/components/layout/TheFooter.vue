@@ -23,13 +23,13 @@
 
         <!-- Contact Info -->
         <div class="col-md-4 mb-3">
-          <h5>Contact Us</h5>
-          <ul class="list-unstyled text-muted">
-            <li>123 Flower Street</li>
-            <li>Bloomington, IN 47401</li>
-            <li>Phone: (555) 123-4567</li>
-            <li>Email: info@jennysflowers.com</li>
-          </ul>
+          <ContactMe
+            :showContact="true"
+            :showHours="false"
+            :showLocation="false"
+            :isFooter="true"
+            :fullWidth="false"
+          />
         </div>
       </div>
 
@@ -60,8 +60,12 @@
 </template>
 
 <script>
+import ContactMe from '@/components/home/ContactMe.vue'
 export default {
-  name: 'TheFooter'
+  name: 'TheFooter',
+  components: {
+    ContactMe
+  }
 }
 </script>
 

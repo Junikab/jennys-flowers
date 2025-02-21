@@ -8,7 +8,7 @@
       moments—and everyday life!
     </p>
     <img
-      src="@/assets/images/logo/JennyWisteria.jpg"
+      src="@/assets/images/gallery/JennyWisteria.jpg"
       alt="Jenny's Flowers"
       height="400"
     />

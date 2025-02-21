@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ContactMe from '../components/home/ContactMe.vue'
+import ContactPage from '../views/ContactPage.vue'
 import HomePage from '../views/HomePage.vue'
 
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/contact',
     name: 'Contact',
-    component: ContactMe
+    component: ContactPage
   }
   // Uncomment when ready for payment functionality
   // {
