@@ -7,11 +7,6 @@
       Let our floral designs add a touch of joy and beauty to your special
       moments—and everyday life!
     </p>
-    <img
-      src="@/assets/images/gallery/JennyWisteria.jpg"
-      alt="Jenny's Flowers"
-      height="400"
-    />
   </div>
 </template>
 
