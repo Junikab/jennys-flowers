@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg body">
-    <div class="container">
+    <div class="container topper">
       <router-link class="navbar-brand" to="/">
         <img
           src="@/assets/images/logo/logo.png"
@@ -9,7 +9,10 @@
           class="d-inline-block align-text-top rounded-circle"
         />
       </router-link>
-      <div>
+      <div class="topper-info">
+        <span>Call us: 0420 450 149</span>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
         <TheNavigation />
       </div>
     </div>
@@ -29,5 +32,10 @@ export default {
 <style scoped>
 .body {
   background-color: #5b2344;
+}
+.topper-info {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 </style>

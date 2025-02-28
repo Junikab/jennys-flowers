@@ -5,8 +5,8 @@
         <!-- Company Info -->
         <div class="col-md-4 mb-3">
           <h5>Jenny's Flowers</h5>
-          <p class="text-muted">
-            Bringing beauty and freshness to your special moments.
+          <p class="footer-text">
+            Bringing beauty and freshness <br />to your special moments.
           </p>
         </div>
 
@@ -14,10 +14,10 @@
         <div class="col-md-4 mb-3">
           <h5>Quick Links</h5>
           <ul class="list-unstyled">
-            <li><a href="/" class="text-muted">Home</a></li>
-            <li><a href="/products" class="text-muted">Products</a></li>
-            <li><a href="/about" class="text-muted">About</a></li>
-            <li><a href="/contact" class="text-muted">Contact</a></li>
+            <li><a href="/" class="footer-text">Home</a></li>
+            <li><a href="/products" class="footer-text">Products</a></li>
+            <li><a href="/about" class="footer-text">About</a></li>
+            <li><a href="/contact" class="footer-text">Contact</a></li>
           </ul>
         </div>
 
@@ -36,7 +36,7 @@
       <!-- Social Media Links -->
       <div class="row border-top pt-3 mt-3">
         <div class="col-md-6">
-          <p class="mb-0 text-muted">
+          <p class="mb-0 footer-text">
             &copy; 2025 Jenny's Flowers. All rights reserved.
           </p>
         </div>
@@ -44,13 +44,13 @@
           <a
             href="https://www.facebook.com/profile.php?id=61565467934102"
             target="_blank"
-            class="text-muted me-3"
+            class="footer-text me-3"
             ><i class="fab fa-facebook"></i
           ></a>
           <a
             href="https://www.instagram.com/Jennysflowers_au/#"
             target="blank"
-            class="text-muted me-3"
+            class="footer-text me-3"
             ><i class="fab fa-instagram"></i
           ></a>
         </div>
@@ -73,6 +73,7 @@ export default {
 .footer {
   margin-top: auto;
   background-color: #5b2344;
+  color: rgb(240, 248, 255);
   /* bottom: 0;
   width: 100%; */
   /* height: 150px; */
@@ -84,5 +85,9 @@ export default {
 .footer a:hover {
   color: #b46298 !important;
   transition: color 0.3s ease;
+}
+.footer-text {
+  color: aliceblue;
+  opacity: 0.9;
 }
 </style>

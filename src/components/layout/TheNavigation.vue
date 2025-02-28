@@ -67,8 +67,8 @@ export default {
 .nav-link {
   cursor: pointer; /* Make sure the cursor changes to pointer on hover */
   color: #fff0fa;
-  font-weight: 800;
-  font-size: 1.2rem;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .nav-link:hover {
@@ -76,7 +76,6 @@ export default {
 }
 .nav-item {
   color: #291422;
-  font-weight: 800;
   font-size: 1.2rem;
 }
 </style>

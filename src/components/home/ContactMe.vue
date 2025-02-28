@@ -2,8 +2,8 @@
   <div class="container" :class="{ 'mt-5': !isFooter }" id="contact">
     <h1 v-if="!isFooter">Contact Us</h1>
     <p class="mb-5" v-if="!isFooter">
-      If you have any questions or would like to place an order, please don't
-      hesitate to contact me.
+      If you have any questions or would like <br />to place an order, please
+      don't hesitate to contact me.
     </p>
     <div class="row mb-3">
       <div
@@ -12,7 +12,7 @@
         v-if="showContact"
       >
         <h5>Contact Us</h5>
-        <ul class="list-unstyled text-muted">
+        <ul class="list-unstyled contact-text">
           <li>Voller St,</li>
           <li>Ropes Crossing NSW 2760</li>
           <li>Phone: 0420 450 149</li>
@@ -21,7 +21,7 @@
       </div>
       <div class="opening col-md-4 mb-3" v-if="showHours">
         <h5>Opening Hours</h5>
-        <ul class="list-unstyled text-muted">
+        <ul class="list-unstyled contact-text">
           <li>Saturday - Thursday: 7:00 AM - 7:00 PM</li>
           <li>Friday: 7:00 AM - 10:00 PM</li>
         </ul>

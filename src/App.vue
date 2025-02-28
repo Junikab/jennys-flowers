@@ -25,7 +25,7 @@ export default {
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
-  color: #291422;
+  /* color: #291422; */
 }
 .app-wrapper {
   min-height: 100vh;
