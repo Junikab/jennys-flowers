@@ -10,7 +10,7 @@
         />
       </router-link>
       <div class="topper-info">
-        <span>Call us: 0420 450 149</span>
+        <span>Jenny's Flowers</span>
       </div>
       <div class="d-flex justify-content-center align-items-center">
         <TheNavigation />
@@ -31,7 +31,7 @@ export default {
 
 <style scoped>
 .body {
-  background-color: #5b2344;
+  background-color: #301123;
 }
 .topper-info {
   color: #fff;

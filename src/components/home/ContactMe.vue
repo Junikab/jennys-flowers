@@ -11,7 +11,7 @@
         :class="fullWidth ? 'col-12' : 'col-md-4'"
         v-if="showContact"
       >
-        <h5>Contact Us</h5>
+        <h5>CONTACT ME</h5>
         <ul class="list-unstyled contact-text">
           <li>Voller St,</li>
           <li>Ropes Crossing NSW 2760</li>
@@ -20,14 +20,18 @@
         </ul>
       </div>
       <div class="opening col-md-4 mb-3" v-if="showHours">
-        <h5>Opening Hours</h5>
+        <h5>OPENING HOURS</h5>
         <ul class="list-unstyled contact-text">
-          <li>Saturday - Thursday: 7:00 AM - 7:00 PM</li>
-          <li>Friday: 7:00 AM - 10:00 PM</li>
+          <!-- <li>Saturday - Thursday: 7:00 AM - 7:00 PM</li>
+          <li>Friday: 7:00 AM - 10:00 PM</li> -->
+          <li>By appointment only</li>
         </ul>
       </div>
       <div class="location col-md-4 mb-3" v-if="showLocation">
-        <h5>Location</h5>
+        <h5>LOCATION</h5>
+        <ul class="list-unstyled contact-text">
+          <li>Voller St, Ropes Crossing NSW 2760</li>
+        </ul>
         <!-- for future map -->
         <!-- <img src="@/assets/images/map.png" alt="Map" /> -->
       </div>

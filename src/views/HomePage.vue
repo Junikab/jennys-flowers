@@ -4,48 +4,53 @@
       <h1>{{ msg }}</h1>
       <p>
         We are here to fill your world with fresh blooms and vibrant
-        arrangements for every occasion.<br />
-        Let our floral designs add a touch of joy and beauty to your special
-        moments—and everyday life!
+        arrangements for every occasion.
       </p>
     </div>
-    <div class="carousel-container">
-      <TheCarousel />
+    <div class="images container-fluid mt-4">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <img
+            src="@/assets/images/background/background.jpg"
+            class="img-fluid w-100 h-100 object-fit-cover"
+            alt="background"
+          />
+        </div>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <img
+            src="@/assets/images/background/background.jpg"
+            class="img-fluid w-100 h-100 object-fit-cover"
+            alt="background"
+          />
+        </div>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <img
+            src="@/assets/images/background/background.jpg"
+            class="img-fluid w-100 h-100 object-fit-cover"
+            alt="background"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
-<script>
-import TheCarousel from '@/components/carousel/TheCarousel.vue'
-export default {
-  name: 'HomePage',
-  props: {
-    msg: String
-  },
-  components: {
-    TheCarousel
-  }
-}
-</script>
 
 <style scoped>
 .home-page {
   min-height: 100vh; /* This ensures full height */
 }
+
 .hero-section {
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.6)
-    ),
-    url('@/assets/images/background/background.jpg');
   min-height: 80vh;
   max-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding: 4rem 2rem;
-  border-radius: 10px;
+  /* padding: 4rem 0 0 0; */
   margin: -3rem -15px 0;
+  /* margin: -3rem 0 0 0; */
+  border-radius: 10px;
   display: flex; /* Added to help with layout */
   flex-direction: column; /* Stack children vertically */
   justify-content: space-between; /* Space out the title and carousel */
@@ -61,18 +66,13 @@ export default {
 .hero-section p {
   font-size: 1.5rem;
 }
+
 .title-container {
-  background-color: rgb(236, 228, 233, 0.5);
   border-radius: 10px;
   padding: 2rem;
 }
-.carousel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem auto;
-  width: 60%; /* Set specific width */
-  max-height: 50vh; /* Limit height */
-  overflow: hidden; /* Prevent overflow */
+
+.object-fit-cover {
+  object-fit: cover;
 }
 </style>

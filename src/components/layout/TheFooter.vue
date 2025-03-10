@@ -35,12 +35,12 @@
 
       <!-- Social Media Links -->
       <div class="row border-top pt-3 mt-3">
-        <div class="col-md-6">
-          <p class="mb-0 footer-text">
+        <div class="col">
+          <p class="footer-text">
             &copy; 2025 Jenny's Flowers. All rights reserved.
           </p>
         </div>
-        <div class="col-md-6 text-md-end">
+        <div class="col text-md-end">
           <a
             href="https://www.facebook.com/profile.php?id=61565467934102"
             target="_blank"
@@ -72,7 +72,7 @@ export default {
 <style scoped>
 .footer {
   margin-top: auto;
-  background-color: #5b2344;
+  background-color: #301123;
   color: rgb(240, 248, 255);
   /* bottom: 0;
   width: 100%; */
