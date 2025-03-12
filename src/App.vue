@@ -38,7 +38,7 @@ export default {
   flex-direction: column;
   padding-bottom: 2rem;
 }
-.body {
+/* .body {
   background-color: #e8cece;
-}
+} */
 </style>

@@ -31,7 +31,7 @@ export default {
 
 <style scoped>
 .body {
-  background-color: #301123;
+  background-color: rgb(48, 17, 35, 0.8);
 }
 .topper-info {
   color: #fff;
