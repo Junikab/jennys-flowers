@@ -22,8 +22,10 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
+  font-family: 'Bellefair', serif;
+  font-weight: 400;
+  font-style: normal;
 }
 .app-wrapper {
   min-height: 100vh;

@@ -12,9 +12,18 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
+            <router-link class="nav-link" to="/">HOME</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="about">ABOUT</router-link>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
+            <router-link class="nav-link" to="events">EVENTS</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/contact">CONTACT</router-link>
+          </li>
+          <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -26,23 +35,14 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#wedding">Wedding</a></li>
               <li><a class="dropdown-item" href="#birthday">Birthday</a></li>
-              <li>
-                <a class="dropdown-item" href="#anniversary">Anniversary</a>
-              </li>
             </ul>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="#reviews">Reviews</a>
           </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="#faqs">FAQs</a>
           </li> -->
-          <li class="nav-item">
-            <router-link class="nav-link" to="/contact">CONTACT</router-link>
-            <!-- <router-link class="nav-link" :to="{ name: 'Contact' }"
-              >Contact</router-link
-            > -->
-          </li>
         </ul>
       </div>
     </div>
@@ -59,7 +59,7 @@ export default {
 .nav-link {
   cursor: pointer; /* Make sure the cursor changes to pointer on hover */
   color: #fff0fa;
-  font-weight: 600;
+  /* font-weight: 600; */
   font-size: 1.5rem;
 }
 
