@@ -1,35 +1,61 @@
 <template>
-  <div class="container" :class="{ 'mt-5': !isFooter }" id="contact">
-    <h1 v-if="!isFooter">Contact Us</h1>
-    <p class="mb-5" v-if="!isFooter">
-      If you have any questions or would like <br />to place an order, please
-      don't hesitate to contact me.
-    </p>
-    <div class="col mb-3">
-      <!-- <div
-        class="contact"
-        :class="fullWidth ? 'col-12' : 'col-md-4'"
-        v-if="showContact"
-      >
-        <h5>CONTACT ME</h5>
-        <ul class="list-unstyled contact-text">
-          <li>Voller St,</li>
-          <li>Ropes Crossing NSW 2760</li>
-          <li>Phone: 0420 450 149</li>
-          <li>Email: warsievgeniya@gmail.com</li>
-        </ul>
-      </div> -->
-      <div class="location col-md-4 mb-3" v-if="showLocation">
-        <h5>LOCATION</h5>
-        <ul class="list-unstyled contact-text">
-          <li>Voller St, Ropes Crossing NSW 2760</li>
-        </ul>
+  <div class="container-fluid p-0 mt-3" id="contact">
+    <div class="row justify-content-center">
+      <div class="images-container vw-100 p-0 m-0">
+        <div class="row g-0">
+          <div class="col-3 image-wrapper">
+            <img
+              src="@/assets/images/background/backgroundBlue.jpg"
+              alt="backgroundBlue"
+              class="img-fluid w-100 h-100 object-fit-cover"
+            />
+          </div>
+          <div class="col-3 image-wrapper">
+            <img
+              src="@/assets/images/background/backgroundYellow.jpg"
+              alt="backgroundYellow"
+              class="img-fluid w-100 h-100 object-fit-cover"
+            />
+          </div>
+          <div class="col-3 image-wrapper">
+            <img
+              src="@/assets/images/background/backgroundBlue.jpg"
+              alt="backgroundBlue"
+              class="img-fluid w-100 h-100 object-fit-cover"
+            />
+          </div>
+          <div class="col-3 image-wrapper">
+            <img
+              src="@/assets/images/background/backgroundYellow.jpg"
+              alt="backgroundYellow"
+              class="img-fluid w-100 h-100 object-fit-cover"
+            />
+          </div>
+        </div>
       </div>
-      <div class="opening col-md-4 mb-3" v-if="showHours">
-        <h5>OPENING HOURS</h5>
-        <ul class="list-unstyled contact-text">
-          <li>By appointment only</li>
-        </ul>
+      <div class="landing mb-3">
+        <h1 class="landingTitle">Contact Us</h1>
+        <!-- <p class="landingText">
+          If you have any questions or would like <br />to place an order,
+          please don't hesitate to contact me.
+        </p> -->
+      </div>
+      <div class="info">
+        <div class="location mb-5" v-if="showLocation">
+          <h5>LOCATION</h5>
+          <ul class="list-unstyled contact-text">
+            <li>
+              Based in Ropes Crossing NSW 2760 <br />
+              Servicing Sydney & Beyond
+            </li>
+          </ul>
+        </div>
+        <div class="opening mb-3" v-if="showHours">
+          <h5>OPENING HOURS</h5>
+          <ul class="list-unstyled contact-text">
+            <li>By appointment only</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -62,3 +88,41 @@ export default {
   }
 }
 </script>
+<style scoped>
+.contact-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.images-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-wrapper {
+  height: 380px;
+  overflow: hidden;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+  height: 100%;
+}
+@media (max-width: 992px) {
+  .image-wrapper {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .image-wrapper {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .image-wrapper {
+    height: 100px;
+  }
+}
+</style>
