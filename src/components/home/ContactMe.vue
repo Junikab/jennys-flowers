@@ -35,10 +35,6 @@
       </div>
       <div class="landing mb-3">
         <h1 class="landingTitle">Contact Us</h1>
-        <!-- <p class="landingText">
-          If you have any questions or would like <br />to place an order,
-          please don't hesitate to contact me.
-        </p> -->
       </div>
       <div class="info">
         <div class="location mb-5" v-if="showLocation">
@@ -57,11 +53,13 @@
           </ul>
         </div>
       </div>
+      <ContactForm />
     </div>
   </div>
 </template>
 
 <script>
+import ContactForm from '../forms/ContactForm.vue'
 export default {
   name: 'ContactMe',
   props: {
@@ -85,9 +83,13 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    ContactForm
   }
 }
 </script>
+
 <style scoped>
 .contact-text {
   font-size: 1.2rem;
