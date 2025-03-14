@@ -33,10 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="landing mb-3">
-        <h1 class="landingTitle">Contact Us</h1>
-      </div>
-      <div class="info">
+      <div class="info mt-5">
         <div class="location mb-5" v-if="showLocation">
           <h5>LOCATION</h5>
           <ul class="list-unstyled contact-text">
@@ -46,7 +43,7 @@
             </li>
           </ul>
         </div>
-        <div class="opening mb-3" v-if="showHours">
+        <div class="opening" v-if="showHours">
           <h5>OPENING HOURS</h5>
           <ul class="list-unstyled contact-text">
             <li>By appointment only</li>
@@ -92,7 +89,7 @@ export default {
 
 <style scoped>
 .contact-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1.8;
 }
 

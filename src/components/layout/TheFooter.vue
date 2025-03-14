@@ -81,9 +81,7 @@ export default {
 <style scoped>
 .footer {
   flex-shrink: 0;
-  /* background-color: rgb(48, 17, 35); */
   color: rgb(240, 248, 255);
-  /* margin-top: 2rem; */
   width: 100%;
   text-align: center;
 }
@@ -93,7 +91,7 @@ export default {
 }
 
 .footer a:hover {
-  color: #b46298 !important;
+  color: rgb(180, 98, 152) !important;
   transition: color 0.3s ease;
 }
 .footer-text {
