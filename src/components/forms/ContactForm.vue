@@ -10,7 +10,7 @@
     </div>
     <p class="text-center contact-intro">
       Please fill in the contact form below or email us at
-      <a href="mailto:hello@ivyrae.com.au">junikab@gmail.com</a>
+      <a href="mailto:junikab@gmail.com">junikab@gmail.com</a>
     </p>
     <div>
       <form

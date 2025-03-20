@@ -34,8 +34,9 @@ export default {
   background-color: rgb(48, 17, 35, 0.8);
 }
 .topper-info {
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: bold;
+  color: #fff0fa;
+  font-size: 3rem;
+  font-family: 'Aboreto', serif;
+  /* font-weight: 200; */
 }
 </style>

@@ -57,9 +57,8 @@ export default {
 
 <style scoped>
 .nav-link {
-  cursor: pointer; /* Make sure the cursor changes to pointer on hover */
+  cursor: pointer;
   color: #fff0fa;
-  /* font-weight: 600; */
   font-size: 1.5rem;
 }
 
