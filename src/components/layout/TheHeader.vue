@@ -35,7 +35,7 @@ export default {
 }
 .topper-info {
   color: #fff0fa;
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: 'Aboreto', serif;
   /* font-weight: 200; */
 }
