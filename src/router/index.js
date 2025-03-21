@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import ContactPage from '../views/ContactPage.vue'
 import AboutPage from '../views/AboutPage.vue'
 import HomePage from '../views/HomePage.vue'
@@ -28,7 +28,7 @@ const routes = [
   // },
 ]
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory('/jennys-flowers/'),
   routes
 })
 export default router
