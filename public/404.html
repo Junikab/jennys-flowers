@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenny's Flowers</title>
+    <script>
+        // Redirect to the index.html with the proper URL segments
+        const segment = window.location.pathname.split('/jennys-flowers/')[1]
+        window.location.href = '/jennys-flowers/' + (segment ? '?redirect=' + segment : '')
+    </script>
+</head>
+<body>
+    Redirecting...
+</body>
+</html>

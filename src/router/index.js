@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import ContactPage from '../views/ContactPage.vue'
 import AboutPage from '../views/AboutPage.vue'
 import HomePage from '../views/HomePage.vue'
@@ -20,15 +20,9 @@ const routes = [
     name: 'About',
     component: AboutPage
   }
-  // Uncomment when ready for payment functionality
-  // {
-  //   path: '/checkout',
-  //   name: 'Checkout',
-  //   component: () => import('../views/CheckoutPage.vue')
-  // },
 ]
 const router = createRouter({
-  history: createWebHashHistory('/jennys-flowers/'),
+  history: createWebHistory('/jennys-flowers/'),
   routes
 })
 export default router
