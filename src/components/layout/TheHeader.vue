@@ -10,7 +10,10 @@
         />
       </router-link>
       <div class="topper-info">
-        <span>Jenny's Flowers</span>
+        <span class="d-inline-block"
+          >Jenny's<br class="d-md-none" />
+          Flowers</span
+        >
       </div>
       <div class="d-flex justify-content-center align-items-center">
         <TheNavigation />
@@ -37,6 +40,5 @@ export default {
   color: #fff0fa;
   font-size: 2rem;
   font-family: 'Aboreto', serif;
-  /* font-weight: 200; */
 }
 </style>

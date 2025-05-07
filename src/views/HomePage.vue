@@ -6,33 +6,47 @@
         arrangements for every occasion.
       </p>
     </div>
-    <div class="images container-fluid px-4">
-      <div class="row gx-4 gy-3 m-0">
-        <div class="col-12 col-md-4">
+    <div class="images container-fluid px-5">
+      <div class="row g-2 m-0 justify-content-center">
+        <div
+          v-for="(image, index) in galleryImages"
+          :key="index"
+          class="col-12 col-md-3 mb-2"
+        >
           <img
-            src="@/assets/images/background/background.jpg"
-            class="img-fluid w-100 h-100 object-fit-cover rounded"
-            alt="background"
-          />
-        </div>
-        <div class="col-12 col-md-4">
-          <img
-            src="@/assets/images/background/background1.jpg"
-            class="img-fluid w-100 h-100 object-fit-cover rounded"
-            alt="background1"
-          />
-        </div>
-        <div class="col-12 col-md-4">
-          <img
-            src="@/assets/images/background/backgroundYellow.jpg"
-            class="img-fluid w-100 h-100 object-fit-cover rounded"
-            alt="backgroundYellow"
+            :src="image.src"
+            class="img-fluid w-100 h-100 object-fit-cover rounded shadow"
+            :alt="image.alt"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'HomePage',
+  data() {
+    return {
+      galleryImages: [
+        {
+          src: require('@/assets/images/background/orchid.jpg'),
+          alt: 'orchid'
+        },
+        {
+          src: require('@/assets/images/background/rusty.jpg'),
+          alt: 'rusty'
+        },
+        {
+          src: require('@/assets/images/background/rusty1.jpg'),
+          alt: 'rusty1'
+        }
+      ]
+    }
+  }
+}
+</script>
 
 <style scoped>
 .hero-section {
@@ -43,7 +57,6 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .hero-section h1,
@@ -58,13 +71,21 @@
 }
 
 .title-container {
+  background-color: rgba(255, 240, 250, 0.8);
   border-radius: 10px;
+  margin-top: 1rem;
   padding: 1rem;
-  margin-top: 0;
+  text-align: center;
+}
+
+.title-container p {
+  color: #301123;
+  font-size: 1.5rem;
+  margin-bottom: 0;
 }
 
 .images {
-  margin-bottom: 2rem;
+  margin-top: 0rem;
 }
 
 .object-fit-cover {
