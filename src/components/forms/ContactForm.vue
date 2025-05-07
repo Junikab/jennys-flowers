@@ -23,6 +23,7 @@
           name="_next"
           value="https://junikab.github.io/jennys-flowers/"
         />
+        <input type="hidden" name="_captcha" value="false" />
 
         <div class="client-info text-start">
           <div class="mb-3">
@@ -70,6 +71,12 @@
               required
             ></textarea>
           </div>
+          <div class="mb-4">
+            <div
+              class="g-recaptcha"
+              data-sitekey="6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC"
+            ></div>
+          </div>
         </div>
         <button type="submit" class="btn btn-dark px-4 py-2">Send</button>
       </form>
@@ -79,7 +86,14 @@
 
 <script>
 export default {
-  name: 'ContactForm'
+  name: 'ContactForm',
+  mounted() {
+    const script = document.createElement('script')
+    script.src = 'https://www.google.com/recaptcha/api.js'
+    script.async = true
+    script.defer = true
+    document.head.appendChild(script)
+  }
 }
 </script>
 <style scoped>

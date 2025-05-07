@@ -17,9 +17,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="about">ABOUT</router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link" to="events">EVENTS</router-link>
-          </li>
+          </li> -->
           <li class="nav-item">
             <router-link class="nav-link" to="/contact">CONTACT</router-link>
           </li>
