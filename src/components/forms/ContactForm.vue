@@ -18,6 +18,12 @@
         method="POST"
         class="mt-4"
       >
+        <input
+          type="hidden"
+          name="_next"
+          value="https://junikab.github.io/jennys-flowers/"
+        />
+
         <div class="client-info text-start">
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label"
