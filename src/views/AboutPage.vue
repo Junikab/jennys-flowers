@@ -3,7 +3,7 @@
     <h1 class="title-container">About Me</h1>
     <div>
       <img
-        class="img-fluid rounded"
+        class="img-jenny rounded"
         src="@/assets/images/gallery/JennyWisteria.jpg"
         alt="Jenny's Flowers"
         height="400"
