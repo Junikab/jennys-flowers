@@ -1,34 +1,76 @@
 <template>
   <div class="container">
-    <h1 class="title-container">About Me</h1>
-    <div>
-      <img
-        class="img-jenny rounded"
-        src="@/assets/images/gallery/JennyWisteria.jpg"
-        alt="Jenny's Flowers"
-        height="400"
-      />
-    </div>
+    <!-- <h1 class="title-container">About Me</h1> -->
+
     <div>
       <h2>My Story</h2>
       <p>
-        Jenny's Flowers is a family-owned and operated business that has been
-        providing beautiful flowers and exceptional service.
+        My love for flowers began in my childhood, watching my mother tend to
+        our summer garden in Russia. Even though we had only three short months
+        of warm weather, those months were always filled with the vibrant colors
+        and delicate beauty of blooming flowers. Our garden became a place of
+        joy and creativity—a little paradise that left a lasting impression on
+        me. <br />That early connection grew into a true passion. I've always
+        been fascinated by how many emotions flowers can carry—how something so
+        delicate can be both traditional and bold, timeless and deeply personal.
+        Every arrangement feels like a new opportunity to create something
+        meaningful.
       </p>
     </div>
+
     <div>
       <h2>My Mission</h2>
       <p>
-        My mission is to provide the highest quality flowers and exceptional
-        service to our customers.
+        I started Jenny's Flowers to explore the full potential of floral
+        design. For me, it's more than just arranging blooms—it's about watching
+        how emotions flow through flowers and reach the hearts of people. Each
+        piece I create is a small expression of love, joy, memory, or
+        celebration, and it's an honor to be part of those moments.
       </p>
+    </div>
+
+    <div>
+      <p>Your flower whisper, <br />Jenny</p>
+    </div>
+  </div>
+  <div class="container-fluid px-4">
+    <div class="gellery-container row g-2 justify-content-center">
+      <div
+        v-for="(image, index) in galleryImages"
+        :key="index"
+        class="col-12 col-md-4"
+      >
+        <img
+          :src="image.src"
+          :alt="image.alt"
+          class="gallery-image rounded shadow img-fluid"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AboutPage'
+  name: 'AboutPage',
+  data() {
+    return {
+      galleryImages: [
+        {
+          src: require('@/assets/images/gallery/jennyCrownDown.jpg'),
+          alt: 'Jenny at work with flowers'
+        },
+        {
+          src: require('@/assets/images/gallery/JennyWisteria.jpg'),
+          alt: "Jenny's Flowers"
+        },
+        {
+          src: require('@/assets/images/gallery/jennyWhite.jpg'),
+          alt: 'Jenny in white'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -40,11 +82,27 @@ export default {
   padding: 1rem;
   text-align: center;
 }
+
+.gellery-container {
+  /* width: 75%;
+  margin: 2rem; */
+  margin: 0 2rem 2rem;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 p {
   font-size: 1.5rem;
+  text-align: justify;
+  margin: 2rem;
 }
+
 h2 {
-  margin-top: 1rem;
-  font-size: 2rem;
+  margin-top: 2rem;
 }
 </style>
