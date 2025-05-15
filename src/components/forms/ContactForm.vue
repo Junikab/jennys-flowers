@@ -8,17 +8,17 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <!-- <div class="col-12">
       <img
         src="@/assets/images/icons/divider.png"
         alt="Jenny's Flowers Logo"
         height="150"
         class="d-inline-block align-text-top rounded-circle"
       />
-    </div>
+    </div> -->
     <p class="text-center contact-intro">
       Please fill in the contact form below or email us at
-      <a href="mailto:junikab@gmail.com">junikab@gmail.com</a>
+      <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
     </p>
     <div>
       <form @submit.prevent="submitForm" class="mt-4">
@@ -146,7 +146,7 @@ export default {
 
         // Send to FormSubmit
         await axios.post(
-          'https://formsubmit.co/ajax/junikab@gmail.com',
+          'https://formsubmit.co/ajax/Jennysflowersau@gmail.com',
           formData
         )
 

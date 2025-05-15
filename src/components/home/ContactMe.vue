@@ -1,38 +1,23 @@
 <template>
   <div class="container-fluid p-0 mt-3" id="contact">
     <div class="row justify-content-center">
-      <div class="images-container vw-100 p-0 m-0">
-        <div class="row g-0">
-          <div class="col-3 image-wrapper">
+      <!-- Gallery Images -->
+      <div class="container-fluid px-4">
+        <div class="row g-2 justify-content-center">
+          <div
+            v-for="(image, index) in galleryImages"
+            :key="index"
+            class="col-12 col-sm-6 col-md-3 mb-2"
+          >
             <img
-              src="@/assets/images/background/backgroundBlue.jpg"
-              alt="backgroundBlue"
-              class="img-fluid w-100 h-100 object-fit-cover"
-            />
-          </div>
-          <div class="col-3 image-wrapper">
-            <img
-              src="@/assets/images/background/backgroundYellow.jpg"
-              alt="backgroundYellow"
-              class="img-fluid w-100 h-100 object-fit-cover"
-            />
-          </div>
-          <div class="col-3 image-wrapper">
-            <img
-              src="@/assets/images/background/backgroundBlue.jpg"
-              alt="backgroundBlue"
-              class="img-fluid w-100 h-100 object-fit-cover"
-            />
-          </div>
-          <div class="col-3 image-wrapper">
-            <img
-              src="@/assets/images/background/backgroundYellow.jpg"
-              alt="backgroundYellow"
-              class="img-fluid w-100 h-100 object-fit-cover"
+              :src="image.src"
+              :alt="image.alt"
+              class="gallery-image rounded shadow img-fluid"
             />
           </div>
         </div>
       </div>
+
       <div class="info mt-5">
         <div class="location mb-5" v-if="showLocation">
           <h5>LOCATION</h5>
@@ -81,6 +66,28 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      galleryImages: [
+        {
+          src: require('@/assets/images/background/orchidsRing.jpg'),
+          alt: 'Jenny with orchid ring'
+        },
+        {
+          src: require('@/assets/images/background/rustyWedding.jpg'),
+          alt: 'Rustic wedding flowers'
+        },
+        {
+          src: require('@/assets/images/background/blueBride.jpg'),
+          alt: 'Blue wedding bouquet'
+        },
+        {
+          src: require('@/assets/images/gallery/jennyCrown1.jpg'),
+          alt: 'Jenny with flower crown'
+        }
+      ]
+    }
+  },
   components: {
     ContactForm
   }
@@ -88,40 +95,28 @@ export default {
 </script>
 
 <style scoped>
-.contact-text {
-  font-size: 1.3rem;
-  line-height: 1.8;
-}
-
-.images-container {
+.gallery-image {
   width: 100%;
-  overflow: hidden;
-}
-
-.image-wrapper {
-  height: 380px;
-  overflow: hidden;
-}
-
-.object-fit-cover {
-  object-fit: cover;
   height: 100%;
-}
-@media (max-width: 992px) {
-  .image-wrapper {
-    height: 300px;
-  }
+  object-fit: cover;
+  display: block;
 }
 
-@media (max-width: 768px) {
-  .image-wrapper {
-    height: 200px;
-  }
+.info {
+  color: #301123;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
-@media (max-width: 576px) {
-  .image-wrapper {
-    height: 100px;
-  }
+.contact-text {
+  color: #301123;
+  font-size: 1.3rem;
+}
+
+h5 {
+  color: #301123;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 </style>
