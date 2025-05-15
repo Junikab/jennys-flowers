@@ -15,7 +15,7 @@
           Flowers</span
         >
       </div>
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-left">
         <TheNavigation />
       </div>
     </div>
