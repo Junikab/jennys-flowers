@@ -32,15 +32,15 @@ export default {
     return {
       galleryImages: [
         {
-          src: require('@/assets/images/background/orcidCrown.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orcidCrown_ozzisb.jpg',
           alt: 'orcidCrown'
         },
         {
-          src: require('@/assets/images/background/orchid.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchid_pv0c70.jpg',
           alt: 'orchid'
         },
         {
-          src: require('@/assets/images/background/rusty.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rusty_lfwvkw.jpg',
           alt: 'rusty'
         }
       ]

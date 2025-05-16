@@ -70,19 +70,19 @@ export default {
     return {
       galleryImages: [
         {
-          src: require('@/assets/images/background/orchidsRing.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchidsRing_n77azh.jpg',
           alt: 'Jenny with orchid ring'
         },
         {
-          src: require('@/assets/images/background/rustyWedding.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rustyWedding_umxq9i.jpg',
           alt: 'Rustic wedding flowers'
         },
         {
-          src: require('@/assets/images/background/blueBride.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/blueBride_iayrfw.jpg',
           alt: 'Blue wedding bouquet'
         },
         {
-          src: require('@/assets/images/gallery/jennyCrown1.jpg'),
+          src: `https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrown1_a6sshy.jpg`,
           alt: 'Jenny with flower crown'
         }
       ]

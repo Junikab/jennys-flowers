@@ -57,15 +57,15 @@ export default {
     return {
       galleryImages: [
         {
-          src: require('@/assets/images/gallery/jennyCrownDown.jpg'),
-          alt: 'Jenny at work with flowers'
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrownDown_eembxd.jpg',
+          alt: 'Jenny'
         },
         {
-          src: require('@/assets/images/gallery/JennyWisteria.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/JennyWisteria_htea5b.jpg',
           alt: "Jenny's Flowers"
         },
         {
-          src: require('@/assets/images/gallery/jennyWhite.jpg'),
+          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyWhite_gortvp.jpg',
           alt: 'Jenny in white'
         }
       ]
