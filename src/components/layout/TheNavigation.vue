@@ -43,7 +43,8 @@ export default { name: 'TheNavigation' }
 /* keep everything else exactly as you wrote it */
 .nav-link {
   cursor: pointer;
-  color: #fff0fa;
+  /* color: #fff0fa; */
+  color: rgb(48, 17, 35);
   font-size: 1.5rem;
 }
 .nav-link:hover {
@@ -78,7 +79,7 @@ export default { name: 'TheNavigation' }
 
 /* Add back the toggler icon styling */
 .custom-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,240,250, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(48, 17, 35)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 /* mobile tweaks */

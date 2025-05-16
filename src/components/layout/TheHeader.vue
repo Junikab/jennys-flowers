@@ -34,11 +34,14 @@ export default {
 
 <style scoped>
 .body {
-  background-color: rgb(48, 17, 35, 0.8);
+  /* background-color: rgb(48, 17, 35, 0.8); */
+  background-color: rgb(212, 188, 202);
 }
 .topper-info {
-  color: #fff0fa;
-  font-size: 2rem;
+  /* color: #fff0fa; */
+  color: rgb(48, 17, 35);
+  font-size: 2.5rem;
   font-family: 'Aboreto', serif;
+  font-weight: 400;
 }
 </style>
