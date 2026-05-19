@@ -22,12 +22,14 @@
             <a
               href="https://www.facebook.com/profile.php?id=61565467934102"
               target="_blank"
+              rel="noopener noreferrer"
               class="footer-text"
               ><i class="fab fa-facebook fa-lg"></i
             ></a>
             <a
               href="https://www.instagram.com/Jennysflowers_au/#"
-              target="blank"
+              target="_blank"
+              rel="noopener noreferrer"
               class="footer-text"
               ><i class="fab fa-instagram fa-lg"></i
             ></a>
@@ -60,7 +62,7 @@
       <div class="row justify-content-center pt-3 mt-3">
         <div class="col-12">
           <p class="footer-text">
-            &copy; 2025 Jenny's Flowers. All rights reserved.
+            &copy; {{ currentYear }} Jenny's Flowers. All rights reserved.
           </p>
         </div>
       </div>
@@ -72,6 +74,11 @@
 // import ContactMe from '@/components/home/ContactMe.vue'
 export default {
   name: 'TheFooter',
+  data() {
+    return {
+      currentYear: new Date().getFullYear()
+    }
+  },
   components: {
     // ContactMe
   }

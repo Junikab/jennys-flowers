@@ -20,6 +20,9 @@
       Please fill in the contact form below or email us at
       <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
     </p>
+    <p v-if="configError" class="text-danger text-center mb-0">
+      {{ configError }}
+    </p>
     <div>
       <form @submit.prevent="submitForm" class="mt-4">
         <!-- Form inputs remain the same, just removed action/method attributes -->
@@ -36,13 +39,14 @@
             />
           </div>
           <div class="mb-3">
-            <label for="tel" class="form-label">Phone *</label>
+            <label for="tel" class="form-label">Phone</label>
             <input
               type="tel"
               name="phone"
               v-model="formData.phone"
               class="form-control"
               id="tel"
+              maxlength="50"
             />
           </div>
           <div class="mb-5">
@@ -54,6 +58,7 @@
               class="form-control"
               id="email"
               placeholder="name@example.com"
+              maxlength="120"
               required
             />
           </div>
@@ -66,24 +71,37 @@
               v-model="formData.message"
               id="message"
               rows="3"
+              maxlength="3000"
               required
             ></textarea>
           </div>
+          <input
+            v-model="formData.website"
+            type="text"
+            name="website"
+            class="honeypot"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
           <div class="mb-4">
             <div
               ref="recaptcha"
               class="g-recaptcha"
-              data-sitekey="6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC"
+              :data-sitekey="recaptchaSiteKey"
             ></div>
             <small v-if="recaptchaError" class="text-danger"
               >Please complete the reCAPTCHA</small
             >
+            <small v-if="submitError" class="text-danger d-block mt-2">
+              {{ submitError }}
+            </small>
           </div>
         </div>
         <button
           type="submit"
           class="btn btn-dark px-4 py-2"
-          :disabled="submitting"
+          :disabled="submitting || Boolean(configError)"
         >
           {{ submitting ? 'Sending...' : 'Send' }}
         </button>
@@ -98,19 +116,53 @@ import axios from 'axios'
 export default {
   name: 'ContactForm',
   data() {
+    const defaultFormSubmitEndpoint =
+      'https://formsubmit.co/ajax/Jennysflowersau@gmail.com'
+    const defaultRecaptchaSiteKey = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
+    const formSubmitEndpoint = process.env.VUE_APP_FORMSUBMIT_ENDPOINT
+    const recaptchaSiteKey = process.env.VUE_APP_RECAPTCHA_SITE_KEY
+
     return {
       formData: {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       },
       showThankYou: false,
       submitting: false,
-      recaptchaError: false
+      recaptchaError: false,
+      submitError: '',
+      formSubmitEndpoint: formSubmitEndpoint || defaultFormSubmitEndpoint,
+      recaptchaSiteKey: recaptchaSiteKey || defaultRecaptchaSiteKey,
+      formSubmitCaptchaEnabled:
+        process.env.VUE_APP_FORMSUBMIT_CAPTCHA_ENABLED !== 'false'
+    }
+  },
+  computed: {
+    configError() {
+      if (!this.formSubmitEndpoint) {
+        return 'Contact form is not configured yet. Please try again later.'
+      }
+      if (!this.recaptchaSiteKey) {
+        return 'Spam protection is not configured yet. Please try again later.'
+      }
+      return ''
     }
   },
   mounted() {
+    if (!this.recaptchaSiteKey) {
+      return
+    }
+
+    const existingScript = document.querySelector(
+      'script[src="https://www.google.com/recaptcha/api.js"]'
+    )
+    if (existingScript) {
+      return
+    }
+
     // Load Google reCAPTCHA script
     const script = document.createElement('script')
     script.src = 'https://www.google.com/recaptcha/api.js'
@@ -120,6 +172,19 @@ export default {
   },
   methods: {
     async submitForm() {
+      this.submitError = ''
+      if (this.configError) {
+        this.submitError = this.configError
+        return
+      }
+
+      // Honeypot trap for basic bots
+      if (this.formData.website.trim()) {
+        this.showThankYou = true
+        this.resetForm()
+        return
+      }
+
       // Validate reCAPTCHA first
       const recaptchaResponse = this.getRecaptchaResponse()
       if (!recaptchaResponse) {
@@ -135,6 +200,9 @@ export default {
 
         // Add all form fields
         Object.entries(this.formData).forEach(([key, value]) => {
+          if (key === 'website') {
+            return
+          }
           formData.append(key, value)
         })
 
@@ -142,13 +210,22 @@ export default {
         formData.append('g-recaptcha-response', recaptchaResponse)
 
         // Add FormSubmit specific fields
-        formData.append('_captcha', 'false')
+        formData.append(
+          '_captcha',
+          this.formSubmitCaptchaEnabled ? 'true' : 'false'
+        )
 
         // Send to FormSubmit
-        await axios.post(
-          'https://formsubmit.co/ajax/Jennysflowersau@gmail.com',
-          formData
-        )
+        const response = await axios.post(this.formSubmitEndpoint, formData, {
+          headers: {
+            Accept: 'application/json'
+          },
+          timeout: 10000
+        })
+
+        if (response.status < 200 || response.status >= 300) {
+          throw new Error(`Unexpected status code ${response.status}`)
+        }
 
         // Show thank you popup
         this.showThankYou = true
@@ -161,10 +238,8 @@ export default {
           window.grecaptcha.reset()
         }
       } catch (error) {
-        console.error('Error submitting form:', error)
-        alert(
+        this.submitError =
           'Sorry, there was a problem sending your message. Please try again.'
-        )
       } finally {
         this.submitting = false
       }
@@ -179,7 +254,8 @@ export default {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       }
     },
 
@@ -226,6 +302,15 @@ export default {
 }
 .btn:hover {
   background-color: rgb(180, 98, 152);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Thank you popup styling */
