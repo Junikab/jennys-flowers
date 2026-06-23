@@ -40,7 +40,4 @@ export default {
   flex-direction: column;
   padding-bottom: 2rem;
 }
-/* .body {
-  background-color: #e8cece;
-} */
 </style>

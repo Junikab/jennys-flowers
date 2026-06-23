@@ -1,15 +1,6 @@
 <template>
   <div class="contact-form-container">
     <ThankYouPopup :show="showThankYou" @close="closePopup" />
-
-    <!-- <div class="col-12">
-      <img
-        src="@/assets/images/icons/divider.png"
-        alt="Jenny's Flowers Logo"
-        height="150"
-        class="d-inline-block align-text-top rounded-circle"
-      />
-    </div> -->
     <p class="text-center contact-intro">
       Please fill in the contact form below or email us at
       <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
@@ -19,7 +10,6 @@
     </p>
     <div>
       <form @submit.prevent="submitForm" class="mt-4">
-        <!-- Form inputs remain the same, just removed action/method attributes -->
         <div class="client-info text-start">
           <div class="mb-3">
             <label for="name" class="form-label">Name *</label>

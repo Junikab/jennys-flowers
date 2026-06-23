@@ -1,4 +1,3 @@
-<!-- /src/components/ui/ThankYouPopup.vue -->
 <template>
   <div v-if="show" class="thank-you-popup">
     <div class="popup-content">

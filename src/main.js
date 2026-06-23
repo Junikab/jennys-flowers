@@ -1,4 +1,3 @@
-// import './plugins/cloudinary'
 import { createApp } from 'vue'
 import App from './App.vue'
 import BootstrapVue3 from 'bootstrap-vue-3'

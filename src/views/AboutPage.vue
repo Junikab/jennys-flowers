@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- <h1 class="title-container">About Me</h1> -->
-
     <div>
       <h2>My Story</h2>
       <p>
@@ -59,14 +57,6 @@ export default {
 </script>
 
 <style scoped>
-.title-container {
-  background-color: rgba(255, 240, 250, 0.8);
-  border-radius: 10px;
-  margin-top: 1rem;
-  padding: 1rem;
-  text-align: center;
-}
-
 .gallery-row {
   margin: 0 2rem;
 }

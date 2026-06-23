@@ -10,14 +10,12 @@
             class="d-inline-block align-text-top rounded-circle"
           />
         </div>
-        <!-- Company Info -->
         <div class="col-12 mb-0">
           <div class="footer-text mb-3">
             <h3>Jenny's Flowers Event Florist</h3>
             <h5>Sydney, Australia</h5>
           </div>
 
-          <!-- Social Media Links -->
           <div class="social-links my-3 grid gap-5">
             <a
               href="https://www.facebook.com/profile.php?id=61565467934102"
@@ -35,28 +33,6 @@
             ></a>
           </div>
         </div>
-
-        <!-- Quick Links -->
-        <!-- <div class="col-md-4 mb-3">
-          <h5>Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="/" class="footer-text">Home</a></li>
-            <li><a href="/products" class="footer-text">Products</a></li>
-            <li><a href="/about" class="footer-text">About</a></li>
-            <li><a href="/contact" class="footer-text">Contact</a></li>
-          </ul>
-        </div> -->
-
-        <!-- Contact Info -->
-        <!-- <div class="col-md-4 mb-3">
-          <ContactMe
-            :showContact="true"
-            :showHours="false"
-            :showLocation="false"
-            :isFooter="true"
-            :fullWidth="false"
-          />
-        </div> -->
       </div>
 
       <div class="row justify-content-center pt-3 mt-3">
@@ -71,16 +47,12 @@
 </template>
 
 <script>
-// import ContactMe from '@/components/home/ContactMe.vue'
 export default {
   name: 'TheFooter',
   data() {
     return {
       currentYear: new Date().getFullYear()
     }
-  },
-  components: {
-    // ContactMe
   }
 }
 </script>
@@ -102,10 +74,7 @@ export default {
   transition: color 0.3s ease;
 }
 .footer-text {
-  /* in case of dark background */
-  /* color: aliceblue;  */
   color: rgb(48, 17, 35, 0.8);
-
   opacity: 0.9;
 }
 .social-links {
