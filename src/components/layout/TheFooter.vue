@@ -70,11 +70,11 @@ export default {
 }
 
 .footer a:hover {
-  color: rgb(180, 98, 152) !important;
+  color: var(--brand-accent) !important;
   transition: color 0.3s ease;
 }
 .footer-text {
-  color: rgb(48, 17, 35, 0.8);
+  color: var(--brand-text-soft);
   opacity: 0.9;
 }
 .social-links {

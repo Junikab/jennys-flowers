@@ -40,11 +40,11 @@ export default { name: 'TheNavigation' }
 <style scoped>
 .nav-link {
   cursor: pointer;
-  color: rgb(48, 17, 35);
+  color: var(--brand-text);
   font-size: 1.5rem;
 }
 .nav-link:hover {
-  color: #b46298;
+  color: var(--brand-accent);
 }
 
 .navbar-toggler,
@@ -73,7 +73,7 @@ export default { name: 'TheNavigation' }
 }
 
 .custom-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(48, 17, 35)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(48,17,35)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 991.98px) {
@@ -84,7 +84,7 @@ export default { name: 'TheNavigation' }
 }
 
 .router-link-active {
-  color: #b46298;
+  color: var(--brand-accent);
   font-weight: bold;
 }
 

@@ -6,10 +6,10 @@
         item-class="col-12 col-sm-6 col-md-3 mb-2"
       />
 
-      <div class="info mt-5">
+      <div class="info mt-5 text-center brand-text content-limit-xl">
         <div class="location mb-5" v-if="showLocation">
-          <h5>LOCATION</h5>
-          <ul class="list-unstyled contact-text">
+          <h5 class="section-subheading brand-text">LOCATION</h5>
+          <ul class="list-unstyled contact-text brand-copy-md brand-text">
             <li>
               Based in Ropes Crossing NSW 2760 <br />
               Servicing Sydney & Beyond
@@ -17,8 +17,8 @@
           </ul>
         </div>
         <div class="opening" v-if="showHours">
-          <h5>OPENING HOURS</h5>
-          <ul class="list-unstyled contact-text">
+          <h5 class="section-subheading brand-text">OPENING HOURS</h5>
+          <ul class="list-unstyled contact-text brand-copy-md brand-text">
             <li>By appointment only</li>
           </ul>
         </div>
@@ -56,23 +56,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.info {
-  color: #301123;
-  text-align: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.contact-text {
-  color: #301123;
-  font-size: 1.3rem;
-}
-
-h5 {
-  color: #301123;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-</style>

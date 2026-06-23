@@ -1,6 +1,6 @@
 <template>
   <div class="hero-section">
-    <div class="container title-container">
+    <div class="container title-container brand-copy-lg">
       <p>
         We are here to fill your world with fresh blooms and vibrant
         arrangements for every occasion.
@@ -40,11 +40,10 @@ export default {
 }
 
 .title-container {
-  background-color: rgba(255, 240, 250, 0.8);
+  background-color: var(--brand-panel);
   border-radius: 10px;
   margin: 1rem auto;
   padding: 1rem;
   text-align: center;
-  font-size: 1.5rem;
 }
 </style>

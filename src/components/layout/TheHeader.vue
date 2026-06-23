@@ -37,7 +37,7 @@ export default {
   background-color: rgb(212, 188, 202);
 }
 .topper-info {
-  color: rgb(48, 17, 35);
+  color: var(--brand-text);
   font-size: 2.5rem;
   font-family: 'Aboreto', serif;
   font-weight: 400;

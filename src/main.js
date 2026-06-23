@@ -5,6 +5,7 @@ import router from './router/index.js'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
+import './assets/styles/base.scss'
 
 const app = createApp(App)
 app.use(router)

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div>
-      <h2>My Story</h2>
-      <p>
+      <h2 class="section-heading">My Story</h2>
+      <p class="section-body-copy">
         My love for flowers began in my childhood, watching my mother tend to
         our summer garden in Russia. Even though we had only three short months
         of warm weather, those months were always filled with the vibrant colors
@@ -17,8 +17,8 @@
     </div>
 
     <div>
-      <h2>My Mission</h2>
-      <p>
+      <h2 class="section-heading">My Mission</h2>
+      <p class="section-body-copy">
         I started Jenny's Flowers to explore the full potential of floral
         design. For me, it's more than just arranging blooms—it's about watching
         how emotions flow through flowers and reach the hearts of people. Each
@@ -28,13 +28,13 @@
     </div>
 
     <div>
-      <p>Your flower whisper, <br />Jenny</p>
+      <p class="section-body-copy">Your flower whisper, <br />Jenny</p>
     </div>
   </div>
   <GalleryGrid
     :images="galleryImages"
     container-class="container-fluid px-4 pb-4"
-    row-class="row g-2 justify-content-center gallery-row"
+    row-class="row g-2 justify-content-center gallery-row-spaced"
     item-class="col-12 col-md-4"
   />
 </template>
@@ -55,19 +55,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.gallery-row {
-  margin: 0 2rem;
-}
-
-p {
-  font-size: 1.5rem;
-  text-align: justify;
-  margin: 2rem;
-}
-
-h2 {
-  margin-top: 2rem;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <div class="contact-form-container">
     <ThankYouPopup :show="showThankYou" @close="closePopup" />
-    <p class="text-center contact-intro">
+    <p class="text-center contact-intro brand-copy-md">
       Please fill in the contact form below or email us at
       <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
     </p>
@@ -10,7 +10,7 @@
     </p>
     <div>
       <form @submit.prevent="submitForm" class="mt-4">
-        <div class="client-info text-start">
+        <div class="client-info text-start brand-copy-md">
           <div class="mb-3">
             <label for="name" class="form-label">Name *</label>
             <input
@@ -309,10 +309,6 @@ export default {
 .contact-intro {
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 1.3rem;
-}
-.client-info {
-  font-size: 1.3rem;
 }
 
 .form-control {
@@ -323,17 +319,16 @@ export default {
 
 .form-control:focus {
   box-shadow: none;
-  border-color: rgb(48, 17, 35, 0.8);
+  border-color: var(--brand-text-soft);
 }
 
 .btn {
   min-width: 120px;
-  background-color: rgb(48, 17, 35, 0.8);
+  background-color: var(--brand-text-soft);
   border-radius: 0;
-  font-size: 1.3rem;
 }
 .btn:hover {
-  background-color: rgb(180, 98, 152);
+  background-color: var(--brand-accent);
 }
 
 .honeypot {

@@ -1,0 +1,48 @@
+@use './variables' as *;
+
+:root {
+  --brand-text: #{$brand-text};
+  --brand-text-soft: #{$brand-text-soft};
+  --brand-accent: #{$brand-accent};
+  --brand-panel: #{$brand-panel};
+  --copy-lg: #{$copy-lg};
+  --copy-md: #{$copy-md};
+  --section-space: #{$section-space};
+}
+
+.brand-text {
+  color: var(--brand-text);
+}
+
+.brand-copy-lg {
+  font-size: var(--copy-lg);
+}
+
+.brand-copy-md {
+  font-size: var(--copy-md);
+}
+
+.section-body-copy {
+  font-size: var(--copy-lg);
+  text-align: justify;
+  margin: var(--section-space);
+}
+
+.section-heading {
+  margin-top: var(--section-space);
+}
+
+.section-subheading {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.gallery-row-spaced {
+  margin: 0 var(--section-space);
+}
+
+.content-limit-xl {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
