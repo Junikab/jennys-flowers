@@ -94,6 +94,21 @@ Now the flow is:
 2. The API checks the honeypot, wait time, rate limit, and reCAPTCHA secret.
 3. Only after that does the API forward the message to FormSubmit.
 
+## Production hosting mode
+
+The project now assumes one production setup:
+
+- Netlify hosting
+- site served from the root path `/`
+- optional custom domain pointed to Netlify
+- serverless contact function behind `/api/contact`
+
+Because of that:
+
+- Vue Router uses the normal root history base
+- `netlify.toml` handles the SPA fallback and contact function route
+- GitHub Pages deploy flow is no longer the active production path
+
 ## Netlify serverless production
 
 This repo now includes a Netlify serverless function at `netlify/functions/contact.js` and a `netlify.toml` file that rewrites `/api/contact` to that function in production.
@@ -116,8 +131,6 @@ What you need to set in Netlify:
 
 If you use a Netlify preview domain before connecting your real domain, also add that preview domain to `CONTACT_ALLOWED_ORIGINS`.
 
-The old `npm run deploy` script only publishes the static site to GitHub Pages. It does not deploy the serverless function, so do not use that script for the safe production setup.
-
 ## Pre-deploy checklist
 
 Before you push any production change:
@@ -129,6 +142,22 @@ Before you push any production change:
 5. Check the main routes: `/`, `/about`, and `/contact`.
 6. Check one contact form submit on the test deploy.
 7. Confirm the correct env vars exist in Netlify before publishing.
+
+## Route checks
+
+For local route checks:
+
+1. Run `npm run serve`
+2. Open `/`, `/about`, and `/contact`
+3. Refresh each page once
+
+For safe online checks before going live:
+
+1. Use a Netlify branch deploy or Deploy Preview
+2. Open `/`, `/about`, and `/contact`
+3. Refresh each page once
+4. Confirm the page still loads instead of showing a 404
+5. Open the Network tab and confirm the contact form sends to `/api/contact`
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
