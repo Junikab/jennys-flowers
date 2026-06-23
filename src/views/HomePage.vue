@@ -7,43 +7,22 @@
       </p>
     </div>
 
-    <div class="container-fluid px-4">
-      <div class="row g-2 justify-content-center">
-        <div
-          v-for="(image, index) in galleryImages"
-          :key="index"
-          class="col-12 col-md-3 mb-2"
-        >
-          <img
-            :src="image.src"
-            :alt="image.alt"
-            class="gallery-image rounded shadow img-fluid"
-          />
-        </div>
-      </div>
-    </div>
+    <GalleryGrid :images="galleryImages" item-class="col-12 col-md-3 mb-2" />
   </div>
 </template>
 
 <script>
+import GalleryGrid from '@/components/gallery/GalleryGrid.vue'
+import { homeGalleryImages } from '@/data/galleryImages'
+
 export default {
   name: 'HomePage',
+  components: {
+    GalleryGrid
+  },
   data() {
     return {
-      galleryImages: [
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orcidCrown_ozzisb.jpg',
-          alt: 'orcidCrown'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchid_pv0c70.jpg',
-          alt: 'orchid'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rusty_lfwvkw.jpg',
-          alt: 'rusty'
-        }
-      ]
+      galleryImages: homeGalleryImages
     }
   }
 }
@@ -58,12 +37,6 @@ export default {
   padding: 0;
   display: flex;
   flex-direction: column;
-}
-
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .title-container {

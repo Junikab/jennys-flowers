@@ -33,42 +33,26 @@
       <p>Your flower whisper, <br />Jenny</p>
     </div>
   </div>
-  <div class="container-fluid px-4">
-    <div class="gellery-container row g-2 justify-content-center">
-      <div
-        v-for="(image, index) in galleryImages"
-        :key="index"
-        class="col-12 col-md-4"
-      >
-        <img
-          :src="image.src"
-          :alt="image.alt"
-          class="gallery-image rounded shadow img-fluid"
-        />
-      </div>
-    </div>
-  </div>
+  <GalleryGrid
+    :images="galleryImages"
+    container-class="container-fluid px-4 pb-4"
+    row-class="row g-2 justify-content-center gallery-row"
+    item-class="col-12 col-md-4"
+  />
 </template>
 
 <script>
+import GalleryGrid from '@/components/gallery/GalleryGrid.vue'
+import { aboutGalleryImages } from '@/data/galleryImages'
+
 export default {
   name: 'AboutPage',
+  components: {
+    GalleryGrid
+  },
   data() {
     return {
-      galleryImages: [
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrownDown_eembxd.jpg',
-          alt: 'Jenny'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/JennyWisteria_htea5b.jpg',
-          alt: "Jenny's Flowers"
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyWhite_gortvp.jpg',
-          alt: 'Jenny in white'
-        }
-      ]
+      galleryImages: aboutGalleryImages
     }
   }
 }
@@ -83,17 +67,8 @@ export default {
   text-align: center;
 }
 
-.gellery-container {
-  /* width: 75%;
-  margin: 2rem; */
-  margin: 0 2rem 2rem;
-}
-
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.gallery-row {
+  margin: 0 2rem;
 }
 
 p {

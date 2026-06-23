@@ -1,22 +1,10 @@
 <template>
   <div class="container-fluid p-0 mt-3" id="contact">
     <div class="row justify-content-center">
-      <!-- Gallery Images -->
-      <div class="container-fluid px-4">
-        <div class="row g-2 justify-content-center">
-          <div
-            v-for="(image, index) in galleryImages"
-            :key="index"
-            class="col-12 col-sm-6 col-md-3 mb-2"
-          >
-            <img
-              :src="image.src"
-              :alt="image.alt"
-              class="gallery-image rounded shadow img-fluid"
-            />
-          </div>
-        </div>
-      </div>
+      <GalleryGrid
+        :images="galleryImages"
+        item-class="col-12 col-sm-6 col-md-3 mb-2"
+      />
 
       <div class="info mt-5">
         <div class="location mb-5" v-if="showLocation">
@@ -41,9 +29,16 @@
 </template>
 
 <script>
+import GalleryGrid from '@/components/gallery/GalleryGrid.vue'
 import ContactForm from '../forms/ContactForm.vue'
+import { contactGalleryImages } from '@/data/galleryImages'
+
 export default {
   name: 'ContactMe',
+  components: {
+    ContactForm,
+    GalleryGrid
+  },
   props: {
     showContact: {
       type: Boolean,
@@ -68,40 +63,13 @@ export default {
   },
   data() {
     return {
-      galleryImages: [
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchidsRing_n77azh.jpg',
-          alt: 'Jenny with orchid ring'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rustyWedding_umxq9i.jpg',
-          alt: 'Rustic wedding flowers'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/blueBride_iayrfw.jpg',
-          alt: 'Blue wedding bouquet'
-        },
-        {
-          src: `https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrown1_a6sshy.jpg`,
-          alt: 'Jenny with flower crown'
-        }
-      ]
+      galleryImages: contactGalleryImages
     }
-  },
-  components: {
-    ContactForm
   }
 }
 </script>
 
 <style scoped>
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .info {
   color: #301123;
   text-align: center;

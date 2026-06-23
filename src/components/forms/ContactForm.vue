@@ -1,12 +1,6 @@
 <template>
   <div class="contact-form-container">
-    <!-- Thank you popup -->
-    <div v-if="showThankYou" class="thank-you-popup">
-      <div class="popup-content">
-        <button @click="closePopup" class="close-btn">&times;</button>
-        <p>Thank you for choosing us!</p>
-      </div>
-    </div>
+    <ThankYouPopup :show="showThankYou" @close="closePopup" />
 
     <!-- <div class="col-12">
       <img
@@ -86,6 +80,7 @@
           />
           <div class="mb-4">
             <div
+              v-if="recaptchaSiteKey"
               ref="recaptcha"
               class="g-recaptcha"
               :data-sitekey="recaptchaSiteKey"
@@ -112,15 +107,18 @@
 
 <script>
 import axios from 'axios'
+import ThankYouPopup from '../ui/ThankYouPopup.vue'
 
 export default {
   name: 'ContactForm',
+  components: {
+    ThankYouPopup
+  },
   data() {
-    const defaultFormSubmitEndpoint =
-      'https://formsubmit.co/ajax/Jennysflowersau@gmail.com'
-    const defaultRecaptchaSiteKey = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
-    const formSubmitEndpoint = process.env.VUE_APP_FORMSUBMIT_ENDPOINT
-    const recaptchaSiteKey = process.env.VUE_APP_RECAPTCHA_SITE_KEY
+    const contactApiUrl = (process.env.VUE_APP_CONTACT_API_URL || '').trim()
+    const recaptchaSiteKey = (
+      process.env.VUE_APP_RECAPTCHA_SITE_KEY || ''
+    ).trim()
 
     return {
       formData: {
@@ -132,22 +130,31 @@ export default {
       },
       showThankYou: false,
       submitting: false,
+      formStartedAt: Date.now(),
       recaptchaError: false,
       submitError: '',
-      formSubmitEndpoint: formSubmitEndpoint || defaultFormSubmitEndpoint,
-      recaptchaSiteKey: recaptchaSiteKey || defaultRecaptchaSiteKey,
-      formSubmitCaptchaEnabled:
-        process.env.VUE_APP_FORMSUBMIT_CAPTCHA_ENABLED !== 'false'
+      contactApiUrl,
+      recaptchaSiteKey
     }
   },
   computed: {
     configError() {
-      if (!this.formSubmitEndpoint) {
-        return 'Contact form is not configured yet. Please try again later.'
+      const missingSettings = []
+
+      if (!this.contactApiUrl) {
+        missingSettings.push('contact API URL')
       }
+
       if (!this.recaptchaSiteKey) {
-        return 'Spam protection is not configured yet. Please try again later.'
+        missingSettings.push('reCAPTCHA key')
       }
+
+      if (missingSettings.length) {
+        return `Contact form is not set up yet. Missing: ${missingSettings.join(
+          ', '
+        )}. Please email us instead.`
+      }
+
       return ''
     }
   },
@@ -168,11 +175,14 @@ export default {
     script.src = 'https://www.google.com/recaptcha/api.js'
     script.async = true
     script.defer = true
+    script.referrerPolicy = 'origin'
     document.head.appendChild(script)
   },
   methods: {
     async submitForm() {
       this.submitError = ''
+      this.recaptchaError = false
+
       if (this.configError) {
         this.submitError = this.configError
         return
@@ -196,36 +206,20 @@ export default {
       this.submitting = true
 
       try {
-        const formData = new FormData()
-
-        // Add all form fields
-        Object.entries(this.formData).forEach(([key, value]) => {
-          if (key === 'website') {
-            return
-          }
-          formData.append(key, value)
-        })
-
-        // Add reCAPTCHA response
-        formData.append('g-recaptcha-response', recaptchaResponse)
-
-        // Add FormSubmit specific fields
-        formData.append(
-          '_captcha',
-          this.formSubmitCaptchaEnabled ? 'true' : 'false'
-        )
-
-        // Send to FormSubmit
-        const response = await axios.post(this.formSubmitEndpoint, formData, {
-          headers: {
-            Accept: 'application/json'
+        await axios.post(
+          this.contactApiUrl,
+          {
+            ...this.formData,
+            recaptchaToken: recaptchaResponse,
+            startedAt: this.formStartedAt
           },
-          timeout: 10000
-        })
-
-        if (response.status < 200 || response.status >= 300) {
-          throw new Error(`Unexpected status code ${response.status}`)
-        }
+          {
+            headers: {
+              Accept: 'application/json'
+            },
+            timeout: 10000
+          }
+        )
 
         // Show thank you popup
         this.showThankYou = true
@@ -238,8 +232,7 @@ export default {
           window.grecaptcha.reset()
         }
       } catch (error) {
-        this.submitError =
-          'Sorry, there was a problem sending your message. Please try again.'
+        this.handleSubmitError(error)
       } finally {
         this.submitting = false
       }
@@ -247,6 +240,52 @@ export default {
 
     getRecaptchaResponse() {
       return window.grecaptcha ? window.grecaptcha.getResponse() : ''
+    },
+
+    handleSubmitError(error) {
+      if (window.grecaptcha) {
+        window.grecaptcha.reset()
+      }
+
+      const errorCode = error?.response?.data?.code || ''
+
+      if (error.code === 'ECONNABORTED') {
+        this.submitError =
+          'The form took too long to send. Please try again or email us instead.'
+        return
+      }
+
+      if (errorCode === 'invalid_captcha' || errorCode === 'missing_captcha') {
+        this.recaptchaError = true
+        this.submitError = 'Please complete the reCAPTCHA and try again.'
+        return
+      }
+
+      if (errorCode === 'rate_limited') {
+        this.submitError =
+          'Too many tries in a short time. Please wait a few minutes and try again.'
+        return
+      }
+
+      if (errorCode === 'bot_detected') {
+        this.submitError =
+          'Please wait a few seconds and then send the form again.'
+        return
+      }
+
+      if (errorCode === 'validation_error') {
+        this.submitError = error.response.data.message
+        return
+      }
+
+      if (errorCode === 'service_unavailable') {
+        this.submitError =
+          'The contact form is not ready right now. Please email us instead.'
+        return
+      }
+
+      this.submitError =
+        'Sorry, there was a problem sending your message. Please try again.'
     },
 
     resetForm() {
@@ -257,6 +296,9 @@ export default {
         message: '',
         website: ''
       }
+      this.formStartedAt = Date.now()
+      this.submitError = ''
+      this.recaptchaError = false
     },
 
     closePopup() {
@@ -311,47 +353,6 @@ export default {
   height: 1px;
   opacity: 0;
   pointer-events: none;
-}
-
-/* Thank you popup styling */
-.thank-you-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background-color: rgba(48, 17, 35, 0.9);
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  position: relative;
-  max-width: 400px;
-  width: 90%;
-}
-
-.popup-content p {
-  font-size: 1.5rem;
-  margin-bottom: 0;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
 }
 
 /* Make the form look good on phones */

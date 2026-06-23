@@ -22,14 +22,8 @@ const routes = [
   }
 ]
 
-// Determine the base URL based on environment
-const baseUrl =
-  process.env.NODE_ENV === 'production'
-    ? '/' // Use root path in production (for custom domain)
-    : '/jennys-flowers/' // Use the repository path for GitHub Pages development/testing
-
 const router = createRouter({
-  history: createWebHistory(baseUrl),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 export default router
