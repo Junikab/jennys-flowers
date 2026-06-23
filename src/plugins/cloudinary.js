@@ -1,22 +1,19 @@
 import { Cloudinary } from '@cloudinary/url-gen'
 
-// Initialize Cloudinary
+// Shared Cloudinary helper for future image transformations and gallery work.
 const cld = new Cloudinary({
   cloud: {
-    cloudName: 'djgi23npu' // Your Cloudinary cloud name
+    cloudName: 'djgi23npu'
   },
   url: {
-    secure: true // Force HTTPS
+    secure: true
   }
 })
 
 export default cld
 
-// Helper function to get a Cloudinary URL that handles spaces in folder names
 export const getImageUrl = (publicId, options = {}) => {
   const { width, height, crop } = options
-
-  // Ensure spaces are properly handled
   const processedPublicId = publicId.replace(/ /g, '%20')
 
   let transformation = cld.image(processedPublicId)

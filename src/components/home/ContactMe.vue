@@ -40,10 +40,6 @@ export default {
     GalleryGrid
   },
   props: {
-    showContact: {
-      type: Boolean,
-      default: true
-    },
     showHours: {
       type: Boolean,
       default: true
@@ -51,14 +47,6 @@ export default {
     showLocation: {
       type: Boolean,
       default: true
-    },
-    isFooter: {
-      type: Boolean,
-      default: false
-    },
-    fullWidth: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
