@@ -21,15 +21,6 @@
     <title>
         <%= htmlWebpackPlugin.options.title %>
     </title>
-    <script>
-        // Handle redirects from 404.html
-        (function () {
-            const redirect = new URLSearchParams(window.location.search).get('redirect')
-            if (redirect) {
-                history.replaceState(null, null, '/' + decodeURIComponent(redirect).replace(/^\/+/, ''))
-            }
-        })();
-    </script>
 </head>
 
 <body>
