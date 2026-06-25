@@ -1,7 +1,9 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
 
-const { createNetlifyContactHandler } = require('./contact')
+const {
+  createNetlifyContactHandler
+} = require('../../netlify/functions/contact')
 
 function createEvent(overrides = {}) {
   return {
