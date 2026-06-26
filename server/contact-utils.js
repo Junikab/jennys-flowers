@@ -341,6 +341,8 @@ async function forwardContactMessage(config, submission) {
     throw Object.assign(new Error('Contact delivery failed'), {
       statusCode: 502,
       code: 'upstream_error',
+      upstreamStatus: response.status,
+      upstreamStatusText: response.statusText,
       responseText
     })
   }

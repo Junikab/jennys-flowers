@@ -195,7 +195,14 @@ function createNetlifyContactHandler(
             : 'Sorry, the form is not available right now. Please email us instead.'
 
       if (statusCode >= 500) {
-        console.error('Netlify contact function error:', error)
+        console.error('Netlify contact function error:', {
+          message: error.message,
+          code: error.code,
+          statusCode,
+          upstreamStatus: error.upstreamStatus,
+          upstreamStatusText: error.upstreamStatusText,
+          responseText: error.responseText
+        })
       }
 
       const errorResponse = createJsonError(statusCode, errorCode, message)
