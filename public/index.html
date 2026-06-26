@@ -18,9 +18,10 @@
     <script>
         // Handle redirects from 404.html
         (function () {
-            const redirect = window.location.search.match(/redirect=([^&]+)/)
-            if (redirect && redirect[1]) {
-                history.replaceState(null, null, '/' + redirect[1])
+            const redirect = new URLSearchParams(window.location.search).get('redirect')
+            if (redirect) {
+                const nextPath = decodeURIComponent(redirect).replace(/^\/+/, '')
+                history.replaceState(null, null, nextPath ? '/' + nextPath : '/')
             }
         })();
     </script>

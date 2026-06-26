@@ -36,18 +36,19 @@ export default {
 }
 
 .popup-content {
-  background-color: rgba(48, 17, 35, 0.9);
+  background-color: rgba(48, 17, 35, 0.92);
   color: white;
-  padding: 30px;
-  border-radius: 10px;
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-panel);
   text-align: center;
   position: relative;
   max-width: 400px;
   width: 90%;
+  box-shadow: var(--shadow-soft);
 }
 
 .popup-content p {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   margin-bottom: 0;
 }
 

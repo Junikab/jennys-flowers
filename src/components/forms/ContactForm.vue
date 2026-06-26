@@ -1,30 +1,14 @@
 <template>
   <div class="contact-form-container">
-    <!-- Thank you popup -->
-    <div v-if="showThankYou" class="thank-you-popup">
-      <div class="popup-content">
-        <button @click="closePopup" class="close-btn">&times;</button>
-        <p>Thank you for choosing us!</p>
-      </div>
-    </div>
-
-    <!-- <div class="col-12">
-      <img
-        src="@/assets/images/icons/divider.png"
-        alt="Jenny's Flowers Logo"
-        height="150"
-        class="d-inline-block align-text-top rounded-circle"
-      />
-    </div> -->
-    <p class="text-center contact-intro">
+    <ThankYouPopup :show="showThankYou" @close="closePopup" />
+    <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
       <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
     </p>
     <div>
-      <form @submit.prevent="submitForm" class="mt-4">
-        <!-- Form inputs remain the same, just removed action/method attributes -->
+      <form @submit.prevent="submitForm" class="contact-form">
         <div class="client-info text-start">
-          <div class="mb-3">
+          <div class="form-group">
             <label for="name" class="form-label">Name *</label>
             <input
               type="text"
@@ -35,8 +19,8 @@
               required
             />
           </div>
-          <div class="mb-3">
-            <label for="tel" class="form-label">Phone *</label>
+          <div class="form-group">
+            <label for="tel" class="form-label">Phone</label>
             <input
               type="tel"
               name="phone"
@@ -45,7 +29,7 @@
               id="tel"
             />
           </div>
-          <div class="mb-5">
+          <div class="form-group form-group--spacious">
             <label for="email" class="form-label">Email address *</label>
             <input
               type="email"
@@ -58,7 +42,7 @@
             />
           </div>
 
-          <div class="mb-3">
+          <div class="form-group">
             <label for="message" class="form-label">Message *</label>
             <textarea
               class="form-control"
@@ -69,7 +53,7 @@
               required
             ></textarea>
           </div>
-          <div class="mb-4">
+          <div class="form-group form-group--recaptcha">
             <div
               ref="recaptcha"
               class="g-recaptcha"
@@ -82,7 +66,7 @@
         </div>
         <button
           type="submit"
-          class="btn btn-dark px-4 py-2"
+          class="pill-button submit-button"
           :disabled="submitting"
         >
           {{ submitting ? 'Sending...' : 'Send' }}
@@ -94,9 +78,13 @@
 
 <script>
 import axios from 'axios'
+import ThankYouPopup from '../ui/ThankYouPopup.vue'
 
 export default {
   name: 'ContactForm',
+  components: {
+    ThankYouPopup
+  },
   data() {
     return {
       formData: {
@@ -111,12 +99,16 @@ export default {
     }
   },
   mounted() {
-    // Load Google reCAPTCHA script
-    const script = document.createElement('script')
-    script.src = 'https://www.google.com/recaptcha/api.js'
-    script.async = true
-    script.defer = true
-    document.head.appendChild(script)
+    const existingScript = document.getElementById('google-recaptcha-script')
+
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.id = 'google-recaptcha-script'
+      script.src = 'https://www.google.com/recaptcha/api.js'
+      script.async = true
+      script.defer = true
+      document.head.appendChild(script)
+    }
   },
   methods: {
     async submitForm() {
@@ -161,7 +153,6 @@ export default {
           window.grecaptcha.reset()
         }
       } catch (error) {
-        console.error('Error submitting form:', error)
         alert(
           'Sorry, there was a problem sending your message. Please try again.'
         )
@@ -192,87 +183,100 @@ export default {
 
 <style scoped>
 .contact-form-container {
-  max-width: 800px;
+  width: min(100%, 52rem);
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(1.25rem, 2vw, 2rem);
   position: relative;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .contact-intro {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 1.3rem;
+  margin-bottom: var(--space-4);
 }
+
+.contact-form {
+  margin-top: var(--space-3);
+}
+
 .client-info {
-  font-size: 1.3rem;
+  font-size: var(--font-size-body);
+}
+
+.form-group {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.form-group--spacious {
+  margin-bottom: var(--space-5);
+}
+
+.form-group--recaptcha {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .form-control {
-  border: 2px solid #333;
-  border-radius: 0;
-  padding: 0.75rem;
+  border: 1.5px solid rgba(48, 17, 35, 0.24);
+  border-radius: 0.8rem;
+  padding: 0.85rem 1rem;
+  background-color: #fff;
 }
 
 .form-control:focus {
   box-shadow: none;
-  border-color: rgb(48, 17, 35, 0.8);
+  border-color: var(--color-text-soft);
 }
 
-.btn {
-  min-width: 120px;
-  background-color: rgb(48, 17, 35, 0.8);
-  border-radius: 0;
-  font-size: 1.3rem;
-}
-.btn:hover {
-  background-color: rgb(180, 98, 152);
+textarea.form-control {
+  min-height: 8.75rem;
+  resize: vertical;
 }
 
-/* Thank you popup styling */
-.thank-you-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.submit-button {
+  min-width: 8.75rem;
+  background-color: var(--color-text-soft);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
 }
 
-.popup-content {
-  background-color: rgba(48, 17, 35, 0.9);
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  position: relative;
-  max-width: 400px;
-  width: 90%;
+.submit-button:hover,
+.submit-button:focus-visible {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
-.popup-content p {
-  font-size: 1.5rem;
-  margin-bottom: 0;
+.submit-button:disabled {
+  opacity: 0.8;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
+.g-recaptcha {
+  transform-origin: left top;
 }
 
-/* Make the form look good on phones */
-@media (max-width: 768px) {
+@media (max-width: 767.98px) {
   .contact-form-container {
-    padding: 10px;
+    padding: 1rem;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .g-recaptcha {
+    transform: scale(0.9);
   }
 }
 </style>

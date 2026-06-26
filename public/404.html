@@ -6,8 +6,11 @@
     <title>Jenny's Flowers</title>
     <script>
         // Redirect to the index.html with the proper URL segments
-        const segment = window.location.pathname.split('/jennys-flowers/')[1]
-        window.location.href = '/jennys-flowers/' + (segment ? '?redirect=' + segment : '')
+        const redirectPath = window.location.pathname.slice(1)
+        const redirectQuery = window.location.search
+        const redirectHash = window.location.hash
+        const redirectTarget = redirectPath + redirectQuery + redirectHash
+        window.location.replace('/?redirect=' + encodeURIComponent(redirectTarget))
     </script>
 </head>
 <body>

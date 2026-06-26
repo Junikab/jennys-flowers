@@ -1,66 +1,44 @@
 <template>
-  <footer class="footer text-light">
-    <div class="container text-center">
+  <footer class="footer">
+    <div class="container footer__inner text-center">
       <div class="row justify-content-center">
         <div class="col-12">
           <img
             src="@/assets/images/icons/divider.png"
-            alt="Jenny's Flowers Logo"
+            alt="Jenny's Flowers divider"
             height="150"
-            class="d-inline-block align-text-top rounded-circle"
+            class="footer__divider d-inline-block align-text-top rounded-circle"
           />
         </div>
-        <!-- Company Info -->
         <div class="col-12 mb-0">
-          <div class="footer-text mb-3">
+          <div class="footer-copy">
             <h3>Jenny's Flowers Event Florist</h3>
             <h5>Sydney, Australia</h5>
           </div>
 
-          <!-- Social Media Links -->
-          <div class="social-links my-3 grid gap-5">
+          <div class="social-links">
             <a
               href="https://www.facebook.com/profile.php?id=61565467934102"
               target="_blank"
+              rel="noreferrer"
               class="footer-text"
               ><i class="fab fa-facebook fa-lg"></i
             ></a>
             <a
               href="https://www.instagram.com/Jennysflowers_au/#"
-              target="blank"
+              target="_blank"
+              rel="noreferrer"
               class="footer-text"
               ><i class="fab fa-instagram fa-lg"></i
             ></a>
           </div>
         </div>
-
-        <!-- Quick Links -->
-        <!-- <div class="col-md-4 mb-3">
-          <h5>Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="/" class="footer-text">Home</a></li>
-            <li><a href="/products" class="footer-text">Products</a></li>
-            <li><a href="/about" class="footer-text">About</a></li>
-            <li><a href="/contact" class="footer-text">Contact</a></li>
-          </ul>
-        </div> -->
-
-        <!-- Contact Info -->
-        <!-- <div class="col-md-4 mb-3">
-          <ContactMe
-            :showContact="true"
-            :showHours="false"
-            :showLocation="false"
-            :isFooter="true"
-            :fullWidth="false"
-          />
-        </div> -->
       </div>
 
-      <div class="row justify-content-center pt-3 mt-3">
+      <div class="row justify-content-center footer-legal">
         <div class="col-12">
           <p class="footer-text">
-            &copy; 2025 Jenny's Flowers. All rights reserved.
+            &copy; 2026 Jenny's Flowers. All rights reserved.
           </p>
         </div>
       </div>
@@ -69,42 +47,78 @@
 </template>
 
 <script>
-// import ContactMe from '@/components/home/ContactMe.vue'
 export default {
-  name: 'TheFooter',
-  components: {
-    // ContactMe
-  }
+  name: 'TheFooter'
 }
 </script>
 
 <style scoped>
 .footer {
   flex-shrink: 0;
-  color: rgb(240, 248, 255);
   width: 100%;
   text-align: center;
+  padding: var(--space-6) 0 var(--space-4);
+  border-top: 1px solid var(--color-border);
 }
+
+.footer__inner {
+  width: min(100% - 1rem, var(--content-width));
+}
+
+.footer__divider {
+  height: clamp(6rem, 12vw, 9rem);
+  width: auto;
+  margin-bottom: var(--space-3);
+}
+
 .footer a {
   text-decoration: none;
   display: inline-block;
 }
 
 .footer a:hover {
-  color: rgb(180, 98, 152) !important;
+  color: var(--color-accent) !important;
   transition: color 0.3s ease;
 }
-.footer-text {
-  /* in case of dark background */
-  /* color: aliceblue;  */
-  color: rgb(48, 17, 35, 0.8);
 
-  opacity: 0.9;
+.footer-copy h3,
+.footer-copy h5,
+.footer-text {
+  color: var(--color-text-soft);
 }
+
+.footer-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.footer-copy h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+}
+
+.footer-copy h5 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.footer-text {
+  margin: 0;
+  opacity: 0.95;
+}
+
 .social-links {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.footer-legal {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
 }
 
 .social-links a {

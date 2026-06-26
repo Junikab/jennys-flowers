@@ -1,7 +1,5 @@
 <template>
-  <div class="container-fluid">
-    <ContactMe />
-  </div>
+  <ContactMe />
 </template>
 
 <script>

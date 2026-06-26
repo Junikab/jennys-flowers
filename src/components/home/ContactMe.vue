@@ -1,32 +1,30 @@
 <template>
-  <div class="container-fluid p-0 mt-3" id="contact">
-    <div class="row justify-content-center">
-      <!-- Gallery Images -->
-      <GalleryGrid
-        :images="galleryImages"
-        column-class="col-12 col-sm-6 col-md-3 mb-2"
-      />
+  <section class="page-shell contact-section" id="contact">
+    <GalleryGrid
+      :images="galleryImages"
+      outer-class="container-fluid px-0"
+      column-class="col-12 col-sm-6 col-xl-3"
+    />
 
-      <div class="info mt-5">
-        <div class="location mb-5" v-if="showLocation">
-          <h5>LOCATION</h5>
-          <ul class="list-unstyled contact-text">
-            <li>
-              Based in Ropes Crossing NSW 2760 <br />
-              Servicing Sydney & Beyond
-            </li>
-          </ul>
-        </div>
-        <div class="opening" v-if="showHours">
-          <h5>OPENING HOURS</h5>
-          <ul class="list-unstyled contact-text">
-            <li>By appointment only</li>
-          </ul>
-        </div>
+    <div class="info info-stack">
+      <div class="page-panel contact-card" v-if="showLocation">
+        <h5 class="section-title">Location</h5>
+        <ul class="list-unstyled contact-text">
+          <li>
+            Based in Ropes Crossing NSW 2760 <br />
+            Servicing Sydney & Beyond
+          </li>
+        </ul>
       </div>
-      <ContactForm />
+      <div class="page-panel contact-card" v-if="showHours">
+        <h5 class="section-title">Opening Hours</h5>
+        <ul class="list-unstyled contact-text">
+          <li>By appointment only</li>
+        </ul>
+      </div>
     </div>
-  </div>
+    <ContactForm />
+  </section>
 </template>
 
 <script>
@@ -37,10 +35,6 @@ import { getGalleryImagesBySection } from '../../data/galleryImages'
 export default {
   name: 'ContactMe',
   props: {
-    showContact: {
-      type: Boolean,
-      default: true
-    },
     showHours: {
       type: Boolean,
       default: true
@@ -48,14 +42,6 @@ export default {
     showLocation: {
       type: Boolean,
       default: true
-    },
-    isFooter: {
-      type: Boolean,
-      default: false
-    },
-    fullWidth: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -71,21 +57,27 @@ export default {
 </script>
 
 <style scoped>
+.contact-section {
+  display: grid;
+  gap: var(--space-5);
+}
+
 .info {
-  color: #301123;
-  text-align: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
 }
 
 .contact-text {
-  color: #301123;
-  font-size: 1.3rem;
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: var(--font-size-body);
 }
 
-h5 {
-  color: #301123;
-  font-weight: bold;
-  margin-bottom: 1rem;
+.contact-card {
+  width: min(100%, 34rem);
+}
+
+.contact-card .section-title {
+  margin-bottom: var(--space-2);
 }
 </style>

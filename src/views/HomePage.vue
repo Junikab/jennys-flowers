@@ -1,14 +1,19 @@
 <template>
-  <div class="hero-section">
-    <div class="container title-container">
-      <p>
-        We are here to fill your world with fresh blooms and vibrant
-        arrangements for every occasion.
-      </p>
+  <section class="page-shell hero-section">
+    <div class="page-copy">
+      <div class="page-panel title-container">
+        <p class="lead-copy">
+          We are here to fill your world with fresh blooms and vibrant
+          arrangements for every occasion.
+        </p>
+      </div>
     </div>
 
-    <GalleryGrid :images="galleryImages" column-class="col-12 col-md-3 mb-2" />
-  </div>
+    <GalleryGrid
+      :images="galleryImages"
+      column-class="col-12 col-sm-6 col-xl-4"
+    />
+  </section>
 </template>
 
 <script>
@@ -30,21 +35,12 @@ export default {
 
 <style scoped>
 .hero-section {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
+  gap: var(--space-4);
 }
 
 .title-container {
-  background-color: rgba(255, 240, 250, 0.8);
-  border-radius: 10px;
-  margin: 1rem auto;
-  padding: 1rem;
   text-align: center;
-  font-size: 1.5rem;
 }
 </style>
