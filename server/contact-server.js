@@ -228,6 +228,14 @@ function createServer(config = buildConfig()) {
       const statusCode =
         typeof error.statusCode === 'number' ? error.statusCode : 502
       const errorCode = error.code || 'upstream_error'
+      const errorDetails =
+        config.debugErrors && statusCode >= 500
+          ? {
+              upstreamStatus: error.upstreamStatus || null,
+              upstreamStatusText: error.upstreamStatusText || '',
+              upstreamResponse: error.responseText || ''
+            }
+          : {}
       const message =
         statusCode === 413
           ? 'Message is too large.'
@@ -246,7 +254,12 @@ function createServer(config = buildConfig()) {
         })
       }
 
-      const errorResponse = createJsonError(statusCode, errorCode, message)
+      const errorResponse = createJsonError(
+        statusCode,
+        errorCode,
+        message,
+        errorDetails
+      )
       sendJson(
         response,
         errorResponse.statusCode,

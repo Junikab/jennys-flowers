@@ -79,6 +79,7 @@ function buildConfig(env = process.env) {
     recaptchaSecret: String(env.CONTACT_RECAPTCHA_SECRET_KEY || '').trim(),
     formsubmitCaptchaEnabled:
       String(env.CONTACT_FORMSUBMIT_CAPTCHA_ENABLED || 'false') === 'true',
+    debugErrors: String(env.CONTACT_DEBUG_ERRORS || 'false') === 'true',
     rateLimitWindowMs: parsePositiveInt(
       env.CONTACT_RATE_LIMIT_WINDOW_MS,
       DEFAULT_RATE_LIMIT_WINDOW_MS
