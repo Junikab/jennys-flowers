@@ -35,7 +35,7 @@ export default {
     },
     rowClass: {
       type: String,
-      default: 'row g-3 justify-content-center'
+      default: 'row g-1 justify-content-center'
     },
     columnClass: {
       type: String,
