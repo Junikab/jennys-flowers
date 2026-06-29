@@ -1,13 +1,8 @@
 <template>
   <section class="gallery-page page-shell section-stack">
     <div class="page-copy">
-      <div class="page-panel gallery-copy">
+      <div class="gallery-copy">
         <h1 class="page-heading">Gallery</h1>
-        <!-- <p class="body-copy">
-          This is a simple gallery page shell for future work. The page already
-          reads from the shared image data, so more photos and groups can be
-          added later without rebuilding the page from scratch.
-        </p> -->
         <div class="gallery-filters">
           <button
             v-for="filter in filters"
@@ -23,7 +18,7 @@
       </div>
     </div>
 
-    <GalleryGrid :images="filteredImages" column-class="col-6 col-lg-3" />
+    <GalleryGrid :images="filteredImages" layout-mode="masonry" />
   </section>
 </template>
 
@@ -63,22 +58,17 @@ export default {
 </script>
 
 <style scoped>
+.gallery-page {
+  width: 100%;
+  padding-inline: 0;
+}
+
 .gallery-copy {
   text-align: center;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
 }
 
 .gallery-copy .page-heading {
   font-size: clamp(1.35rem, 2.7vw, 2.05rem);
-}
-
-.gallery-copy .body-copy {
-  width: min(100%, 36rem);
-  margin: 0 auto;
-  font-size: clamp(0.72rem, 0.97vw, 0.88rem);
 }
 
 .gallery-filters {

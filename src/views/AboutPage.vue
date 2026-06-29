@@ -2,7 +2,7 @@
   <section class="page-shell about-page">
     <div class="page-copy">
       <div class="page-panel about-panel">
-        <h1 class="page-heading">About Jenny</h1>
+        <!-- <h1 class="page-heading">About Jenny</h1> -->
 
         <div class="about-section">
           <h2 class="section-title">My Story</h2>
