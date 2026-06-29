@@ -18,12 +18,27 @@
       </div>
     </div>
 
-    <GalleryGrid :images="filteredImages" layout-mode="masonry" />
+    <GalleryGrid
+      :images="filteredImages"
+      layout-mode="masonry"
+      clickable
+      @select="openPreview"
+    />
+    <LightboxModal
+      :show="Boolean(activeImage)"
+      :image="activeImage"
+      :can-go-previous="activeImageIndex > 0"
+      :can-go-next="activeImageIndex < filteredImages.length - 1"
+      @close="closePreview"
+      @previous="showPreviousImage"
+      @next="showNextImage"
+    />
   </section>
 </template>
 
 <script>
 import GalleryGrid from '../components/gallery/GalleryGrid.vue'
+import LightboxModal from '../components/ui/LightboxModal.vue'
 import {
   getGalleryImages,
   getGalleryImagesByCategory
@@ -32,7 +47,8 @@ import {
 export default {
   name: 'GalleryPage',
   components: {
-    GalleryGrid
+    GalleryGrid,
+    LightboxModal
   },
   data() {
     return {
@@ -42,7 +58,8 @@ export default {
         { label: 'Weddings', value: 'weddings' },
         { label: 'Arrangements', value: 'arrangements' }
       ],
-      activeFilter: 'all'
+      activeFilter: 'all',
+      activeImageId: null
     }
   },
   computed: {
@@ -52,6 +69,48 @@ export default {
       }
 
       return getGalleryImagesByCategory(this.activeFilter)
+    },
+    activeImage() {
+      return (
+        this.filteredImages.find((image) => image.id === this.activeImageId) ||
+        null
+      )
+    },
+    activeImageIndex() {
+      return this.filteredImages.findIndex(
+        (image) => image.id === this.activeImageId
+      )
+    }
+  },
+  watch: {
+    activeFilter() {
+      this.closePreview()
+    }
+  },
+  methods: {
+    openPreview({ image }) {
+      this.activeImageId = image.id
+    },
+    showPreviousImage() {
+      if (this.activeImageIndex <= 0) {
+        return
+      }
+
+      this.activeImageId = this.filteredImages[this.activeImageIndex - 1].id
+    },
+    showNextImage() {
+      if (this.activeImageIndex === -1) {
+        return
+      }
+
+      if (this.activeImageIndex >= this.filteredImages.length - 1) {
+        return
+      }
+
+      this.activeImageId = this.filteredImages[this.activeImageIndex + 1].id
+    },
+    closePreview() {
+      this.activeImageId = null
     }
   }
 }

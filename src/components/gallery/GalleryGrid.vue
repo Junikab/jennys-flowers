@@ -12,7 +12,24 @@
         :key="image.id || index"
         class="gallery-tile gallery-tile--masonry"
       >
+        <button
+          v-if="clickable"
+          type="button"
+          class="gallery-image-trigger"
+          :aria-label="`Open ${image.title || image.alt}`"
+          @click="selectImage(image, index)"
+        >
+          <img
+            :src="image.src"
+            :alt="image.alt"
+            :title="image.title || image.alt"
+            :loading="index === 0 ? 'eager' : 'lazy'"
+            decoding="async"
+            class="gallery-image gallery-image--masonry"
+          />
+        </button>
         <img
+          v-else
           :src="image.src"
           :alt="image.alt"
           :title="image.title || image.alt"
@@ -30,7 +47,24 @@
         :class="columnClass"
       >
         <figure class="gallery-tile">
+          <button
+            v-if="clickable"
+            type="button"
+            class="gallery-image-trigger"
+            :aria-label="`Open ${image.title || image.alt}`"
+            @click="selectImage(image, index)"
+          >
+            <img
+              :src="image.src"
+              :alt="image.alt"
+              :title="image.title || image.alt"
+              :loading="index === 0 ? 'eager' : 'lazy'"
+              decoding="async"
+              class="gallery-image"
+            />
+          </button>
           <img
+            v-else
             :src="image.src"
             :alt="image.alt"
             :title="image.title || image.alt"
@@ -47,6 +81,7 @@
 <script>
 export default {
   name: 'GalleryGrid',
+  emits: ['select'],
   props: {
     images: {
       type: Array,
@@ -67,6 +102,19 @@ export default {
     columnClass: {
       type: String,
       default: 'col-12 col-sm-6 col-lg-4'
+    },
+    clickable: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    selectImage(image, index) {
+      if (!this.clickable) {
+        return
+      }
+
+      this.$emit('select', { image, index })
     }
   }
 }
@@ -97,12 +145,26 @@ export default {
   column-gap: 0.45rem;
 }
 
+.gallery-image-trigger {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: block;
+  cursor: zoom-in;
+}
+
+.gallery-image-trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
 .gallery-tile--masonry {
   break-inside: avoid;
   margin-bottom: 0.45rem;
   overflow: hidden;
   aspect-ratio: auto;
-  border-radius: 0;
+  border-radius: var(--radius-panel);
   background: transparent;
   box-shadow: none;
 }
