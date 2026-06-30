@@ -13,17 +13,16 @@
         </div>
 
         <div class="footer-brand">
-          <img
-            src="@/assets/images/icons/jennys_flower_divider_transparent.png"
-            alt="Jenny's Flowers divider"
-            height="150"
-            class="footer__divider"
-          />
-
           <div class="footer-copy">
-            <h3>Jenny's Flowers Event Florist</h3>
+            <h3 ref="brandTitle">Jenny's Flowers Event Florist</h3>
             <h5>Sydney, Australia</h5>
           </div>
+          <div
+            class="footer__divider"
+            role="img"
+            aria-label="Jenny's Flowers divider"
+            :style="dividerStyle"
+          ></div>
         </div>
 
         <div class="footer-social" aria-label="Social links">
@@ -42,6 +41,12 @@
               class="footer-text"
               ><i class="fab fa-instagram fa-lg"></i
             ></a>
+            <a
+              href="mailto:Jennysflowersau@gmail.com"
+              class="footer-text"
+              aria-label="Email Jennysflowersau@gmail.com"
+              ><i class="fas fa-envelope fa-lg"></i
+            ></a>
           </div>
         </div>
       </div>
@@ -57,7 +62,44 @@
 
 <script>
 export default {
-  name: 'TheFooter'
+  name: 'TheFooter',
+  data() {
+    return {
+      dividerWidth: null
+    }
+  },
+  computed: {
+    dividerStyle() {
+      if (!this.dividerWidth) {
+        return null
+      }
+
+      return {
+        width: `${this.dividerWidth}px`
+      }
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.syncDividerWidth()
+    })
+
+    window.addEventListener('resize', this.syncDividerWidth)
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.syncDividerWidth)
+  },
+  methods: {
+    syncDividerWidth() {
+      const title = this.$refs.brandTitle
+
+      if (!title) {
+        return
+      }
+
+      this.dividerWidth = title.offsetWidth
+    }
+  }
 }
 </script>
 
@@ -84,14 +126,24 @@ export default {
 
 .footer-brand {
   display: grid;
-  gap: var(--space-2);
+  /* gap: var(--space-2); */
   justify-items: center;
   text-align: center;
 }
 
 .footer__divider {
   height: clamp(4.75rem, 9vw, 6.75rem);
-  width: auto;
+  width: min(16rem, 42vw);
+  max-width: 100%;
+  background-color: var(--color-bg);
+  -webkit-mask-image: url('../../assets/images/icons/jennys_flower_divider_transparent.png');
+  mask-image: url('../../assets/images/icons/jennys_flower_divider_transparent.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .footer a {
@@ -122,7 +174,7 @@ export default {
   margin: 0 0 var(--space-2);
   color: var(--color-bg);
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  font-size: clamp(1.25rem, 1.9vw, 1.55rem);
 }
 
 .footer-copy h3 {
@@ -133,7 +185,7 @@ export default {
 
 .footer-copy h5 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: clamp(1.15rem, 1.45vw, 1.3rem);
 }
 
 .footer-text {

@@ -6,7 +6,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orcidCrown_ozzisb',
     alt: 'Orchid crown arrangement',
     sections: [],
-    categories: ['crowns', 'arrangements'],
+    categories: ['crowns'],
     sortOrder: 10
   },
   {
@@ -26,7 +26,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/rusty_lfwvkw',
     alt: 'Rust-colored bouquet',
     sections: ['home'],
-    categories: ['bouquets'],
+    categories: ['bouquets', 'arrangements'],
     sortOrder: 30
   },
   {
@@ -66,7 +66,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orchidsRing_n77azh',
     alt: 'Jenny with orchid ring',
     sections: ['contact'],
-    categories: ['portraits', 'crowns'],
+    categories: ['portraits', 'weddings'],
     sortOrder: 70
   },
   {
@@ -86,7 +86,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/blueBride_iayrfw',
     alt: 'Blue wedding bouquet',
     sections: ['contact'],
-    categories: ['weddings', 'bouquets'],
+    categories: ['weddings', 'bouquets', 'arrangements'],
     sortOrder: 90
   },
   {
