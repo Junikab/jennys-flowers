@@ -35,7 +35,7 @@ const galleryImages = [
     src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrownDown_eembxd.jpg',
     publicId: 'Jennys Flowers/jennysPhotos/jennyCrownDown_eembxd',
     alt: 'Jenny with flower crown',
-    sections: ['about'],
+    sections: [],
     categories: ['portraits', 'crowns'],
     sortOrder: 40
   },
@@ -55,7 +55,7 @@ const galleryImages = [
     src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyWhite_gortvp.jpg',
     publicId: 'Jennys Flowers/jennysPhotos/jennyWhite_gortvp',
     alt: 'Jenny in white',
-    sections: ['about'],
+    sections: [],
     categories: ['portraits'],
     sortOrder: 60
   },
@@ -107,24 +107,46 @@ function sortGalleryImages(images) {
   })
 }
 
+const sortedGalleryImages = sortGalleryImages(galleryImages)
+
+function buildGalleryLookup(key) {
+  return sortedGalleryImages.reduce((lookup, image) => {
+    image[key].forEach((value) => {
+      if (!lookup[value]) {
+        lookup[value] = []
+      }
+
+      lookup[value].push(image)
+    })
+
+    return lookup
+  }, {})
+}
+
+const galleryImagesBySection = buildGalleryLookup('sections')
+const galleryImagesByCategory = buildGalleryLookup('categories')
+const galleryCategories = [
+  ...new Set(sortedGalleryImages.flatMap((image) => image.categories))
+].sort()
+
 export function getGalleryImages() {
-  return sortGalleryImages(galleryImages)
+  return [...sortedGalleryImages]
 }
 
 export function getGalleryImagesBySection(section) {
-  return sortGalleryImages(
-    galleryImages.filter((image) => image.sections.includes(section))
-  )
+  return [...(galleryImagesBySection[section] || [])]
 }
 
 export function getGalleryImagesByCategory(category) {
-  return sortGalleryImages(
-    galleryImages.filter((image) => image.categories.includes(category))
-  )
+  return [...(galleryImagesByCategory[category] || [])]
+}
+
+export function getPrimaryGalleryImageBySection(section) {
+  return galleryImagesBySection[section]?.[0] || null
 }
 
 export function getGalleryCategories() {
-  return [...new Set(galleryImages.flatMap((image) => image.categories))].sort()
+  return [...galleryCategories]
 }
 
 export default galleryImages

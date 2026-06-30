@@ -1,7 +1,8 @@
 <template>
   <section class="page-shell contact-section" id="contact">
     <GalleryGrid
-      :images="galleryImages"
+      v-if="showGallery"
+      :images="contactGalleryImages"
       outer-class="container-fluid px-0"
       column-class="col-12 col-sm-6 col-xl-3"
     />
@@ -42,11 +43,19 @@ export default {
     showLocation: {
       type: Boolean,
       default: true
+    },
+    showGallery: {
+      type: Boolean,
+      default: false
     }
   },
-  data() {
-    return {
-      galleryImages: getGalleryImagesBySection('contact')
+  computed: {
+    contactGalleryImages() {
+      if (!this.showGallery) {
+        return []
+      }
+
+      return getGalleryImagesBySection('contact')
     }
   },
   components: {
@@ -55,7 +64,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .contact-section {
   display: grid;
