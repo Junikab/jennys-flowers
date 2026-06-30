@@ -1,21 +1,32 @@
 <template>
   <footer class="footer">
-    <div class="container footer__inner text-center">
-      <div class="row justify-content-center">
-        <div class="col-12">
+    <div class="footer__inner">
+      <div class="footer-main">
+        <div class="footer-links">
+          <h4 class="footer-heading">Quick Links</h4>
+          <nav class="footer-nav" aria-label="Footer quick links">
+            <router-link to="/">Home</router-link>
+            <router-link to="/about">About</router-link>
+            <router-link to="/gallery">Gallery</router-link>
+            <router-link to="/contact">Contact</router-link>
+          </nav>
+        </div>
+
+        <div class="footer-brand">
           <img
             src="@/assets/images/icons/jennys_flower_divider_transparent.png"
             alt="Jenny's Flowers divider"
             height="150"
-            class="footer__divider d-inline-block align-text-top rounded-circle"
+            class="footer__divider"
           />
-        </div>
-        <div class="col-12 mb-0">
+
           <div class="footer-copy">
             <h3>Jenny's Flowers Event Florist</h3>
             <h5>Sydney, Australia</h5>
           </div>
+        </div>
 
+        <div class="footer-social" aria-label="Social links">
           <div class="social-links">
             <a
               href="https://www.facebook.com/profile.php?id=61565467934102"
@@ -35,12 +46,10 @@
         </div>
       </div>
 
-      <div class="row justify-content-center footer-legal">
-        <div class="col-12">
-          <p class="footer-text">
-            &copy; 2026 Jenny's Flowers. All rights reserved.
-          </p>
-        </div>
+      <div class="footer-bottom">
+        <p class="footer-text footer-legal-copy">
+          &copy; 2026 Jenny's Flowers | All rights reserved.
+        </p>
       </div>
     </div>
   </footer>
@@ -56,19 +65,33 @@ export default {
 .footer {
   flex-shrink: 0;
   width: 100%;
-  text-align: center;
-  padding: var(--space-6) 0 var(--space-4);
-  /* background: var(--color-surface); */
+  padding: var(--space-5) 0 var(--space-3);
+  background: var(--color-primary);
 }
 
 .footer__inner {
-  width: min(100% - 1rem, var(--content-width));
+  width: calc(90% - 2rem);
+  max-width: none;
+  margin: 0 auto;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-4) var(--space-6);
+  align-items: start;
+}
+
+.footer-brand {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: center;
+  text-align: center;
 }
 
 .footer__divider {
-  height: clamp(6rem, 12vw, 9rem);
+  height: clamp(4.75rem, 9vw, 6.75rem);
   width: auto;
-  margin-bottom: var(--space-3);
 }
 
 .footer a {
@@ -77,22 +100,29 @@ export default {
 }
 
 .footer a:hover {
-  color: var(--color-primary) !important;
+  color: var(--color-bg) !important;
   transition: color 0.3s ease;
 }
 
 .footer-copy h5,
 .footer-text {
-  color: var(--color-text-soft);
+  color: var(--color-bg);
 }
 
 .footer-copy h3 {
-  color: var(--color-primary-dark);
+  color: var(--color-bg);
 }
 
 .footer-copy {
   display: grid;
   gap: 0.35rem;
+}
+
+.footer-heading {
+  margin: 0 0 var(--space-2);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
 }
 
 .footer-copy h3 {
@@ -111,21 +141,104 @@ export default {
   opacity: 0.95;
 }
 
-.social-links {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
+.footer-links {
+  display: grid;
+  justify-items: start;
+  text-align: left;
+  align-self: start;
+  justify-self: start;
 }
 
-.footer-legal {
-  margin-top: var(--space-4);
-  padding-top: var(--space-3);
+.footer-nav {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.footer-nav a {
+  color: var(--color-bg);
+  font-size: 1rem;
+}
+
+.footer-social {
+  align-self: end;
+  justify-self: end;
+}
+
+.social-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: 0;
+}
+
+.footer-bottom {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-primary-light);
+}
+
+.footer-legal-copy {
+  text-align: left;
 }
 
 .social-links a {
   font-size: 1.5rem;
-  color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+@media (max-width: 767.98px) {
+  .footer {
+    padding: var(--space-4) 0 var(--space-3);
+  }
+
+  .footer__inner {
+    width: calc(100% - 1.25rem);
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .footer-brand {
+    order: 1;
+  }
+
+  .footer-links {
+    order: 2;
+    justify-items: start;
+    text-align: left;
+  }
+
+  .footer-social {
+    order: 3;
+    justify-self: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    margin-top: var(--space-3);
+  }
+}
+
+@media (max-width: 766px) {
+  .footer-links {
+    justify-items: center;
+    text-align: center;
+    justify-self: center;
+    width: 100%;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  .footer-legal-copy {
+    text-align: center;
+  }
 }
 </style>
