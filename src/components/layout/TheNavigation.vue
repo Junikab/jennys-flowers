@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid flex-column nav-shell">
       <button
-        class="navbar-toggler custom-toggler no-outline align-self-start"
+        class="navbar-toggler custom-toggler no-outline align-self-end"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarNav"
@@ -15,7 +15,7 @@
 
       <div
         id="navbarNav"
-        class="collapse navbar-collapse flex-column align-items-start w-100"
+        class="collapse navbar-collapse flex-column align-items-start nav-collapse"
       >
         <ul class="navbar-nav nav-list">
           <li class="nav-item">
@@ -47,6 +47,7 @@ export default { name: 'TheNavigation' }
 
 .nav-shell {
   padding-inline: 0;
+  align-items: flex-end;
 }
 
 .navbar-nav {
@@ -100,6 +101,14 @@ export default { name: 'TheNavigation' }
 }
 
 @media (min-width: 992px) {
+  .nav-shell {
+    align-items: stretch;
+  }
+
+  .nav-collapse {
+    width: auto;
+  }
+
   .nav-list {
     flex-direction: row;
     align-items: center;
@@ -110,9 +119,15 @@ export default { name: 'TheNavigation' }
 @media (max-width: 991.98px) {
   .navbar-collapse {
     border: none;
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-line);
+    /* margin-top: var(--space-3); */
+    /* padding-top: var(--space-3); */
+    /* border-top: 1px solid var(--color-line); */
+  }
+
+  .nav-collapse {
+    width: max-content;
+    min-width: 12rem;
+    align-self: flex-end;
   }
 
   .navbar-nav {

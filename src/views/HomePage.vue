@@ -35,6 +35,9 @@ export default {
 
 <style scoped>
 .hero-section {
+  width: 90vw;
+  max-width: 90vw;
+  padding-inline: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);

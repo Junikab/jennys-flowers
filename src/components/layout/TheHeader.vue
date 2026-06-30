@@ -1,19 +1,21 @@
 <template>
   <nav class="navbar navbar-expand-lg site-header">
     <div class="container site-header__inner">
-      <router-link class="navbar-brand site-brand" to="/">
-        <img
-          src="@/assets/images/logo/logo.png"
-          alt="Jenny's Flowers Logo"
-          height="150"
-          class="site-logo d-inline-block align-text-top rounded-circle"
-        />
-      </router-link>
-      <div class="site-title">
-        <span class="d-inline-block"
-          >Jenny's<br class="d-md-none" />
-          Flowers</span
-        >
+      <div class="site-branding">
+        <router-link class="navbar-brand site-brand" to="/">
+          <img
+            src="@/assets/images/logo/logo.png"
+            alt="Jenny's Flowers Logo"
+            height="150"
+            class="site-logo d-inline-block align-text-top rounded-circle"
+          />
+        </router-link>
+        <div class="site-title">
+          <span class="d-inline-block"
+            >Jenny's<br class="d-md-none" />
+            Flowers</span
+          >
+        </div>
       </div>
       <div class="site-nav">
         <TheNavigation />
@@ -46,8 +48,16 @@ export default {
   padding-block: var(--space-2);
 }
 
+.site-branding {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
 .site-brand {
   margin-right: 0;
+  flex-shrink: 0;
 }
 
 .site-logo {
@@ -69,21 +79,13 @@ export default {
   margin-left: auto;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 @media (max-width: 991.98px) {
-  .site-header__inner {
-    justify-content: center;
-  }
-
-  .site-title {
-    text-align: center;
-  }
-
-  .site-nav {
-    width: 100%;
-    margin-left: 0;
-    justify-content: flex-start;
+  .site-branding {
+    gap: var(--space-1);
   }
 }
 
