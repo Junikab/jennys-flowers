@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-12">
           <img
-            src="@/assets/images/icons/divider.png"
+            src="@/assets/images/icons/jennys_flower_divider_transparent.png"
             alt="Jenny's Flowers divider"
             height="150"
             class="footer__divider d-inline-block align-text-top rounded-circle"

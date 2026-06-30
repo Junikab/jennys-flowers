@@ -5,7 +5,7 @@ const galleryImages = [
     src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orcidCrown_ozzisb.jpg',
     publicId: 'Jennys Flowers/background/orcidCrown_ozzisb',
     alt: 'Orchid crown arrangement',
-    sections: ['home'],
+    sections: [],
     categories: ['crowns', 'arrangements'],
     sortOrder: 10
   },
@@ -98,6 +98,16 @@ const galleryImages = [
     sections: ['contact'],
     categories: ['portraits', 'crowns'],
     sortOrder: 100
+  },
+  {
+    id: 'cover-flints',
+    title: 'Event Flints',
+    src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782783559/Jennys%20Flowers/DSC09631_vnspci.jpg',
+    publicId: 'Jennys Flowers/jennysPhotos/DSC09631_vnspci.jpg',
+    alt: 'short image description',
+    sections: ['home'],
+    categories: ['weddings'],
+    sortOrder: 110
   }
 ]
 
