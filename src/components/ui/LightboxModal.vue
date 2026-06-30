@@ -194,7 +194,7 @@ export default {
   place-items: center;
   padding: clamp(1rem, 3vw, 2rem);
   padding-bottom: calc(clamp(1rem, 3vw, 2rem) + 4.75rem);
-  background: rgba(18, 10, 18, 0.78);
+  background: rgba(47, 47, 42, 0.72);
   backdrop-filter: blur(4px);
   overscroll-behavior: contain;
 }
@@ -217,7 +217,7 @@ export default {
   height: auto;
   object-fit: contain;
   border-radius: var(--radius-panel);
-  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.28);
+  box-shadow: 0 1.25rem 3rem rgba(47, 47, 42, 0.28);
 }
 
 .lightbox-nav-row {
@@ -229,11 +229,11 @@ export default {
   align-items: center;
   gap: 0.85rem;
   padding: 0.35rem 0.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid var(--color-primary-light);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(243, 234, 223, 0.9);
   backdrop-filter: blur(10px);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18);
+  box-shadow: 0 1rem 2rem rgba(47, 47, 42, 0.18);
 }
 
 .lightbox-nav {
@@ -243,7 +243,7 @@ export default {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: #fff;
+  color: var(--color-primary-dark);
   font-size: 2.4rem;
   line-height: 1;
   display: grid;
@@ -257,8 +257,8 @@ export default {
   height: 3rem;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--color-text);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
   top: max(1rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
   font-size: 2rem;
@@ -273,12 +273,8 @@ export default {
 .lightbox-nav:focus-visible,
 .lightbox-close:hover,
 .lightbox-close:focus-visible {
-  background: rgba(255, 255, 255, 0.24);
-}
-
-.lightbox-close:hover,
-.lightbox-close:focus-visible {
-  background: #fff;
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .lightbox-nav:disabled {

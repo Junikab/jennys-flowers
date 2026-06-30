@@ -59,14 +59,15 @@ export default { name: 'TheNavigation' }
 
 .nav-link {
   cursor: pointer;
-  color: var(--color-text);
+  color: var(--color-primary-dark);
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   letter-spacing: 0.08em;
   padding: 0.15rem 0;
+  transition: color 0.25s ease;
 }
 
 .nav-link:hover {
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .navbar-toggler,
@@ -94,9 +95,8 @@ export default { name: 'TheNavigation' }
   border: 0 !important;
 }
 
-/* Add back the toggler icon styling */
 .custom-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(48, 17, 35)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(63, 71, 40)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 @media (min-width: 992px) {
@@ -112,7 +112,7 @@ export default { name: 'TheNavigation' }
     border: none;
     margin-top: var(--space-3);
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-line);
   }
 
   .navbar-nav {
@@ -122,7 +122,7 @@ export default { name: 'TheNavigation' }
 }
 
 .router-link-active {
-  color: var(--color-accent);
+  color: var(--color-primary);
   font-weight: bold;
 }
 

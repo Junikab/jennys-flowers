@@ -12,22 +12,29 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 32%),
-    linear-gradient(180deg, #fffafc 0%, var(--color-bg) 100%);
+  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
 }
 
 a {
-  color: inherit;
+  color: var(--color-primary);
+  text-decoration-color: var(--color-primary-light);
+  transition:
+    color 0.25s ease,
+    text-decoration-color 0.25s ease;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+  text-decoration-color: var(--color-line);
 }
 
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
 }
 
@@ -64,7 +71,7 @@ textarea {
 }
 
 .page-panel {
-  background: var(--color-surface);
+  background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow-soft);
@@ -73,7 +80,7 @@ textarea {
 
 .page-heading {
   margin: 0 0 var(--space-3);
-  color: var(--color-text);
+  color: var(--color-primary-dark);
   font-family: var(--font-display);
   font-size: var(--font-size-title);
   letter-spacing: 0.05em;
@@ -81,14 +88,14 @@ textarea {
 
 .section-title {
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-primary-dark);
   font-family: var(--font-display);
   font-size: var(--font-size-section);
 }
 
 .lead-copy {
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-primary-dark);
   font-size: var(--font-size-lead);
   line-height: 1.45;
 }
@@ -121,10 +128,10 @@ textarea {
   justify-content: center;
   min-height: 2.9rem;
   padding: 0.7rem 1.15rem;
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-primary);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-strong);
-  color: var(--color-text);
+  background-color: var(--color-white);
+  color: var(--color-primary-dark);
   line-height: 1;
   text-decoration: none;
   transition:
@@ -136,9 +143,9 @@ textarea {
 
 .pill-button:hover,
 .pill-button:focus-visible {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #fff;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 @media (max-width: 767.98px) {

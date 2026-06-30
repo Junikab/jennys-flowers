@@ -34,8 +34,8 @@ export default {
 
 <style scoped>
 .site-header {
-  background-color: rgba(212, 188, 202, 0.95);
-  border-bottom: 1px solid var(--color-border);
+  background-color: rgba(243, 234, 223, 0.95);
+  /* border-bottom: 1px solid var(--color-line); */
 }
 
 .site-header__inner {
@@ -43,7 +43,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding-block: var(--space-3);
+  padding-block: var(--space-2);
 }
 
 .site-brand {
@@ -57,7 +57,7 @@ export default {
 }
 
 .site-title {
-  color: var(--color-text);
+  color: var(--color-primary-dark);
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-family: var(--font-display);
   font-weight: 400;

@@ -28,7 +28,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(47, 47, 42, 0.42);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,9 +36,10 @@ export default {
 }
 
 .popup-content {
-  background-color: rgba(48, 17, 35, 0.92);
-  color: white;
+  background-color: var(--color-surface);
+  color: var(--color-primary-dark);
   padding: 2rem 1.5rem;
+  border: 1px solid var(--color-primary-light);
   border-radius: var(--radius-panel);
   text-align: center;
   position: relative;
@@ -58,7 +59,7 @@ export default {
   right: 15px;
   background: none;
   border: none;
-  color: white;
+  color: var(--color-primary);
   font-size: 24px;
   cursor: pointer;
 }

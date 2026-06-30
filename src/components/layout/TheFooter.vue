@@ -58,7 +58,7 @@ export default {
   width: 100%;
   text-align: center;
   padding: var(--space-6) 0 var(--space-4);
-  border-top: 1px solid var(--color-border);
+  /* background: var(--color-surface); */
 }
 
 .footer__inner {
@@ -77,14 +77,17 @@ export default {
 }
 
 .footer a:hover {
-  color: var(--color-accent) !important;
+  color: var(--color-primary) !important;
   transition: color 0.3s ease;
 }
 
-.footer-copy h3,
 .footer-copy h5,
 .footer-text {
   color: var(--color-text-soft);
+}
+
+.footer-copy h3 {
+  color: var(--color-primary-dark);
 }
 
 .footer-copy {
@@ -123,5 +126,6 @@ export default {
 
 .social-links a {
   font-size: 1.5rem;
+  color: var(--color-primary);
 }
 </style>

@@ -147,8 +147,8 @@ export default {
 .filter-button.active,
 .filter-button:hover,
 .filter-button:focus-visible {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #fff;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
 }
 </style>

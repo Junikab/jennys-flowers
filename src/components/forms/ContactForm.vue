@@ -187,7 +187,7 @@ export default {
   margin: 0 auto;
   padding: clamp(1.25rem, 2vw, 2rem);
   position: relative;
-  background: var(--color-surface-strong);
+  background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow-soft);
@@ -220,22 +220,28 @@ export default {
 }
 
 .form-label {
-  color: var(--color-text-soft);
+  color: var(--color-primary-dark);
   font-size: 0.95rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .form-control {
-  border: 1.5px solid rgba(48, 17, 35, 0.24);
+  border: 1.5px solid var(--color-primary-light);
   border-radius: 0.8rem;
   padding: 0.85rem 1rem;
-  background-color: #fff;
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.form-control::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.85;
 }
 
 .form-control:focus {
-  box-shadow: none;
-  border-color: var(--color-text-soft);
+  box-shadow: 0 0 0 0.18rem rgba(126, 139, 97, 0.16);
+  border-color: var(--color-primary);
 }
 
 textarea.form-control {
@@ -245,15 +251,18 @@ textarea.form-control {
 
 .submit-button {
   min-width: 8.75rem;
-  background-color: var(--color-text-soft);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
   font-size: 1.1rem;
   letter-spacing: 0.04em;
 }
 
 .submit-button:hover,
 .submit-button:focus-visible {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
 }
 
 .submit-button:disabled {
