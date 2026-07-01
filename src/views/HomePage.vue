@@ -214,7 +214,7 @@ export default {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: rgba(243, 234, 223, 0.55);
+  background: rgba(243, 234, 223, 0.25);
 }
 
 .home-feature-card__copy {

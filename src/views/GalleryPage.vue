@@ -172,13 +172,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
+  gap: var(--space-1);
+  margin-top: var(--space-2);
 }
 
 .filter-button {
   min-height: 2.2rem;
-  padding: 0.45rem 0.8rem;
+  padding: 0.45rem 0.6rem;
   font-size: 0.8rem;
 }
 
