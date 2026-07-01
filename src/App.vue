@@ -5,15 +5,18 @@
       <router-view></router-view>
     </main>
     <TheFooter />
+    <ScrollTopButton />
   </div>
 </template>
 
 <script>
 import TheFooter from './components/layout/TheFooter.vue'
 import TheHeader from './components/layout/TheHeader.vue'
+import ScrollTopButton from './components/ui/ScrollTopButton.vue'
 export default {
   name: 'App',
   components: {
+    ScrollTopButton,
     TheHeader,
     TheFooter
   }

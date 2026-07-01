@@ -54,7 +54,7 @@
 
       <div class="footer-bottom">
         <p class="footer-text footer-legal-copy">
-          &copy; 2026 Jenny's Flowers | All rights reserved.
+          &copy; {{ currentYear }} Jenny's Flowers | All rights reserved.
         </p>
       </div>
     </div>
@@ -75,6 +75,9 @@ export default {
     }
   },
   computed: {
+    currentYear() {
+      return new Date().getFullYear()
+    },
     dividerStyle() {
       if (!this.dividerWidth) {
         return null
