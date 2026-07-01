@@ -15,6 +15,19 @@
       </div>
     </HeroSlideshow>
 
+    <div class="price-guide-intro">
+      <div class="page-panel price-guide-intro__panel">
+        <div class="price-guide-intro__content">
+          <h2 class="section-title">Price Guide</h2>
+          <p class="body-copy">
+            For a personal quote, please fill out the form on our website with
+            details about your event. Other fees may apply: delivery fee, setup
+            fee, hiring extra staff, or decorating if required.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div class="home-feature-list">
       <article
         v-for="feature in galleryFeatures"
@@ -134,6 +147,32 @@ export default {
 .title-container {
   text-align: center;
   backdrop-filter: blur(2px);
+}
+
+.price-guide-intro {
+  width: 100vw;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+}
+
+.price-guide-intro__panel {
+  display: grid;
+  width: 100%;
+  border-radius: 0;
+  padding-inline: 0;
+}
+
+.price-guide-intro__content {
+  width: min(90vw, var(--copy-width));
+  margin: 0 auto;
+  display: grid;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.price-guide-intro__content .section-title,
+.price-guide-intro__content .body-copy {
+  margin: 0;
 }
 
 .home-feature-list {
