@@ -4,10 +4,9 @@
       <button
         class="navbar-toggler custom-toggler no-outline align-self-end"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
+        @click="toggleMenu"
         aria-controls="navbarNav"
-        aria-expanded="false"
+        :aria-expanded="isMenuOpen ? 'true' : 'false'"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
@@ -15,20 +14,28 @@
 
       <div
         id="navbarNav"
-        class="collapse navbar-collapse flex-column align-items-start nav-collapse"
+        :class="['nav-collapse', { 'nav-collapse--open': isMenuOpen }]"
       >
         <ul class="navbar-nav nav-list">
           <li class="nav-item">
-            <router-link class="nav-link" to="/">HOME</router-link>
+            <router-link class="nav-link" to="/" @click="closeMenu"
+              >HOME</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about">ABOUT</router-link>
+            <router-link class="nav-link" to="/about" @click="closeMenu"
+              >ABOUT</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/gallery">GALLERY</router-link>
+            <router-link class="nav-link" to="/gallery" @click="closeMenu"
+              >GALLERY</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/contact">CONTACT</router-link>
+            <router-link class="nav-link" to="/contact" @click="closeMenu"
+              >CONTACT</router-link
+            >
           </li>
         </ul>
       </div>
@@ -37,17 +44,40 @@
 </template>
 
 <script>
-export default { name: 'TheNavigation' }
+export default {
+  name: 'TheNavigation',
+  data() {
+    return {
+      isMenuOpen: false
+    }
+  },
+  watch: {
+    $route() {
+      this.closeMenu()
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen
+    },
+    closeMenu() {
+      this.isMenuOpen = false
+    }
+  }
+}
 </script>
 
 <style scoped>
 .navbar {
   padding: 0;
+  overflow: visible;
 }
 
 .nav-shell {
+  position: relative;
   padding-inline: 0;
   align-items: flex-end;
+  overflow: visible;
 }
 
 .navbar-nav {
@@ -106,7 +136,16 @@ export default { name: 'TheNavigation' }
   }
 
   .nav-collapse {
+    position: static;
     width: auto;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
   }
 
   .nav-list {
@@ -117,22 +156,42 @@ export default { name: 'TheNavigation' }
 }
 
 @media (max-width: 991.98px) {
-  .navbar-collapse {
-    border: none;
-    /* margin-top: var(--space-3); */
-    /* padding-top: var(--space-3); */
-    /* border-top: 1px solid var(--color-line); */
-  }
-
   .nav-collapse {
+    position: absolute;
+    top: 0;
+    right: calc(100% + 0.65rem);
+    z-index: 80;
     width: max-content;
     min-width: 12rem;
-    align-self: flex-end;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-panel);
+    background: rgba(250, 246, 239, 0.96);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(0.75rem);
+    transition: opacity 0.25s ease, transform 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+
+  .nav-collapse--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    transition-delay: 0s;
   }
 
   .navbar-nav {
-    margin-top: var(--space-3);
+    margin-top: 0;
     gap: var(--space-3) !important;
+  }
+
+  .nav-link {
+    display: block;
+    white-space: nowrap;
   }
 }
 

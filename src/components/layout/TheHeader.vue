@@ -35,6 +35,13 @@
           >
             <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
+          <CopyEmailButton
+            email="Jennysflowersau@gmail.com"
+            aria-label="Copy email address Jennysflowersau@gmail.com"
+            success-message="Email copied"
+          >
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+          </CopyEmailButton>
         </div>
         <TheNavigation />
       </div>
@@ -43,10 +50,12 @@
 </template>
 
 <script>
+import CopyEmailButton from '../ui/CopyEmailButton.vue'
 import TheNavigation from './TheNavigation.vue'
 export default {
   name: 'TheHeader',
   components: {
+    CopyEmailButton,
     TheNavigation
   }
 }
@@ -54,20 +63,27 @@ export default {
 
 <style scoped>
 .site-header {
+  position: relative;
+  z-index: 40;
   background-color: rgba(243, 234, 223, 0.95);
   /* border-bottom: 1px solid var(--color-line); */
 }
 
 .site-header__inner {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  width: 100%;
+  max-width: none;
   padding-block: var(--space-2);
+  padding-inline: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .site-branding {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
@@ -91,11 +107,13 @@ export default {
   font-weight: 400;
   line-height: 1.1;
   text-align: left;
+  white-space: nowrap;
 }
 
 .site-nav {
   margin-left: auto;
   display: flex;
+  min-width: 0;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-2);
@@ -106,7 +124,8 @@ export default {
   display: none;
 }
 
-.site-header__mobile-links a {
+.site-header__mobile-links a,
+.site-header__mobile-links :deep(.copy-email__button) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -121,7 +140,9 @@ export default {
 }
 
 .site-header__mobile-links a:hover,
-.site-header__mobile-links a:focus-visible {
+.site-header__mobile-links a:focus-visible,
+.site-header__mobile-links :deep(.copy-email__button:hover),
+.site-header__mobile-links :deep(.copy-email__button:focus-visible) {
   background: var(--color-primary-light);
   color: var(--color-primary);
   transform: translateY(-1px);
@@ -135,15 +156,36 @@ export default {
 
 @media (max-width: 575.98px) {
   .site-header__inner {
-    gap: var(--space-3);
+    position: relative;
+    display: block;
     padding-block: var(--space-2);
+    padding-right: 6.5rem;
+  }
+
+  .site-branding {
+    gap: 0.45rem;
+  }
+
+  .site-logo {
+    height: 4.2rem;
+  }
+
+  .site-title {
+    font-size: 1.35rem;
+    line-height: 0.95;
+    white-space: normal;
   }
 
   .site-nav {
+    position: absolute;
+    top: var(--space-2);
+    right: clamp(0.75rem, 2vw, 1.5rem);
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.35rem;
+    margin-left: 0;
+    z-index: 60;
   }
 
   .site-header__mobile-links {
@@ -152,7 +194,8 @@ export default {
     gap: 0.4rem;
   }
 
-  .site-header__mobile-links a {
+  .site-header__mobile-links a,
+  .site-header__mobile-links :deep(.copy-email__button) {
     width: 2rem;
     height: 2rem;
     font-size: 0.85rem;
