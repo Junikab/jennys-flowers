@@ -33,7 +33,16 @@
           />
         </div>
 
-        <div class="home-feature-card__content">
+        <div
+          class="home-feature-card__content"
+          :style="
+            feature.contentBackgroundImage
+              ? {
+                  '--feature-background-image': `url('${feature.contentBackgroundImage}')`
+                }
+              : null
+          "
+        >
           <div class="home-feature-card__copy">
             <h2 class="section-title">{{ feature.title }}</h2>
             <router-link
@@ -68,6 +77,8 @@ export default {
           category: 'fresh-flowers',
           imageSrc:
             'https://res.cloudinary.com/djgi23npu/image/upload/v1782864162/Jennys%20Flowers/priceList/PriceFreshSmall_vniz1m.png',
+          contentBackgroundImage:
+            'https://res.cloudinary.com/djgi23npu/image/upload/v1782868631/Jennys%20Flowers/background/blueHalf_tym2ts_g1pjwk.jpg',
           imageAlt: 'Fresh flowers price list',
           imageSide: 'left'
         },
@@ -76,7 +87,9 @@ export default {
           linkLabel: 'Faux Flowers Gallery',
           category: 'faux-flowers',
           imageSrc:
-            'https://res.cloudinary.com/djgi23npu/image/upload/v1782865167/Jennys%20Flowers/priceList/PriceFauxSmall_jaigue.png',
+            'https://res.cloudinary.com/djgi23npu/image/upload/v1782867487/Jennys%20Flowers/priceList/PriceFauxSmall_foi2hc.png',
+          contentBackgroundImage:
+            'https://res.cloudinary.com/djgi23npu/image/upload/v1782783562/Jennys%20Flowers/fauxFloers/DSC09654_tmebcp.jpg',
           imageAlt: 'Faux flowers price list',
           imageSide: 'right'
         }
@@ -101,22 +114,21 @@ export default {
 
 .title-container {
   text-align: center;
-  /* background: rgba(243, 234, 223, 0.88); */
   backdrop-filter: blur(2px);
 }
 
 .home-feature-list {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   display: grid;
-  gap: var(--space-4);
 }
 
 .home-feature-card {
-  width: 90vw;
+  /* width: 90vw; */
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   background: var(--color-surface);
-  /* border: 1px solid var(--color-border); */
   box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
@@ -145,11 +157,35 @@ export default {
 }
 
 .home-feature-card__content {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(1.5rem, 4vw, 3rem);
   min-height: clamp(16rem, 30vw, 22rem);
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.home-feature-card__content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--feature-background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: transform 0.3s ease;
+}
+
+.home-feature-card__content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(243, 234, 223, 0.78);
 }
 
 .home-feature-card__copy {
@@ -165,6 +201,10 @@ export default {
 
 .home-feature-card__link {
   min-width: min(100%, 16rem);
+}
+
+.home-feature-card:hover .home-feature-card__content::before {
+  transform: scale(1.03);
 }
 
 @media (max-width: 767.98px) {

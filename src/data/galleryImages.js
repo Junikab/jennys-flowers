@@ -46,7 +46,8 @@ const galleryImages = [
     publicId: 'Jennys Flowers/jennysPhotos/JennyWisteria_htea5b',
     alt: "Jenny's Flowers with wisteria",
     sections: ['about'],
-    categories: ['portraits', 'fresh-flowers'],
+    categories: ['portraits'],
+    showInGallery: false,
     sortOrder: 50
   },
   {
@@ -117,7 +118,12 @@ function sortGalleryImages(images) {
   })
 }
 
+function isGalleryVisible(image) {
+  return image.showInGallery !== false
+}
+
 const sortedGalleryImages = sortGalleryImages(galleryImages)
+const visibleGalleryImages = sortedGalleryImages.filter(isGalleryVisible)
 
 function buildGalleryLookup(key) {
   return sortedGalleryImages.reduce((lookup, image) => {
@@ -134,13 +140,23 @@ function buildGalleryLookup(key) {
 }
 
 const galleryImagesBySection = buildGalleryLookup('sections')
-const galleryImagesByCategory = buildGalleryLookup('categories')
+const galleryImagesByCategory = visibleGalleryImages.reduce((lookup, image) => {
+  image.categories.forEach((value) => {
+    if (!lookup[value]) {
+      lookup[value] = []
+    }
+
+    lookup[value].push(image)
+  })
+
+  return lookup
+}, {})
 const galleryCategories = [
-  ...new Set(sortedGalleryImages.flatMap((image) => image.categories))
+  ...new Set(visibleGalleryImages.flatMap((image) => image.categories))
 ].sort()
 
 export function getGalleryImages() {
-  return [...sortedGalleryImages]
+  return [...visibleGalleryImages]
 }
 
 export function getGalleryImagesBySection(section) {
