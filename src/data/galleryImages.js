@@ -6,7 +6,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orcidCrown_ozzisb',
     alt: 'Orchid crown arrangement',
     sections: [],
-    categories: ['crowns'],
+    categories: ['crowns', 'faux-flowers'],
     sortOrder: 10
   },
   {
@@ -16,7 +16,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orchid_pv0c70',
     alt: 'Orchid flowers',
     sections: ['home'],
-    categories: ['arrangements'],
+    categories: ['arrangements', 'fresh-flowers'],
     sortOrder: 20
   },
   {
@@ -26,7 +26,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/rusty_lfwvkw',
     alt: 'Rust-colored bouquet',
     sections: ['home'],
-    categories: ['bouquets', 'arrangements'],
+    categories: ['bouquets', 'arrangements', 'fresh-flowers'],
     sortOrder: 30
   },
   {
@@ -36,7 +36,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/jennysPhotos/jennyCrownDown_eembxd',
     alt: 'Jenny with flower crown',
     sections: [],
-    categories: ['portraits', 'crowns'],
+    categories: ['portraits', 'crowns', 'faux-flowers'],
     sortOrder: 40
   },
   {
@@ -46,7 +46,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/jennysPhotos/JennyWisteria_htea5b',
     alt: "Jenny's Flowers with wisteria",
     sections: ['about'],
-    categories: ['portraits'],
+    categories: ['portraits', 'fresh-flowers'],
     sortOrder: 50
   },
   {
@@ -56,7 +56,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/jennysPhotos/jennyWhite_gortvp',
     alt: 'Jenny in white',
     sections: [],
-    categories: ['portraits'],
+    categories: ['portraits', 'fresh-flowers'],
     sortOrder: 60
   },
   {
@@ -66,7 +66,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orchidsRing_n77azh',
     alt: 'Jenny with orchid ring',
     sections: ['contact'],
-    categories: ['portraits', 'weddings'],
+    categories: ['portraits', 'weddings', 'fresh-flowers'],
     sortOrder: 70
   },
   {
@@ -76,7 +76,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/rustyWedding_umxq9i',
     alt: 'Rustic wedding flowers',
     sections: ['contact'],
-    categories: ['weddings', 'arrangements'],
+    categories: ['weddings', 'arrangements', 'fresh-flowers'],
     sortOrder: 80
   },
   {
@@ -86,7 +86,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/blueBride_iayrfw',
     alt: 'Blue wedding bouquet',
     sections: ['contact'],
-    categories: ['weddings', 'bouquets', 'arrangements'],
+    categories: ['weddings', 'bouquets', 'arrangements', 'fresh-flowers'],
     sortOrder: 90
   },
   {
@@ -96,17 +96,17 @@ const galleryImages = [
     publicId: 'Jennys Flowers/jennysPhotos/jennyCrown1_a6sshy',
     alt: 'Jenny with flower crown',
     sections: ['contact'],
-    categories: ['portraits', 'crowns'],
+    categories: ['portraits', 'crowns', 'faux-flowers'],
     sortOrder: 100
   },
   {
     id: 'cover-flints',
     title: 'Event Flints',
-    src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782783559/Jennys%20Flowers/DSC09631_vnspci.jpg',
-    publicId: 'Jennys Flowers/jennysPhotos/DSC09631_vnspci.jpg',
+    src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782783559/Jennys%20Flowers/fauxFloers/DSC09631_vnspci.jpg',
+    publicId: 'Jennys Flowers/fauxFlo/DSC09631_vnspci.jpg',
     alt: 'short image description',
     sections: ['home'],
-    categories: ['weddings'],
+    categories: ['weddings', 'faux-flowers'],
     sortOrder: 110
   }
 ]

@@ -10,7 +10,7 @@
             type="button"
             class="pill-button filter-button"
             :class="{ active: activeFilter === filter.value }"
-            @click="activeFilter = filter.value"
+            @click="setActiveFilter(filter.value)"
           >
             {{ filter.label }}
           </button>
@@ -56,13 +56,18 @@ export default {
       filters: [
         { label: 'All', value: 'all' },
         { label: 'Weddings', value: 'weddings' },
-        { label: 'Arrangements', value: 'arrangements' }
+        { label: 'Arrangements', value: 'arrangements' },
+        { label: 'Fresh Flowers', value: 'fresh-flowers' },
+        { label: 'Faux Flowers', value: 'faux-flowers' }
       ],
       activeFilter: 'all',
       activeImageId: null
     }
   },
   computed: {
+    filterValues() {
+      return this.filters.map((filter) => filter.value)
+    },
     filteredImages() {
       if (this.activeFilter === 'all') {
         return this.galleryImages
@@ -85,9 +90,42 @@ export default {
   watch: {
     activeFilter() {
       this.closePreview()
+    },
+    '$route.query.category': {
+      immediate: true,
+      handler(category) {
+        const normalizedCategory = this.normalizeFilterValue(category)
+
+        if (normalizedCategory !== this.activeFilter) {
+          this.activeFilter = normalizedCategory
+        }
+      }
     }
   },
   methods: {
+    normalizeFilterValue(category) {
+      if (this.filterValues.includes(category)) {
+        return category
+      }
+
+      return 'all'
+    },
+    setActiveFilter(filterValue) {
+      const normalizedFilter = this.normalizeFilterValue(filterValue)
+
+      if (normalizedFilter !== this.activeFilter) {
+        this.activeFilter = normalizedFilter
+      }
+
+      const nextQuery =
+        normalizedFilter === 'all' ? {} : { category: normalizedFilter }
+
+      if (this.$route.query.category === nextQuery.category) {
+        return
+      }
+
+      this.$router.replace({ query: nextQuery })
+    },
     openPreview({ image }) {
       this.activeImageId = image.id
     },
