@@ -20,10 +20,28 @@
         v-for="feature in galleryFeatures"
         :key="feature.category"
         class="home-feature-card"
-        :class="`home-feature-card--image-${feature.imageSide}`"
+        :class="[
+          `home-feature-card--image-${feature.imageSide}`,
+          {
+            'home-feature-card--price-list': feature.mediaType === 'price-list'
+          }
+        ]"
       >
-        <div class="home-feature-card__media">
+        <div
+          class="home-feature-card__media"
+          :class="{
+            'home-feature-card__media--price-list':
+              feature.mediaType === 'price-list'
+          }"
+        >
+          <PriceListCard
+            v-if="feature.mediaType === 'price-list'"
+            :title="feature.priceList.title"
+            :items="feature.priceList.items"
+            class="home-feature-card__price-list"
+          />
           <img
+            v-else
             :src="feature.imageSrc"
             :alt="feature.imageAlt"
             :title="feature.title"
@@ -60,12 +78,15 @@
 
 <script>
 import HeroSlideshow from '../components/home/HeroSlideshow.vue'
+import PriceListCard from '../components/ui/PriceListCard.vue'
 import { getGalleryImagesBySection } from '../data/galleryImages'
+import { fauxWeddingPriceList, freshWeddingPriceList } from '../data/priceLists'
 
 export default {
   name: 'HomePage',
   components: {
-    HeroSlideshow
+    HeroSlideshow,
+    PriceListCard
   },
   data() {
     return {
@@ -75,22 +96,20 @@ export default {
           title: 'Fresh Flowers',
           linkLabel: 'Fresh Flowers Gallery',
           category: 'fresh-flowers',
-          imageSrc:
-            'https://res.cloudinary.com/djgi23npu/image/upload/v1782864162/Jennys%20Flowers/priceList/PriceFreshSmall_vniz1m.png',
+          mediaType: 'price-list',
+          priceList: freshWeddingPriceList,
           contentBackgroundImage:
             'https://res.cloudinary.com/djgi23npu/image/upload/v1782868631/Jennys%20Flowers/background/blueHalf_tym2ts_g1pjwk.jpg',
-          imageAlt: 'Fresh flowers price list',
           imageSide: 'left'
         },
         {
           title: 'Faux Flowers',
           linkLabel: 'Faux Flowers Gallery',
           category: 'faux-flowers',
-          imageSrc:
-            'https://res.cloudinary.com/djgi23npu/image/upload/v1782867487/Jennys%20Flowers/priceList/PriceFauxSmall_foi2hc.png',
+          mediaType: 'price-list',
+          priceList: fauxWeddingPriceList,
           contentBackgroundImage:
             'https://res.cloudinary.com/djgi23npu/image/upload/v1782783562/Jennys%20Flowers/fauxFloers/DSC09654_tmebcp.jpg',
-          imageAlt: 'Faux flowers price list',
           imageSide: 'right'
         }
       ]
@@ -121,6 +140,7 @@ export default {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   display: grid;
+  gap: var(--space-5);
 }
 
 .home-feature-card {
@@ -147,6 +167,15 @@ export default {
   justify-content: center;
   min-height: 100%;
   background: var(--color-white);
+}
+
+.home-feature-card__media--price-list {
+  align-items: stretch;
+  background: transparent;
+}
+
+.home-feature-card__price-list {
+  flex: 1 1 auto;
 }
 
 .home-feature-card__image {
@@ -216,6 +245,11 @@ export default {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
     min-height: 24rem;
+  }
+
+  .home-feature-card--price-list {
+    grid-template-rows: auto auto;
+    min-height: 0;
   }
 
   .home-feature-card__media,
