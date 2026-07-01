@@ -106,7 +106,7 @@ const galleryImages = [
     src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782783559/Jennys%20Flowers/fauxFloers/DSC09631_vnspci.jpg',
     publicId: 'Jennys Flowers/fauxFlo/DSC09631_vnspci.jpg',
     alt: 'short image description',
-    sections: ['home'],
+    sections: ['home', 'contact-cover'],
     categories: ['weddings', 'faux-flowers'],
     sortOrder: 110
   }

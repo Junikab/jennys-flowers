@@ -188,7 +188,7 @@ export default {
   padding: clamp(1.25rem, 2vw, 2rem);
   position: relative;
   background: var(--color-bg);
-  border: 1px solid var(--color-border);
+  /* border: 1px solid var(--color-border); */
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow-soft);
 }
