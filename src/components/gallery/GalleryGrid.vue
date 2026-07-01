@@ -141,7 +141,7 @@ export default {
 }
 
 .gallery-masonry {
-  column-count: 1;
+  column-count: 2;
   column-gap: 0.45rem;
 }
 
@@ -184,12 +184,6 @@ export default {
 
 .gallery-tile:hover .gallery-image {
   transform: scale(1.03);
-}
-
-@media (min-width: 576px) {
-  .gallery-masonry {
-    column-count: 2;
-  }
 }
 
 @media (min-width: 900px) {
