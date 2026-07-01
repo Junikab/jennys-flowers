@@ -3,7 +3,11 @@
     <ThankYouPopup :show="showThankYou" @close="closePopup" />
     <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
-      <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
+      <CopyEmailButton
+        email="Jennysflowersau@gmail.com"
+        aria-label="Copy email address Jennysflowersau@gmail.com"
+        button-class="contact-email-link"
+      />
     </p>
     <div>
       <form @submit.prevent="submitForm" class="contact-form">
@@ -79,11 +83,13 @@
 <script>
 import axios from 'axios'
 import ThankYouPopup from '../ui/ThankYouPopup.vue'
+import CopyEmailButton from '../ui/CopyEmailButton.vue'
 
 export default {
   name: 'ContactForm',
   components: {
-    ThankYouPopup
+    ThankYouPopup,
+    CopyEmailButton
   },
   data() {
     return {
@@ -195,6 +201,12 @@ export default {
 
 .contact-intro {
   margin-bottom: var(--space-4);
+}
+
+.contact-intro :deep(.contact-email-link) {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary-light);
 }
 
 .contact-form {

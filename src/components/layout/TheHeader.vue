@@ -4,7 +4,7 @@
       <div class="site-branding">
         <router-link class="navbar-brand site-brand" to="/">
           <img
-            src="@/assets/images/logo/logo.png"
+            src="@/assets/images/logo/logoGreen.jpg"
             alt="Jenny's Flowers Logo"
             height="150"
             class="site-logo d-inline-block align-text-top rounded-circle"
@@ -18,6 +18,24 @@
         </div>
       </div>
       <div class="site-nav">
+        <div class="site-header__mobile-links" aria-label="Social links">
+          <a
+            href="https://www.facebook.com/profile.php?id=61565467934102"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Jenny's Flowers on Facebook"
+          >
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/Jennysflowers_au/#"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Jenny's Flowers on Instagram"
+          >
+            <i class="fab fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
         <TheNavigation />
       </div>
     </div>
@@ -80,7 +98,33 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: var(--space-2);
   flex-shrink: 0;
+}
+
+.site-header__mobile-links {
+  display: none;
+}
+
+.site-header__mobile-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  text-decoration: none;
+  transition: color 0.25s ease, background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-header__mobile-links a:hover,
+.site-header__mobile-links a:focus-visible {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 991.98px) {
@@ -93,6 +137,25 @@ export default {
   .site-header__inner {
     gap: var(--space-3);
     padding-block: var(--space-2);
+  }
+
+  .site-nav {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .site-header__mobile-links {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .site-header__mobile-links a {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.85rem;
   }
 }
 </style>

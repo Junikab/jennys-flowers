@@ -41,12 +41,13 @@
               class="footer-text"
               ><i class="fab fa-instagram fa-lg"></i
             ></a>
-            <a
-              href="mailto:Jennysflowersau@gmail.com"
-              class="footer-text"
-              aria-label="Email Jennysflowersau@gmail.com"
-              ><i class="fas fa-envelope fa-lg"></i
-            ></a>
+            <CopyEmailButton
+              email="Jennysflowersau@gmail.com"
+              aria-label="Copy email address Jennysflowersau@gmail.com"
+              success-message="Email copied"
+            >
+              <i class="fas fa-envelope fa-lg"></i>
+            </CopyEmailButton>
           </div>
         </div>
       </div>
@@ -61,8 +62,13 @@
 </template>
 
 <script>
+import CopyEmailButton from '../ui/CopyEmailButton.vue'
+
 export default {
   name: 'TheFooter',
+  components: {
+    CopyEmailButton
+  },
   data() {
     return {
       dividerWidth: null
@@ -222,6 +228,7 @@ export default {
   align-items: center;
   gap: var(--space-3);
   margin-top: 0;
+  color: var(--color-bg);
 }
 
 .footer-bottom {
@@ -234,9 +241,18 @@ export default {
   text-align: left;
 }
 
-.social-links a {
+.social-links a,
+.social-links :deep(.copy-email__button) {
   font-size: 1.5rem;
   color: var(--color-bg);
+}
+
+.social-links :deep(.copy-email__message) {
+  color: var(--color-bg);
+}
+
+.social-links :deep(.copy-email__message--error) {
+  color: var(--color-accent-soft);
 }
 
 @media (max-width: 767.98px) {
