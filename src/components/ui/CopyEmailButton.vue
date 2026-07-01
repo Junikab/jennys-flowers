@@ -118,10 +118,8 @@ export default {
 
 <style scoped>
 .copy-email {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  position: relative;
+  display: inline-block;
 }
 
 .copy-email__button {
@@ -136,19 +134,32 @@ export default {
 }
 
 .copy-email__message {
-  color: var(--color-primary-dark);
-  font-size: 0.85rem;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.5rem);
+  z-index: 20;
+  min-width: max-content;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: var(--color-primary-dark);
+  color: var(--color-bg);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
   opacity: 0;
-  transform: translateY(-1px);
+  pointer-events: none;
+  transform: translate(-50%, 0.2rem);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .copy-email__message--visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
 }
 
 .copy-email__message--error {
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-primary-dark);
 }
 </style>
