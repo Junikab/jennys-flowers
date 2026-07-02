@@ -18,11 +18,11 @@
     <div class="price-guide-intro">
       <div class="page-panel price-guide-intro__panel">
         <div class="price-guide-intro__content">
-          <h2 class="section-title">Price Guide</h2>
+          <h2 class="section-title">Price Guide for {{ currentYear }}</h2>
           <p class="body-copy">
             For a personal quote, please fill out the form on our website with
             details about your event. Other fees may apply: delivery fee, setup
-            fee, hiring extra staff, or decorating if required.
+            fee, hiring extra staff or decorating if required.
           </p>
         </div>
       </div>
@@ -100,6 +100,11 @@ export default {
   components: {
     HeroSlideshow,
     PriceListCard
+  },
+  computed: {
+    currentYear() {
+      return new Date().getFullYear()
+    }
   },
   data() {
     return {

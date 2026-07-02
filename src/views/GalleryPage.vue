@@ -55,7 +55,6 @@ export default {
       galleryImages: getGalleryImages(),
       filters: [
         { label: 'All', value: 'all' },
-        { label: 'Weddings', value: 'weddings' },
         { label: 'Arrangements', value: 'arrangements' },
         { label: 'Fresh Flowers', value: 'fresh-flowers' },
         { label: 'Faux Flowers', value: 'faux-flowers' }

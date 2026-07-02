@@ -13,7 +13,7 @@
           <h5 class="section-title">Location</h5>
           <ul class="list-unstyled contact-text">
             <li>
-              Based in Ropes Crossing NSW 2760 <br />
+              Based in Western Sydney NSW 2760 <br />
               Servicing Sydney & Beyond
             </li>
           </ul>

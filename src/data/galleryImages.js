@@ -10,16 +10,6 @@ const galleryImages = [
     sortOrder: 10
   },
   {
-    id: 'home-orchid',
-    title: 'Orchid Arrangement',
-    src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchid_pv0c70.jpg',
-    publicId: 'Jennys Flowers/background/orchid_pv0c70',
-    alt: 'Orchid flowers',
-    sections: ['home'],
-    categories: ['arrangements', 'fresh-flowers'],
-    sortOrder: 20
-  },
-  {
     id: 'home-rusty',
     title: 'Rust Bouquet',
     src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rusty_lfwvkw.jpg',
@@ -67,7 +57,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/orchidsRing_n77azh',
     alt: 'Jenny with orchid ring',
     sections: ['contact'],
-    categories: ['portraits', 'weddings', 'fresh-flowers'],
+    categories: ['portraits', 'fresh-flowers'],
     sortOrder: 70
   },
   {
@@ -77,7 +67,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/rustyWedding_umxq9i',
     alt: 'Rustic wedding flowers',
     sections: ['contact'],
-    categories: ['weddings', 'arrangements', 'fresh-flowers'],
+    categories: ['arrangements', 'fresh-flowers'],
     sortOrder: 80
   },
   {
@@ -87,7 +77,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/background/blueBride_iayrfw',
     alt: 'Blue wedding bouquet',
     sections: ['contact'],
-    categories: ['weddings', 'bouquets', 'arrangements', 'fresh-flowers'],
+    categories: ['bouquets', 'arrangements', 'fresh-flowers'],
     sortOrder: 90
   },
   {
@@ -107,7 +97,7 @@ const galleryImages = [
     publicId: 'Jennys Flowers/fauxFlo/DSC09631_vnspci.jpg',
     alt: 'short image description',
     sections: ['home', 'contact-cover'],
-    categories: ['weddings', 'faux-flowers'],
+    categories: ['faux-flowers'],
     sortOrder: 110
   }
 ]
