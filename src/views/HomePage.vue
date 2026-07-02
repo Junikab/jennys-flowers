@@ -18,7 +18,7 @@
     <div class="price-guide-intro">
       <div class="page-panel price-guide-intro__panel">
         <div class="price-guide-intro__content">
-          <h2 class="section-title">Price Guide for {{ currentYear }}</h2>
+          <h2 class="section-title">Price Guides for {{ currentYear }}</h2>
           <p class="body-copy">
             For a personal quote, please fill out the form on our website with
             details about your event. Other fees may apply: delivery fee, setup
@@ -205,6 +205,12 @@ export default {
   order: 1;
 }
 
+.home-feature-card--image-right {
+  width: 100vw;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+}
+
 .home-feature-card__media {
   display: flex;
   align-items: center;
@@ -278,6 +284,18 @@ export default {
 
 .home-feature-card:hover .home-feature-card__content::before {
   transform: scale(1.03);
+}
+
+@media (min-width: 1200px) {
+  .home-feature-card__copy .section-title {
+    font-size: clamp(2rem, 2.4vw, 2.6rem);
+  }
+
+  .home-feature-card__link {
+    min-height: 3.2rem;
+    padding-inline: 1.4rem;
+    font-size: 1.05rem;
+  }
 }
 
 @media (max-width: 767.98px) {

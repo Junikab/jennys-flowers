@@ -19,6 +19,28 @@ const galleryImages = [
     categories: ['bouquets', 'arrangements', 'fresh-flowers'],
     sortOrder: 30
   },
+  // {
+  //   id: 'home-featured-dsc03697',
+  //   title: 'Featured Floral Arrangement',
+  //   src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782955810/Jennys%20Flowers/DSC03697_Large_kdpeu0.jpg',
+  //   publicId: 'Jennys Flowers/DSC03697_Large_kdpeu0',
+  //   alt: 'Featured floral arrangement',
+  //   sections: ['home'],
+  //   categories: ['arrangements', 'fresh-flowers'],
+  //   showInGallery: false,
+  //   sortOrder: 35
+  // },
+  {
+    id: 'home-featured-img-5343',
+    title: 'Featured Floral Detail',
+    src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782954647/Jennys%20Flowers/IMG_5343_ohdfp0.jpg',
+    publicId: 'Jennys Flowers/IMG_5343_ohdfp0',
+    alt: 'Featured floral detail',
+    sections: ['home'],
+    categories: ['arrangements', 'fresh-flowers'],
+    showInGallery: false,
+    sortOrder: 37
+  },
   {
     id: 'about-jenny-crown',
     title: 'Jenny Crown Portrait',
@@ -89,16 +111,6 @@ const galleryImages = [
     sections: ['contact'],
     categories: ['portraits', 'crowns', 'faux-flowers'],
     sortOrder: 100
-  },
-  {
-    id: 'cover-flints',
-    title: 'Event Flints',
-    src: 'https://res.cloudinary.com/djgi23npu/image/upload/v1782783559/Jennys%20Flowers/fauxFloers/DSC09631_vnspci.jpg',
-    publicId: 'Jennys Flowers/fauxFlo/DSC09631_vnspci.jpg',
-    alt: 'short image description',
-    sections: ['home', 'contact-cover'],
-    categories: ['faux-flowers'],
-    sortOrder: 110
   }
 ]
 
