@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build && gh-pages -d dist"
+    "lint:fix": "vue-cli-service lint --fix",
+    "deploy": "npm run build && gh-pages -d dist",
+    "cloudinary:export-folder": "node scripts/export-cloudinary-folder.js"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",

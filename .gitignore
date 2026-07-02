@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 #docs
 NOTES.md
+
+# local export files
+cloudinary-exports/

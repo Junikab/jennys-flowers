@@ -39,6 +39,7 @@
 <script>
 import GalleryGrid from '../components/gallery/GalleryGrid.vue'
 import LightboxModal from '../components/ui/LightboxModal.vue'
+import { galleryFilterOptions } from '../data/galleryCategories'
 import {
   getGalleryImages,
   getGalleryImagesByCategory
@@ -53,12 +54,7 @@ export default {
   data() {
     return {
       galleryImages: getGalleryImages(),
-      filters: [
-        { label: 'All', value: 'all' },
-        { label: 'Arrangements', value: 'arrangements' },
-        { label: 'Fresh Flowers', value: 'fresh-flowers' },
-        { label: 'Faux Flowers', value: 'faux-flowers' }
-      ],
+      filters: galleryFilterOptions,
       activeFilter: 'all',
       activeImageId: null
     }
