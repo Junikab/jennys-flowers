@@ -58,20 +58,16 @@
             ></textarea>
           </div>
           <div class="form-group form-group--recaptcha">
-            <div
-              ref="recaptcha"
-              class="g-recaptcha"
-              data-sitekey="6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC"
-            ></div>
-            <small v-if="recaptchaError" class="text-danger"
-              >Please complete the reCAPTCHA</small
-            >
+            <div ref="recaptcha" class="recaptcha-slot"></div>
+            <small v-if="recaptchaMessage" class="text-danger">{{
+              recaptchaMessage
+            }}</small>
           </div>
         </div>
         <button
           type="submit"
           class="pill-button submit-button"
-          :disabled="submitting"
+          :disabled="submitting || !recaptchaReady"
         >
           {{ submitting ? 'Sending...' : 'Send' }}
         </button>
@@ -84,6 +80,80 @@
 import axios from 'axios'
 import ThankYouPopup from '../ui/ThankYouPopup.vue'
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
+
+const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
+const RECAPTCHA_SCRIPT_ID = 'google-recaptcha-script'
+const RECAPTCHA_ONLOAD_CALLBACK = '__jennysFlowersRecaptchaOnload'
+
+let recaptchaApiPromise = null
+
+function waitForRecaptchaApi(timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const startedAt = Date.now()
+    const intervalId = window.setInterval(() => {
+      if (window.grecaptcha?.render) {
+        window.clearInterval(intervalId)
+        resolve(window.grecaptcha)
+        return
+      }
+
+      if (Date.now() - startedAt >= timeout) {
+        window.clearInterval(intervalId)
+        reject(new Error('reCAPTCHA API did not become available in time.'))
+      }
+    }, 50)
+  })
+}
+
+function loadRecaptchaApi() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return Promise.reject(
+      new Error('reCAPTCHA can only be loaded in a browser environment.')
+    )
+  }
+
+  if (window.grecaptcha?.render) {
+    return Promise.resolve(window.grecaptcha)
+  }
+
+  if (recaptchaApiPromise) {
+    return recaptchaApiPromise
+  }
+
+  recaptchaApiPromise = new Promise((resolve, reject) => {
+    const handleError = () => {
+      delete window[RECAPTCHA_ONLOAD_CALLBACK]
+      recaptchaApiPromise = null
+      reject(new Error('Failed to load the reCAPTCHA API.'))
+    }
+
+    const existingScript = document.getElementById(RECAPTCHA_SCRIPT_ID)
+    if (existingScript) {
+      waitForRecaptchaApi()
+        .then(resolve)
+        .catch((error) => {
+          recaptchaApiPromise = null
+          reject(error)
+        })
+      return
+    }
+
+    window[RECAPTCHA_ONLOAD_CALLBACK] = () => {
+      delete window[RECAPTCHA_ONLOAD_CALLBACK]
+      resolve(window.grecaptcha)
+    }
+
+    const script = document.createElement('script')
+    script.id = RECAPTCHA_SCRIPT_ID
+    script.src = `https://www.google.com/recaptcha/api.js?onload=${RECAPTCHA_ONLOAD_CALLBACK}&render=explicit`
+    script.async = true
+    script.defer = true
+    script.onerror = handleError
+    document.head.appendChild(script)
+  })
+
+  return recaptchaApiPromise
+}
 
 export default {
   name: 'ContactForm',
@@ -101,62 +171,75 @@ export default {
       },
       showThankYou: false,
       submitting: false,
-      recaptchaError: false
+      recaptchaMessage: '',
+      recaptchaReady: false,
+      recaptchaWidgetId: null
     }
   },
   mounted() {
-    const existingScript = document.getElementById('google-recaptcha-script')
-
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.id = 'google-recaptcha-script'
-      script.src = 'https://www.google.com/recaptcha/api.js'
-      script.async = true
-      script.defer = true
-      document.head.appendChild(script)
-    }
+    this.initializeRecaptcha()
   },
   methods: {
+    async initializeRecaptcha() {
+      try {
+        const grecaptcha = await loadRecaptchaApi()
+
+        if (!this.$refs.recaptcha || this.recaptchaWidgetId !== null) {
+          return
+        }
+
+        this.recaptchaWidgetId = grecaptcha.render(this.$refs.recaptcha, {
+          sitekey: RECAPTCHA_SITE_KEY,
+          callback: this.handleRecaptchaVerified,
+          'expired-callback': this.handleRecaptchaExpired,
+          'error-callback': this.handleRecaptchaError
+        })
+        this.recaptchaReady = true
+        this.recaptchaMessage = ''
+      } catch (error) {
+        console.error('Failed to initialize reCAPTCHA.', error)
+        this.recaptchaReady = false
+        this.recaptchaMessage =
+          'Security verification could not load. Please refresh and try again.'
+      }
+    },
+
     async submitForm() {
-      // Validate reCAPTCHA first
-      const recaptchaResponse = this.getRecaptchaResponse()
-      if (!recaptchaResponse) {
-        this.recaptchaError = true
+      if (!this.recaptchaReady || this.recaptchaWidgetId === null) {
+        this.recaptchaMessage =
+          'Security verification is still loading. Please wait a moment and try again.'
         return
       }
 
-      this.recaptchaError = false
+      const recaptchaResponse = this.getRecaptchaResponse()
+      if (!recaptchaResponse) {
+        this.recaptchaMessage = 'Please complete the reCAPTCHA.'
+        return
+      }
+
+      this.recaptchaMessage = ''
       this.submitting = true
 
       try {
         const formData = new FormData()
 
-        // Add all form fields
         Object.entries(this.formData).forEach(([key, value]) => {
           formData.append(key, value)
         })
 
-        // Add reCAPTCHA response
         formData.append('g-recaptcha-response', recaptchaResponse)
-
-        // Add FormSubmit specific fields
         formData.append('_captcha', 'false')
 
-        // Send to FormSubmit
         await axios.post(
           'https://formsubmit.co/ajax/Jennysflowersau@gmail.com',
           formData
         )
 
-        // Show thank you popup
         this.showThankYou = true
-
-        // Reset form
         this.resetForm()
 
-        // Reset reCAPTCHA
-        if (window.grecaptcha) {
-          window.grecaptcha.reset()
+        if (window.grecaptcha && this.recaptchaWidgetId !== null) {
+          window.grecaptcha.reset(this.recaptchaWidgetId)
         }
       } catch (error) {
         alert(
@@ -167,8 +250,29 @@ export default {
       }
     },
 
+    handleRecaptchaVerified() {
+      this.recaptchaMessage = ''
+    },
+
+    handleRecaptchaExpired() {
+      this.recaptchaMessage = 'Please complete the reCAPTCHA.'
+    },
+
+    handleRecaptchaError() {
+      this.recaptchaMessage =
+        'Security verification failed. Please refresh and try again.'
+    },
+
     getRecaptchaResponse() {
-      return window.grecaptcha ? window.grecaptcha.getResponse() : ''
+      if (!window.grecaptcha || this.recaptchaWidgetId === null) {
+        return ''
+      }
+
+      try {
+        return window.grecaptcha.getResponse(this.recaptchaWidgetId)
+      } catch {
+        return ''
+      }
     },
 
     resetForm() {
@@ -178,6 +282,7 @@ export default {
         email: '',
         message: ''
       }
+      this.recaptchaMessage = ''
     },
 
     closePopup() {
@@ -281,7 +386,7 @@ textarea.form-control {
   opacity: 0.8;
 }
 
-.g-recaptcha {
+.recaptcha-slot {
   transform-origin: left top;
 }
 
@@ -296,7 +401,7 @@ textarea.form-control {
 }
 
 @media (max-width: 430px) {
-  .g-recaptcha {
+  .recaptcha-slot {
     transform: scale(0.9);
   }
 }

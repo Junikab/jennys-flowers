@@ -8,8 +8,8 @@
       <div class="page-copy hero-copy">
         <div class="title-container">
           <p class="lead-copy">
-            We are here to fill your world with fresh blooms and vibrant
-            arrangements for every occasion.
+            From intimate gatherings to grand events, we create elegant florals
+            that leave a lasting impression.
           </p>
         </div>
       </div>
@@ -94,6 +94,7 @@ import HeroSlideshow from '../components/home/HeroSlideshow.vue'
 import PriceListCard from '../components/ui/PriceListCard.vue'
 import { getGalleryImagesBySection } from '../data/galleryImages'
 import { fauxWeddingPriceList, freshWeddingPriceList } from '../data/priceLists'
+import { getImageUrl } from '../plugins/cloudinary'
 
 export default {
   name: 'HomePage',
@@ -116,8 +117,9 @@ export default {
           category: 'fresh-flowers',
           mediaType: 'price-list',
           priceList: freshWeddingPriceList,
-          contentBackgroundImage:
-            'https://res.cloudinary.com/djgi23npu/image/upload/v1782868631/Jennys%20Flowers/background/blueHalf_tym2ts_g1pjwk.jpg',
+          contentBackgroundImage: getImageUrl(
+            'Jennys Flowers/background/blueHalf_tym2ts_g1pjwk'
+          ),
           imageSide: 'left'
         },
         {
@@ -126,8 +128,9 @@ export default {
           category: 'faux-flowers',
           mediaType: 'price-list',
           priceList: fauxWeddingPriceList,
-          contentBackgroundImage:
-            'https://res.cloudinary.com/djgi23npu/image/upload/v1782783562/Jennys%20Flowers/fauxFloers/DSC09654_tmebcp.jpg',
+          contentBackgroundImage: getImageUrl(
+            'Jennys Flowers/fauxFlowers/DSC09654_tmebcp'
+          ),
           imageSide: 'right'
         }
       ]

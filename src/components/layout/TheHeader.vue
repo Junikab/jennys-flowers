@@ -4,7 +4,7 @@
       <div class="site-branding">
         <router-link class="navbar-brand site-brand" to="/">
           <img
-            src="@/assets/images/logo/logoGreen.jpg"
+            src="@/assets/images/logo/logoChatGPT.png"
             alt="Jenny's Flowers Logo"
             height="150"
             class="site-logo d-inline-block align-text-top rounded-circle"
@@ -85,7 +85,7 @@ export default {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-5);
   min-width: 0;
 }
 
@@ -97,7 +97,8 @@ export default {
 .site-logo {
   height: clamp(5.75rem, 11vw, 9.4rem);
   width: auto;
-  box-shadow: var(--shadow-soft);
+  /* box-shadow: var(--shadow-soft); */
+  padding-left: 0.35rem;
 }
 
 .site-title {
