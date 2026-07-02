@@ -138,21 +138,16 @@ const fauxflowersImages = createGalleryImagesFromFolder('fauxFlowers', [
   { asset: 'IMG_5262_sne2cd', sortOrder: 250 },
   { asset: 'IMG_5267_hyy98x', sortOrder: 251 },
   { asset: 'IMG_5343_ohdfp0', sortOrder: 252 },
-  { asset: 'IMG_5850_a0ktuq', sortOrder: 253 }
+  {
+    asset: 'att.W7VGWGZY0E3n47_aF2g97uMDfVyGZLBfDTJvIF8_oJs_t0e42i',
+    sortOrder: 253
+  },
+  { asset: 'IMG_5850_a0ktuq', sortOrder: 254 },
+  {
+    asset: 'att.bqOOcV_Ni8xN2YY27eR_5I2L6JO67TWKnieTZOJsrnU_gjgxzn',
+    sortOrder: 255
+  }
 ])
-
-const fauxflowersBlueWeddingImages = createGalleryImagesFromFolder(
-  'fauxFlowers/Blue wedding',
-  [
-    { asset: 'DSC09371_mytqup', sortOrder: 261 },
-    { asset: 'DSC09372_cpwwz3', sortOrder: 262 },
-    { asset: 'DSC09376_bbty1w', sortOrder: 263 },
-    { asset: 'DSC09377_llyldx', sortOrder: 264 },
-    { asset: 'DSC09384_aefwsl', sortOrder: 265 },
-    { asset: 'DSC09388_p5zexj', sortOrder: 266 },
-    { asset: 'DSC09391_o0kbgn', sortOrder: 267 }
-  ]
-)
 
 const homeFeaturedImages = [
   createGalleryImage({
@@ -184,7 +179,6 @@ export const galleryImageCatalog = [
   ...homeFeaturedImages,
   ...jennysPortraitImages,
   // ...fauxGalleryImages,
-  ...fauxflowersImages,
-  ...fauxflowersBlueWeddingImages
+  ...fauxflowersImages
 ]
 export default galleryImageCatalog
