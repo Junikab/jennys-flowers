@@ -3,7 +3,7 @@
     <HeroSlideshow
       :images="galleryImages"
       :interval-ms="7000"
-      aria-label="Jenny's Flowers featured arrangements"
+      aria-label="Jenny's Flowers featured flowers"
     >
       <div class="page-copy hero-copy">
         <div class="title-container">

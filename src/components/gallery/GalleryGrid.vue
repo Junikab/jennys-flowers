@@ -6,7 +6,11 @@
       { 'gallery-grid--masonry': layoutMode === 'masonry' }
     ]"
   >
-    <div v-if="layoutMode === 'masonry'" class="gallery-masonry">
+    <div
+      v-if="layoutMode === 'masonry'"
+      ref="masonryGrid"
+      class="gallery-masonry"
+    >
       <figure
         v-for="(image, index) in images"
         :key="image.id || index"
@@ -15,7 +19,7 @@
         <button
           v-if="clickable"
           type="button"
-          class="gallery-image-trigger"
+          class="gallery-image-trigger gallery-tile-media"
           :aria-label="`Open ${image.title || image.alt}`"
           @click="selectImage(image, index)"
         >
@@ -26,6 +30,7 @@
             :loading="index === 0 ? 'eager' : 'lazy'"
             decoding="async"
             class="gallery-image gallery-image--masonry"
+            @load="scheduleMasonryLayout"
           />
         </button>
         <img
@@ -35,7 +40,8 @@
           :title="image.title || image.alt"
           :loading="index === 0 ? 'eager' : 'lazy'"
           decoding="async"
-          class="gallery-image gallery-image--masonry"
+          class="gallery-image gallery-image--masonry gallery-tile-media"
+          @load="scheduleMasonryLayout"
         />
       </figure>
     </div>
@@ -79,6 +85,10 @@
 </template>
 
 <script>
+import { nextTick } from 'vue'
+
+const DEFAULT_MASONRY_ROW_HEIGHT = 8
+
 export default {
   name: 'GalleryGrid',
   emits: ['select'],
@@ -108,7 +118,78 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      masonryFrame: null
+    }
+  },
+  watch: {
+    images() {
+      this.scheduleMasonryLayout()
+    },
+    layoutMode() {
+      this.scheduleMasonryLayout()
+    }
+  },
+  mounted() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.scheduleMasonryLayout, {
+        passive: true
+      })
+    }
+
+    this.scheduleMasonryLayout()
+  },
+  beforeUnmount() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.scheduleMasonryLayout)
+      window.cancelAnimationFrame(this.masonryFrame)
+    }
+  },
   methods: {
+    scheduleMasonryLayout() {
+      if (typeof window === 'undefined' || this.layoutMode !== 'masonry') {
+        return
+      }
+
+      window.cancelAnimationFrame(this.masonryFrame)
+      this.masonryFrame = window.requestAnimationFrame(() => {
+        nextTick(() => {
+          this.updateMasonryLayout()
+        })
+      })
+    },
+    updateMasonryLayout() {
+      const grid = this.$refs.masonryGrid
+
+      if (!grid) {
+        return
+      }
+
+      const styles = window.getComputedStyle(grid)
+      const rowHeight =
+        Number.parseFloat(
+          styles.getPropertyValue('--gallery-masonry-row-height')
+        ) || DEFAULT_MASONRY_ROW_HEIGHT
+      const rowGap = Number.parseFloat(styles.rowGap) || 0
+      const tileElements = grid.querySelectorAll('.gallery-tile--masonry')
+
+      tileElements.forEach((tileElement) => {
+        const mediaElement = tileElement.querySelector('.gallery-tile-media')
+
+        if (!mediaElement) {
+          return
+        }
+
+        const mediaHeight = mediaElement.getBoundingClientRect().height
+        const span = Math.max(
+          1,
+          Math.ceil((mediaHeight + rowGap) / (rowHeight + rowGap))
+        )
+
+        tileElement.style.gridRowEnd = `span ${span}`
+      })
+    },
     selectImage(image, index) {
       if (!this.clickable) {
         return
@@ -141,8 +222,12 @@ export default {
 }
 
 .gallery-masonry {
-  column-count: 2;
-  column-gap: 0.45rem;
+  --gallery-masonry-row-height: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: var(--gallery-masonry-row-height);
+  gap: 0.45rem;
+  align-items: start;
 }
 
 .gallery-image-trigger {
@@ -160,8 +245,8 @@ export default {
 }
 
 .gallery-tile--masonry {
-  break-inside: avoid;
-  margin-bottom: 0.45rem;
+  grid-row-end: span 1;
+  margin-bottom: 0;
   overflow: hidden;
   aspect-ratio: auto;
   border-radius: var(--radius-panel);
@@ -178,6 +263,7 @@ export default {
 }
 
 .gallery-image--masonry {
+  width: 100%;
   height: auto;
   object-fit: contain;
 }
@@ -188,13 +274,13 @@ export default {
 
 @media (min-width: 900px) {
   .gallery-masonry {
-    column-count: 3;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1200px) {
   .gallery-masonry {
-    column-count: 4;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 </style>

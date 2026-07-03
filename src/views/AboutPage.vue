@@ -14,9 +14,8 @@
               left a lasting impression on me. <br />That early connection grew
               into a true passion. I've always been fascinated by how many
               emotions flowers can carry—how something so delicate can be both
-              traditional and bold, timeless and deeply personal. Every
-              arrangement feels like a new opportunity to create something
-              meaningful.
+              traditional and bold, timeless and deeply personal. Every floral
+              piece feels like a new opportunity to create something meaningful.
             </p>
           </div>
 

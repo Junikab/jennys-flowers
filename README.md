@@ -1,25 +1,19 @@
 # Jenny's Flowers
 
-Light Vue 3 site for Jenny's Flowers.
-This branch was updated heavily between June 28, 2026 and July 2, 2026.
+Updated July 3, 2026.
 
-## Current branch highlights
+## What This Repo Is
 
-- warm brand palette and shared design tokens
-- responsive header and footer updates
-- copy-email button in header, footer, and contact form
-- home hero slideshow with progress bar
-- home price guide intro and reusable price list cards
-- gallery masonry layout, filters, lightbox preview, keyboard arrows, and mobile swipe
-- flexible About page image and text block
-- contact hero background image driven by gallery data
-- scroll-to-top button
-- Cloudinary image catalog helpers and local export script
+- Vue 3 static website
+- pages:
+  - Home
+  - About
+  - Gallery
+  - Contact
+- images hosted on Cloudinary
+- contact form uses browser reCAPTCHA + direct FormSubmit
 
-## Setup
-
-Recommended:
-- Node 18 LTS
+## Quick Start
 
 Install:
 
@@ -27,16 +21,10 @@ Install:
 npm install
 ```
 
-Run locally:
+Run local dev:
 
 ```bash
 npm run serve
-```
-
-Build:
-
-```bash
-npm run build
 ```
 
 Lint:
@@ -45,23 +33,36 @@ Lint:
 npm run lint
 ```
 
-Auto-fix formatting:
+Build:
 
 ```bash
-npm run lint:fix
+npm run build
 ```
 
-Deploy the static site:
+Deploy:
 
 ```bash
 npm run deploy
 ```
 
-## Cloudinary export workflow
+## Most Important Rules
 
-There is now a local export script for pulling asset lists from Cloudinary.
+- the real image list is `src/data/galleryCatalog.js`
+- the gallery now uses only:
+  - `all`
+  - `fresh-flowers`
+  - `faux-flowers`
+- the old `arrangements` category is gone
+- use these sort ranges:
+  - faux = `200+`
+  - fresh = `500+`
+- `cloudinary-exports/` files are helper files only
+- the contact form is still front-end only
+
+## Cloudinary Export Workflow
 
 Create:
+
 - `.env.cloudinary.local`
 
 Add:
@@ -72,54 +73,62 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-Export the full `Jennys Flowers` folder tree:
+Export the full project tree:
 
 ```bash
 npm run cloudinary:export-folder
 ```
 
-Export only one branch:
+Export one folder:
 
 ```bash
 npm run cloudinary:export-folder -- --folder="fauxFlowers"
 ```
 
-This creates local files in:
-- `cloudinary-exports/`
+Export one subfolder:
 
-Those export files are ignored by git.
+```bash
+npm run cloudinary:export-folder -- --folder="fauxFlowers/Blue wedding"
+```
 
-## Common workflows
+Important:
 
-### Add gallery photos fast
+- the script can auto-pick the next highest `sortOrder`
+- but for this project, manual `--sort-start` is often better
+- this helps keep faux images in the `200+` range and fresh images in the `500+` range
 
-1. Export the folder tree from Cloudinary.
-2. Open the generated `.snippet.js` file.
-3. Copy only the blocks you really need into `src/data/galleryCatalog.js`.
-4. Remove duplicates before keeping them.
-5. Run `npm run lint:fix`.
+## Add Gallery Photos Fast
 
-### Check the site before publish
+1. Run the Cloudinary export
+2. Open the generated `.snippet.js`
+3. Copy only the lines you need into `src/data/galleryCatalog.js`
+4. Set or check the `sortOrder`
+5. Run `npm run lint`
+6. Refresh localhost and check the result
+
+If you added only a few photos:
+
+- if possible, keep them in a new Cloudinary subfolder
+- export only that subfolder
+- if they are mixed with old photos, export the folder again and copy only the new lines
+
+## Before Publish
 
 1. Run `npm run lint`
 2. Run `npm run build`
 3. Check Home, About, Gallery, and Contact
 4. Check gallery filters and lightbox
 5. Check the contact form
-6. Check mobile header and footer
+6. Check the mobile header and footer
 
-## Important current notes
-
-- The current contact form posts directly to FormSubmit from the browser.
-- reCAPTCHA is loaded and checked in the browser only.
-- There is no local backend endpoint in this branch right now.
-- Cloudinary exports can include duplicates, odd attachment-like files, and HEIC images. Review before pasting into the catalog.
-
-## Repo docs
+## Project Docs
 
 - `README.md`
-  Quick setup and workflow notes.
+  - quick start
 - `NOTES.md`
-  Main codebase guide and architecture notes.
+  - simple memory guide for the whole project
 - `PLAN.md`
-  Current branch status and next-step checklist.
+  - current stable state and next checks
+- `IDEAS.md`
+  - future improvements
+

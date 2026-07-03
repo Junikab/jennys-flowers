@@ -5,6 +5,10 @@ const ROOT_FOLDER = 'Jennys Flowers'
 const DEFAULT_FOLDER = ROOT_FOLDER
 const DEFAULT_SORT_START = 200
 const DEFAULT_MAX_RESULTS = 500
+const GALLERY_CATALOG_PATH = path.join(
+  process.cwd(),
+  'src/data/galleryCatalog.js'
+)
 const DEFAULT_FIELDS = [
   'public_id',
   'asset_folder',
@@ -263,6 +267,35 @@ ${exportLines}
 `
 }
 
+function getExistingSortOrders(catalogContents) {
+  const sortOrderPattern = /sortOrder:\s*(\d+)/g
+  const sortOrders = []
+  let match = sortOrderPattern.exec(catalogContents)
+
+  while (match) {
+    sortOrders.push(Number(match[1]))
+    match = sortOrderPattern.exec(catalogContents)
+  }
+
+  return sortOrders.filter(Number.isFinite)
+}
+
+function getDefaultSortStart() {
+  if (!fs.existsSync(GALLERY_CATALOG_PATH)) {
+    return DEFAULT_SORT_START
+  }
+
+  const catalogContents = fs.readFileSync(GALLERY_CATALOG_PATH, 'utf8')
+  const existingSortOrders = getExistingSortOrders(catalogContents)
+
+  if (!existingSortOrders.length) {
+    return DEFAULT_SORT_START
+  }
+
+  const highestSortOrder = Math.max(...existingSortOrders)
+  return Math.max(highestSortOrder + 1, DEFAULT_SORT_START)
+}
+
 async function fetchCloudinaryAssets({
   cloudName,
   apiKey,
@@ -323,7 +356,10 @@ async function main() {
   const apiSecret = env.CLOUDINARY_API_SECRET
   const folderPath = normalizeFolderInput(args.folder)
   const recursive = args.recursive !== 'false'
-  const sortStart = Number(args['sort-start'] || DEFAULT_SORT_START)
+  const hasCustomSortStart = typeof args['sort-start'] !== 'undefined'
+  const sortStart = hasCustomSortStart
+    ? Number(args['sort-start'])
+    : getDefaultSortStart()
   const maxResults = Number(args['max-results'] || DEFAULT_MAX_RESULTS)
   const outputDirectory = path.join(process.cwd(), 'cloudinary-exports')
   const folderSlug = toFileSafeSlug(toRelativeFolder(folderPath))
@@ -364,6 +400,9 @@ async function main() {
 
   console.log(`Cloudinary export complete for: ${folderPath}`)
   console.log(`Images found: ${assets.length}`)
+  console.log(
+    `Sort order start: ${sortStart}${hasCustomSortStart ? ' (manual)' : ' (auto from galleryCatalog.js)'}`
+  )
   console.log(`JSON file: ${path.relative(process.cwd(), jsonOutputPath)}`)
   console.log(`Snippet file: ${path.relative(process.cwd(), snippetOutputPath)}`)
 }

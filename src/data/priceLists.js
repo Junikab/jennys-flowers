@@ -43,7 +43,7 @@ export const freshWeddingPriceList = {
     {
       title: 'Ceremony Flowers',
       price: 'From $1000',
-      note: 'Floral arrangements for arches, plinths, and urns.'
+      note: 'Flowers for arches, plinths, and urns.'
     }
   ]
 }
@@ -93,7 +93,7 @@ export const fauxWeddingPriceList = {
     {
       title: 'Flowers for Ceremony',
       price: 'From $500',
-      note: 'Flower arrangements on arch, plinths, urns.'
+      note: 'Flowers on arch, plinths, urns.'
     }
   ]
 }

@@ -10,35 +10,8 @@ const backgroundImages = createGalleryImagesFromFolder('background', [
     asset: 'rusty_lfwvkw',
     alt: 'Rust-colored bouquet',
     sections: ['home'],
-    categories: ['arrangements', 'fresh-flowers'],
-    sortOrder: 30
-  },
-  {
-    id: 'contact-orchid-ring',
-    title: 'Orchid Ring Portrait',
-    asset: 'orchidsRing_n77azh',
-    alt: 'Jenny with orchid ring',
-    sections: ['contact'],
     categories: ['fresh-flowers'],
-    sortOrder: 70
-  },
-  {
-    id: 'contact-rusty-wedding',
-    title: 'Rustic Wedding Flowers',
-    asset: 'rustyWedding_umxq9i',
-    alt: 'Rustic wedding flowers',
-    sections: ['contact'],
-    categories: ['arrangements', 'fresh-flowers'],
-    sortOrder: 80
-  },
-  {
-    id: 'contact-blue-bride',
-    title: 'Blue Bridal Bouquet',
-    asset: 'blueBride_iayrfw',
-    alt: 'Blue wedding bouquet',
-    sections: ['contact'],
-    categories: ['arrangements', 'fresh-flowers'],
-    sortOrder: 90
+    sortOrder: 30
   }
 ])
 
@@ -149,6 +122,61 @@ const fauxflowersImages = createGalleryImagesFromFolder('fauxFlowers', [
   }
 ])
 
+// FRESH FLOWERS GALLERY
+
+const freshflowersImages = createGalleryImagesFromFolder('freshFlowers', [
+  { asset: 'blueBride_iayrfw', sortOrder: 519 },
+  { asset: 'blueHalf_tym2ts', sortOrder: 520 },
+  { asset: 'crownCloseUp_ggnqwv', sortOrder: 521 },
+  { asset: 'DSC09679_t30dvt', sortOrder: 522 },
+  { asset: 'DSC09682_r4brfq', sortOrder: 523 },
+  { asset: 'DSC09765_leq60o', sortOrder: 524 },
+  { asset: 'DSC09766_td3oxt', sortOrder: 525 },
+  { asset: 'DSC09767_genrfx', sortOrder: 526 },
+  { asset: 'DSC09770_obfszz', sortOrder: 527 },
+  { asset: 'DSC09772_c210gw', sortOrder: 528 },
+  { asset: 'DSC09773_beggd6', sortOrder: 529 },
+  { asset: 'halfRusty_uqtt7o', sortOrder: 530 },
+  { asset: 'jennyOrchidRing_qx5jnn', sortOrder: 531 },
+  { asset: 'orchidsRing_n77azh', sortOrder: 532 },
+  { asset: 'orcidCrown_ozzisb', sortOrder: 533 },
+  { asset: 'roseBunchRusty_rstrtu', sortOrder: 534 },
+  { asset: 'rusty1_yuuit5', sortOrder: 535 },
+  { asset: 'rustyWedding_umxq9i', sortOrder: 536 },
+  { asset: 'small_reyr7k', sortOrder: 537 },
+  { asset: 'twoRosesSmall_cves1q', sortOrder: 538 }
+])
+const freshflowersBlueweddingImages = createGalleryImagesFromFolder(
+  'freshFlowers/blueWedding',
+  [
+    { asset: 'DSC09371_mytqup', sortOrder: 500 },
+    { asset: 'DSC09372_cpwwz3', sortOrder: 501 },
+    { asset: 'DSC09376_bbty1w', sortOrder: 502 },
+    { asset: 'DSC09377_llyldx', sortOrder: 503 },
+    { asset: 'DSC09384_aefwsl', sortOrder: 504 },
+    { asset: 'DSC09388_p5zexj', sortOrder: 505 },
+    { asset: 'DSC09391_o0kbgn', sortOrder: 506 }
+  ]
+)
+
+const freshflowersChristmasImages = createGalleryImagesFromFolder(
+  'freshFlowers/christmas',
+  [
+    { asset: 'DSC09354_wgfavs', sortOrder: 507 },
+    { asset: 'DSC09360_krrvdv', sortOrder: 508 },
+    { asset: 'DSC09363_fsugjq', sortOrder: 509 },
+    { asset: 'DSC09455_dwx1nd', sortOrder: 510 },
+    { asset: 'DSC09455_z6h8iz', sortOrder: 511 },
+    { asset: 'DSC09458_akavst', sortOrder: 512 },
+    { asset: 'DSC09459_mzzzgr', sortOrder: 513 },
+    { asset: 'DSC09459_yxekk7', sortOrder: 514 },
+    { asset: 'DSC09461_syhnjb', sortOrder: 515 },
+    { asset: 'DSC09465_zbpvjd', sortOrder: 516 },
+    { asset: 'DSC09467_rgelep', sortOrder: 517 },
+    { asset: 'DSC09472_vahipg', sortOrder: 518 }
+  ]
+)
+
 const homeFeaturedImages = [
   createGalleryImage({
     id: 'home-featured-img-5343',
@@ -157,7 +185,7 @@ const homeFeaturedImages = [
       'https://res.cloudinary.com/djgi23npu/image/upload/v1782954647/Jennys%20Flowers/fauxFlowers/IMG_5343_ohdfp0.jpg',
     alt: 'Featured floral detail',
     sections: ['home'],
-    categories: ['arrangements', 'fresh-flowers'],
+    categories: ['fresh-flowers'],
     showInGallery: false,
     sortOrder: 37
   }),
@@ -168,7 +196,7 @@ const homeFeaturedImages = [
       'https://res.cloudinary.com/djgi23npu/image/upload/v1782966254/Jennys%20Flowers/background/DSC09631_mniyfv.jpg',
     alt: 'Plinths',
     sections: ['contact-cover'],
-    categories: ['arrangements', 'faux-flowers'],
+    categories: ['faux-flowers'],
     showInGallery: true,
     sortOrder: 38
   })
@@ -178,7 +206,9 @@ export const galleryImageCatalog = [
   ...backgroundImages,
   ...homeFeaturedImages,
   ...jennysPortraitImages,
-  // ...fauxGalleryImages,
-  ...fauxflowersImages
+  ...fauxflowersImages,
+  ...freshflowersImages,
+  ...freshflowersBlueweddingImages,
+  ...freshflowersChristmasImages
 ]
 export default galleryImageCatalog
