@@ -45,6 +45,18 @@ Deploy:
 npm run deploy
 ```
 
+Staging deploy:
+
+```bash
+npm run deploy:staging
+```
+
+Production deploy:
+
+```bash
+npm run deploy:prod
+```
+
 ## Most Important Rules
 
 - the real image list is `src/data/galleryCatalog.js`
@@ -131,4 +143,3 @@ If you added only a few photos:
   - current stable state and next checks
 - `IDEAS.md`
   - future improvements
-
