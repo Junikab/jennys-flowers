@@ -51,6 +51,8 @@ Staging deploy:
 npm run deploy:staging
 ```
 
+This staging deploy always writes a small metadata file first, so GitHub Pages gets a fresh deploy attempt even if the built app files did not change.
+
 Production deploy:
 
 ```bash

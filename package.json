@@ -9,7 +9,7 @@
     "lint:fix": "vue-cli-service lint --fix",
     "deploy": "npm run deploy:prod",
     "deploy:prod": "npm run build && gh-pages -d dist",
-    "deploy:staging": "npm run build && node scripts/remove-dist-cname.js && gh-pages -d dist -r git@github.com:Junikab/Junikab.github.io.git -b gh-pages",
+    "deploy:staging": "npm run build && node scripts/remove-dist-cname.js && node scripts/write-staging-deploy-meta.js && gh-pages -d dist -r git@github.com:Junikab/Junikab.github.io.git -b gh-pages",
     "cloudinary:export-folder": "node scripts/export-cloudinary-folder.js"
   },
   "dependencies": {
