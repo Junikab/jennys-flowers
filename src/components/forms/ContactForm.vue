@@ -4,57 +4,70 @@
     <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
       <CopyEmailButton
-        email="Jennysflowersau@gmail.com"
-        aria-label="Copy email address Jennysflowersau@gmail.com"
+        :email="contactConfig.email"
+        :aria-label="contactConfig.copyEmailAriaLabel"
         button-class="contact-email-link"
       />
     </p>
     <div>
-      <form @submit.prevent="submitForm" class="contact-form">
+      <form ref="contactForm" @submit.prevent="submitForm" class="contact-form">
         <div class="client-info text-start">
           <div class="form-group">
             <label for="name" class="form-label">Name *</label>
             <input
+              ref="nameField"
               type="text"
               name="name"
               v-model="formData.name"
               class="form-control"
               id="name"
+              autocomplete="name"
               required
+              @input="clearFieldValidity('nameField')"
             />
           </div>
           <div class="form-group">
             <label for="tel" class="form-label">Phone</label>
             <input
+              ref="phoneField"
               type="tel"
               name="phone"
               v-model="formData.phone"
               class="form-control"
               id="tel"
+              inputmode="numeric"
+              autocomplete="tel"
+              maxlength="15"
+              @input="handlePhoneInput"
             />
           </div>
           <div class="form-group form-group--spacious">
             <label for="email" class="form-label">Email address *</label>
             <input
+              ref="emailField"
               type="email"
               name="email"
               v-model="formData.email"
               class="form-control"
               id="email"
               placeholder="name@example.com"
+              autocomplete="email"
               required
+              @input="clearFieldValidity('emailField')"
             />
           </div>
 
           <div class="form-group">
             <label for="message" class="form-label">Message *</label>
             <textarea
+              ref="messageField"
               class="form-control"
               name="message"
               v-model="formData.message"
               id="message"
               rows="3"
               required
+              @input="clearFieldValidity('messageField')"
             ></textarea>
           </div>
           <div class="form-group form-group--recaptcha">
@@ -80,6 +93,7 @@
 import axios from 'axios'
 import ThankYouPopup from '../ui/ThankYouPopup.vue'
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
+import { getContactConfig } from '../../data/contactDetails'
 
 const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
 const RECAPTCHA_SCRIPT_ID = 'google-recaptcha-script'
@@ -176,6 +190,11 @@ export default {
       recaptchaWidgetId: null
     }
   },
+  computed: {
+    contactConfig() {
+      return getContactConfig()
+    }
+  },
   mounted() {
     this.initializeRecaptcha()
   },
@@ -205,6 +224,10 @@ export default {
     },
 
     async submitForm() {
+      if (!this.validateForm()) {
+        return
+      }
+
       if (!this.recaptchaReady || this.recaptchaWidgetId === null) {
         this.recaptchaMessage =
           'Security verification is still loading. Please wait a moment and try again.'
@@ -230,10 +253,7 @@ export default {
         formData.append('g-recaptcha-response', recaptchaResponse)
         formData.append('_captcha', 'false')
 
-        await axios.post(
-          'https://formsubmit.co/ajax/Jennysflowersau@gmail.com',
-          formData
-        )
+        await axios.post(this.contactConfig.formSubmitUrl, formData)
 
         this.showThankYou = true
         this.resetForm()
@@ -261,6 +281,85 @@ export default {
     handleRecaptchaError() {
       this.recaptchaMessage =
         'Security verification failed. Please refresh and try again.'
+    },
+
+    clearFieldValidity(fieldRefName) {
+      const field = this.$refs[fieldRefName]
+
+      if (!field?.setCustomValidity) {
+        return
+      }
+
+      field.setCustomValidity('')
+    },
+
+    handlePhoneInput(event) {
+      const digitsOnly = event.target.value.replace(/\D+/g, '').slice(0, 15)
+      this.formData.phone = digitsOnly
+      this.clearFieldValidity('phoneField')
+    },
+
+    hasMeaningfulText(value) {
+      return value.trim().length > 0
+    },
+
+    isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+    },
+
+    isValidPhone(value) {
+      return value === '' || /^\d{8,15}$/.test(value)
+    },
+
+    validateForm() {
+      this.formData = {
+        name: this.formData.name.trim(),
+        phone: this.formData.phone.trim(),
+        email: this.formData.email.trim(),
+        message: this.formData.message.trim()
+      }
+
+      const validations = [
+        {
+          refName: 'nameField',
+          isValid: this.hasMeaningfulText(this.formData.name),
+          message: 'Please enter your name.'
+        },
+        {
+          refName: 'emailField',
+          isValid: this.isValidEmail(this.formData.email),
+          message: 'Please enter a valid email address.'
+        },
+        {
+          refName: 'phoneField',
+          isValid: this.isValidPhone(this.formData.phone),
+          message: 'Phone number must contain 8 to 15 digits only.'
+        },
+        {
+          refName: 'messageField',
+          isValid: this.hasMeaningfulText(this.formData.message),
+          message: 'Please enter a message.'
+        }
+      ]
+
+      validations.forEach(({ refName, isValid, message }) => {
+        const field = this.$refs[refName]
+
+        if (!field?.setCustomValidity) {
+          return
+        }
+
+        field.setCustomValidity(isValid ? '' : message)
+      })
+
+      const form = this.$refs.contactForm
+
+      if (!form?.checkValidity()) {
+        form?.reportValidity()
+        return false
+      }
+
+      return true
     },
 
     getRecaptchaResponse() {

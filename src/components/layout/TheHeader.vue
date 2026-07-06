@@ -36,8 +36,8 @@
             <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
           <CopyEmailButton
-            email="Jennysflowersau@gmail.com"
-            aria-label="Copy email address Jennysflowersau@gmail.com"
+            :email="contactConfig.email"
+            :aria-label="contactConfig.copyEmailAriaLabel"
             success-message="Email copied"
           >
             <i class="fas fa-envelope" aria-hidden="true"></i>
@@ -52,11 +52,18 @@
 <script>
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
 import TheNavigation from './TheNavigation.vue'
+import { getContactConfig } from '../../data/contactDetails'
+
 export default {
   name: 'TheHeader',
   components: {
     CopyEmailButton,
     TheNavigation
+  },
+  computed: {
+    contactConfig() {
+      return getContactConfig()
+    }
   }
 }
 </script>
