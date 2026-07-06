@@ -85,7 +85,10 @@ export default {
 .price-list-card {
   width: 100%;
   height: 100%;
-  padding: clamp(1.35rem, 2vw, 2rem);
+  /* padding: clamp(1.35rem, 2vw, 2rem); */
+  padding-block: clamp(1.35rem, 2vw, 2rem);
+  padding-inline: clamp(1.15rem, 1.7vw, 1.8rem);
+  padding-inline-start: clamp(1.6rem, 2.6vw, 2.4rem);
   text-align: left;
   background: radial-gradient(
       circle at top left,
@@ -214,6 +217,9 @@ export default {
 @media (max-width: 575.98px) {
   .price-list-card {
     padding: 1rem;
+    padding-block: 1rem;
+    padding-inline: 0.9rem;
+    padding-inline-start: 1.2rem;
   }
 
   .price-list-card__header {

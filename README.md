@@ -68,6 +68,8 @@ npm run deploy:prod
 - use these sort ranges:
   - faux = `200+`
   - fresh = `500+`
+- normal gallery imports do not need manual `id`
+- special page images can use manual `id`
 - `cloudinary-exports/` files are helper files only
 - the contact form is still front-end only
 
@@ -137,6 +139,8 @@ If you added only a few photos:
 
 - `README.md`
   - quick start
+- `WORKFLOW.md`
+  - simple day-to-day dev, staging, and production flow
 - `NOTES.md`
   - simple memory guide for the whole project
 - `PLAN.md`

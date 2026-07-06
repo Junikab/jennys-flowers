@@ -48,7 +48,7 @@ function humanizePublicId(publicId) {
 }
 
 function buildImageId(publicId, fallbackTitle = '') {
-  const baseValue = fallbackTitle || publicId
+  const baseValue = publicId || fallbackTitle
 
   return baseValue
     .toLowerCase()

@@ -43,15 +43,6 @@ const jennysPortraitImages = createGalleryImagesFromFolder('jennysPhotos', [
     sections: [],
     categories: ['fresh-flowers'],
     sortOrder: 60
-  },
-  {
-    id: 'contact-jenny-crown',
-    title: 'Jenny Flower Crown',
-    asset: 'jennyCrown1_a6sshy',
-    alt: 'Jenny with flower crown',
-    sections: ['contact'],
-    categories: ['fresh-flowers'],
-    sortOrder: 100
   }
 ])
 const fauxflowersImages = createGalleryImagesFromFolder('fauxFlowers', [
@@ -166,13 +157,10 @@ const freshflowersChristmasImages = createGalleryImagesFromFolder(
     { asset: 'DSC09360_krrvdv', sortOrder: 508 },
     { asset: 'DSC09363_fsugjq', sortOrder: 509 },
     { asset: 'DSC09455_dwx1nd', sortOrder: 510 },
-    { asset: 'DSC09455_z6h8iz', sortOrder: 511 },
     { asset: 'DSC09458_akavst', sortOrder: 512 },
     { asset: 'DSC09459_mzzzgr', sortOrder: 513 },
-    { asset: 'DSC09459_yxekk7', sortOrder: 514 },
     { asset: 'DSC09461_syhnjb', sortOrder: 515 },
     { asset: 'DSC09465_zbpvjd', sortOrder: 516 },
-    { asset: 'DSC09467_rgelep', sortOrder: 517 },
     { asset: 'DSC09472_vahipg', sortOrder: 518 }
   ]
 )

@@ -20,9 +20,16 @@
         <div class="price-guide-intro__content">
           <h2 class="section-title">Price Guides for {{ currentYear }}</h2>
           <p class="body-copy">
-            For a personal quote, please fill out the form on our website with
-            details about your event. Other fees may apply: delivery fee, setup
-            fee, hiring extra staff or decorating if required.
+            For a personal quote, please fill out
+            <router-link to="/contact" class="price-guide-intro__contact-link"
+              >the form</router-link
+            >
+            on our website with details about your event.
+            <span class="price-guide-intro__fees-accent"
+              >Other fees may apply:</span
+            >
+            delivery fee, setup fee, hiring extra staff or decorating if
+            required.
           </p>
         </div>
       </div>
@@ -129,7 +136,7 @@ export default {
           mediaType: 'price-list',
           priceList: fauxWeddingPriceList,
           contentBackgroundImage: getImageUrl(
-            'Jennys Flowers/fauxFlowers/DSC09654_tmebcp'
+            'Jennys Flowers/fauxFlowers/DSC09654_mil2mz'
           ),
           imageSide: 'right'
         }
@@ -181,6 +188,29 @@ export default {
 .price-guide-intro__content .section-title,
 .price-guide-intro__content .body-copy {
   margin: 0;
+}
+
+.price-guide-intro__contact-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.08rem 0.16rem;
+  margin-inline: 0.04rem;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.14em;
+}
+
+.price-guide-intro__contact-link:hover,
+.price-guide-intro__contact-link:focus-visible {
+  color: var(--color-primary);
+  text-decoration-color: currentColor;
+}
+
+.price-guide-intro__fees-accent {
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .home-feature-list {
