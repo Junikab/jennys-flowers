@@ -12,6 +12,17 @@
     <div>
       <form ref="contactForm" @submit.prevent="submitForm" class="contact-form">
         <div class="client-info text-start">
+          <div class="contact-form__honeypot" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              id="website"
+              type="text"
+              name="website"
+              v-model="formData.website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
           <div class="form-group">
             <label for="name" class="form-label">Name *</label>
             <input
@@ -22,6 +33,7 @@
               class="form-control"
               id="name"
               autocomplete="name"
+              maxlength="100"
               required
               @input="clearFieldValidity('nameField')"
             />
@@ -52,6 +64,7 @@
               id="email"
               placeholder="name@example.com"
               autocomplete="email"
+              maxlength="254"
               required
               @input="clearFieldValidity('emailField')"
             />
@@ -66,6 +79,7 @@
               v-model="formData.message"
               id="message"
               rows="3"
+              maxlength="2000"
               required
               @input="clearFieldValidity('messageField')"
             ></textarea>
@@ -76,6 +90,9 @@
               recaptchaMessage
             }}</small>
           </div>
+          <p v-if="submissionError" class="contact-form__error" role="alert">
+            {{ submissionError }}
+          </p>
         </div>
         <button
           type="submit"
@@ -90,7 +107,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ThankYouPopup from '../ui/ThankYouPopup.vue'
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
 import { getContactConfig } from '../../data/contactDetails'
@@ -98,6 +114,9 @@ import { getContactConfig } from '../../data/contactDetails'
 const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
 const RECAPTCHA_SCRIPT_ID = 'google-recaptcha-script'
 const RECAPTCHA_ONLOAD_CALLBACK = '__jennysFlowersRecaptchaOnload'
+const MAX_NAME_LENGTH = 100
+const MAX_EMAIL_LENGTH = 254
+const MAX_MESSAGE_LENGTH = 2000
 
 let recaptchaApiPromise = null
 
@@ -181,10 +200,12 @@ export default {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       },
       showThankYou: false,
       submitting: false,
+      submissionError: '',
       recaptchaMessage: '',
       recaptchaReady: false,
       recaptchaWidgetId: null
@@ -215,8 +236,7 @@ export default {
         })
         this.recaptchaReady = true
         this.recaptchaMessage = ''
-      } catch (error) {
-        console.error('Failed to initialize reCAPTCHA.', error)
+      } catch {
         this.recaptchaReady = false
         this.recaptchaMessage =
           'Security verification could not load. Please refresh and try again.'
@@ -241,19 +261,36 @@ export default {
       }
 
       this.recaptchaMessage = ''
+      this.submissionError = ''
       this.submitting = true
 
       try {
         const formData = new FormData()
 
         Object.entries(this.formData).forEach(([key, value]) => {
+          if (key === 'website') {
+            return
+          }
           formData.append(key, value)
         })
 
+        formData.append('_honey', this.formData.website)
         formData.append('g-recaptcha-response', recaptchaResponse)
         formData.append('_captcha', 'false')
+        formData.append('_subject', "New Jenny's Flowers website enquiry")
+        formData.append('_template', 'table')
 
-        await axios.post(this.contactConfig.formSubmitUrl, formData)
+        const response = await fetch(this.contactConfig.formSubmitUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json'
+          }
+        })
+
+        if (!response.ok) {
+          throw new Error(`Form submit failed with status ${response.status}`)
+        }
 
         this.showThankYou = true
         this.resetForm()
@@ -262,9 +299,8 @@ export default {
           window.grecaptcha.reset(this.recaptchaWidgetId)
         }
       } catch (error) {
-        alert(
+        this.submissionError =
           'Sorry, there was a problem sending your message. Please try again.'
-        )
       } finally {
         this.submitting = false
       }
@@ -316,18 +352,23 @@ export default {
         name: this.formData.name.trim(),
         phone: this.formData.phone.trim(),
         email: this.formData.email.trim(),
-        message: this.formData.message.trim()
+        message: this.formData.message.trim(),
+        website: this.formData.website?.trim() || ''
       }
 
       const validations = [
         {
           refName: 'nameField',
-          isValid: this.hasMeaningfulText(this.formData.name),
-          message: 'Please enter your name.'
+          isValid:
+            this.hasMeaningfulText(this.formData.name) &&
+            this.formData.name.length <= MAX_NAME_LENGTH,
+          message: `Please enter a name up to ${MAX_NAME_LENGTH} characters.`
         },
         {
           refName: 'emailField',
-          isValid: this.isValidEmail(this.formData.email),
+          isValid:
+            this.isValidEmail(this.formData.email) &&
+            this.formData.email.length <= MAX_EMAIL_LENGTH,
           message: 'Please enter a valid email address.'
         },
         {
@@ -337,8 +378,10 @@ export default {
         },
         {
           refName: 'messageField',
-          isValid: this.hasMeaningfulText(this.formData.message),
-          message: 'Please enter a message.'
+          isValid:
+            this.hasMeaningfulText(this.formData.message) &&
+            this.formData.message.length <= MAX_MESSAGE_LENGTH,
+          message: `Please enter a message up to ${MAX_MESSAGE_LENGTH} characters.`
         }
       ]
 
@@ -379,9 +422,11 @@ export default {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       }
       this.recaptchaMessage = ''
+      this.submissionError = ''
     },
 
     closePopup() {
@@ -415,6 +460,16 @@ export default {
 
 .contact-form {
   margin-top: var(--space-3);
+}
+
+.contact-form__honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
+.contact-form__error {
+  margin: 0 0 var(--space-3);
+  color: #b42318;
 }
 
 .client-info {

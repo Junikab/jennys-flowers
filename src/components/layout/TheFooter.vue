@@ -30,14 +30,14 @@
             <a
               href="https://www.facebook.com/profile.php?id=61565467934102"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               class="footer-text"
               ><i class="fab fa-facebook fa-lg"></i
             ></a>
             <a
               href="https://www.instagram.com/Jennysflowers_au/#"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               class="footer-text"
               ><i class="fab fa-instagram fa-lg"></i
             ></a>
