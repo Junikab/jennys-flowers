@@ -5,15 +5,18 @@
       <router-view></router-view>
     </main>
     <TheFooter />
+    <ScrollTopButton />
   </div>
 </template>
 
 <script>
 import TheFooter from './components/layout/TheFooter.vue'
 import TheHeader from './components/layout/TheHeader.vue'
+import ScrollTopButton from './components/ui/ScrollTopButton.vue'
 export default {
   name: 'App',
   components: {
+    ScrollTopButton,
     TheHeader,
     TheFooter
   }
@@ -21,26 +24,16 @@ export default {
 </script>
 
 <style>
-#app {
-  text-align: center;
-  font-family: 'Bellefair', serif;
-  font-weight: 400;
-  font-style: normal;
-}
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 .main-content {
-  flex: 1 0 auto; /* This makes the content area grow and push the footer down */
+  flex: 1 0 auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-bottom: 2rem;
+  padding-bottom: var(--space-5);
 }
-/* .body {
-  background-color: #e8cece;
-} */
 </style>

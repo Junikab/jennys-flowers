@@ -1,89 +1,103 @@
 <template>
   <div class="contact-form-container">
-    <!-- Thank you popup -->
-    <div v-if="showThankYou" class="thank-you-popup">
-      <div class="popup-content">
-        <button @click="closePopup" class="close-btn">&times;</button>
-        <p>Thank you for choosing us!</p>
-      </div>
-    </div>
-
-    <!-- <div class="col-12">
-      <img
-        src="@/assets/images/icons/divider.png"
-        alt="Jenny's Flowers Logo"
-        height="150"
-        class="d-inline-block align-text-top rounded-circle"
-      />
-    </div> -->
-    <p class="text-center contact-intro">
+    <ThankYouPopup :show="showThankYou" @close="closePopup" />
+    <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
-      <a href="mailto:Jennysflowersau@gmail.com">Jennysflowersau@gmail.com</a>
+      <CopyEmailButton
+        :email="contactConfig.email"
+        :aria-label="contactConfig.copyEmailAriaLabel"
+        button-class="contact-email-link"
+      />
     </p>
     <div>
-      <form @submit.prevent="submitForm" class="mt-4">
-        <!-- Form inputs remain the same, just removed action/method attributes -->
+      <form ref="contactForm" @submit.prevent="submitForm" class="contact-form">
         <div class="client-info text-start">
-          <div class="mb-3">
+          <div class="contact-form__honeypot" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              id="website"
+              type="text"
+              name="website"
+              v-model="formData.website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
             <label for="name" class="form-label">Name *</label>
             <input
+              ref="nameField"
               type="text"
               name="name"
               v-model="formData.name"
               class="form-control"
               id="name"
+              autocomplete="name"
+              maxlength="100"
               required
+              @input="clearFieldValidity('nameField')"
             />
           </div>
-          <div class="mb-3">
-            <label for="tel" class="form-label">Phone *</label>
+          <div class="form-group">
+            <label for="tel" class="form-label">Phone</label>
             <input
+              ref="phoneField"
               type="tel"
               name="phone"
               v-model="formData.phone"
               class="form-control"
               id="tel"
+              inputmode="numeric"
+              autocomplete="tel"
+              maxlength="15"
+              @input="handlePhoneInput"
             />
           </div>
-          <div class="mb-5">
+          <div class="form-group form-group--spacious">
             <label for="email" class="form-label">Email address *</label>
             <input
+              ref="emailField"
               type="email"
               name="email"
               v-model="formData.email"
               class="form-control"
               id="email"
               placeholder="name@example.com"
+              autocomplete="email"
+              maxlength="254"
               required
+              @input="clearFieldValidity('emailField')"
             />
           </div>
 
-          <div class="mb-3">
+          <div class="form-group">
             <label for="message" class="form-label">Message *</label>
             <textarea
+              ref="messageField"
               class="form-control"
               name="message"
               v-model="formData.message"
               id="message"
               rows="3"
+              maxlength="2000"
               required
+              @input="clearFieldValidity('messageField')"
             ></textarea>
           </div>
-          <div class="mb-4">
-            <div
-              ref="recaptcha"
-              class="g-recaptcha"
-              data-sitekey="6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC"
-            ></div>
-            <small v-if="recaptchaError" class="text-danger"
-              >Please complete the reCAPTCHA</small
-            >
+          <div class="form-group form-group--recaptcha">
+            <div ref="recaptcha" class="recaptcha-slot"></div>
+            <small v-if="recaptchaMessage" class="text-danger">{{
+              recaptchaMessage
+            }}</small>
           </div>
+          <p v-if="submissionError" class="contact-form__error" role="alert">
+            {{ submissionError }}
+          </p>
         </div>
         <button
           type="submit"
-          class="btn btn-dark px-4 py-2"
-          :disabled="submitting"
+          class="pill-button submit-button"
+          :disabled="submitting || !recaptchaReady"
         >
           {{ submitting ? 'Sending...' : 'Send' }}
         </button>
@@ -93,85 +107,314 @@
 </template>
 
 <script>
-import axios from 'axios'
+import ThankYouPopup from '../ui/ThankYouPopup.vue'
+import CopyEmailButton from '../ui/CopyEmailButton.vue'
+import { getContactConfig } from '../../data/contactDetails'
+
+const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
+const RECAPTCHA_SCRIPT_ID = 'google-recaptcha-script'
+const RECAPTCHA_ONLOAD_CALLBACK = '__jennysFlowersRecaptchaOnload'
+const MAX_NAME_LENGTH = 100
+const MAX_EMAIL_LENGTH = 254
+const MAX_MESSAGE_LENGTH = 2000
+
+let recaptchaApiPromise = null
+
+function waitForRecaptchaApi(timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const startedAt = Date.now()
+    const intervalId = window.setInterval(() => {
+      if (window.grecaptcha?.render) {
+        window.clearInterval(intervalId)
+        resolve(window.grecaptcha)
+        return
+      }
+
+      if (Date.now() - startedAt >= timeout) {
+        window.clearInterval(intervalId)
+        reject(new Error('reCAPTCHA API did not become available in time.'))
+      }
+    }, 50)
+  })
+}
+
+function loadRecaptchaApi() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return Promise.reject(
+      new Error('reCAPTCHA can only be loaded in a browser environment.')
+    )
+  }
+
+  if (window.grecaptcha?.render) {
+    return Promise.resolve(window.grecaptcha)
+  }
+
+  if (recaptchaApiPromise) {
+    return recaptchaApiPromise
+  }
+
+  recaptchaApiPromise = new Promise((resolve, reject) => {
+    const handleError = () => {
+      delete window[RECAPTCHA_ONLOAD_CALLBACK]
+      recaptchaApiPromise = null
+      reject(new Error('Failed to load the reCAPTCHA API.'))
+    }
+
+    const existingScript = document.getElementById(RECAPTCHA_SCRIPT_ID)
+    if (existingScript) {
+      waitForRecaptchaApi()
+        .then(resolve)
+        .catch((error) => {
+          recaptchaApiPromise = null
+          reject(error)
+        })
+      return
+    }
+
+    window[RECAPTCHA_ONLOAD_CALLBACK] = () => {
+      delete window[RECAPTCHA_ONLOAD_CALLBACK]
+      resolve(window.grecaptcha)
+    }
+
+    const script = document.createElement('script')
+    script.id = RECAPTCHA_SCRIPT_ID
+    script.src = `https://www.google.com/recaptcha/api.js?onload=${RECAPTCHA_ONLOAD_CALLBACK}&render=explicit`
+    script.async = true
+    script.defer = true
+    script.onerror = handleError
+    document.head.appendChild(script)
+  })
+
+  return recaptchaApiPromise
+}
 
 export default {
   name: 'ContactForm',
+  components: {
+    ThankYouPopup,
+    CopyEmailButton
+  },
   data() {
     return {
       formData: {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       },
       showThankYou: false,
       submitting: false,
-      recaptchaError: false
+      submissionError: '',
+      recaptchaMessage: '',
+      recaptchaReady: false,
+      recaptchaWidgetId: null
+    }
+  },
+  computed: {
+    contactConfig() {
+      return getContactConfig()
     }
   },
   mounted() {
-    // Load Google reCAPTCHA script
-    const script = document.createElement('script')
-    script.src = 'https://www.google.com/recaptcha/api.js'
-    script.async = true
-    script.defer = true
-    document.head.appendChild(script)
+    this.initializeRecaptcha()
   },
   methods: {
+    async initializeRecaptcha() {
+      try {
+        const grecaptcha = await loadRecaptchaApi()
+
+        if (!this.$refs.recaptcha || this.recaptchaWidgetId !== null) {
+          return
+        }
+
+        this.recaptchaWidgetId = grecaptcha.render(this.$refs.recaptcha, {
+          sitekey: RECAPTCHA_SITE_KEY,
+          callback: this.handleRecaptchaVerified,
+          'expired-callback': this.handleRecaptchaExpired,
+          'error-callback': this.handleRecaptchaError
+        })
+        this.recaptchaReady = true
+        this.recaptchaMessage = ''
+      } catch {
+        this.recaptchaReady = false
+        this.recaptchaMessage =
+          'Security verification could not load. Please refresh and try again.'
+      }
+    },
+
     async submitForm() {
-      // Validate reCAPTCHA first
-      const recaptchaResponse = this.getRecaptchaResponse()
-      if (!recaptchaResponse) {
-        this.recaptchaError = true
+      if (!this.validateForm()) {
         return
       }
 
-      this.recaptchaError = false
+      if (!this.recaptchaReady || this.recaptchaWidgetId === null) {
+        this.recaptchaMessage =
+          'Security verification is still loading. Please wait a moment and try again.'
+        return
+      }
+
+      const recaptchaResponse = this.getRecaptchaResponse()
+      if (!recaptchaResponse) {
+        this.recaptchaMessage = 'Please complete the reCAPTCHA.'
+        return
+      }
+
+      this.recaptchaMessage = ''
+      this.submissionError = ''
       this.submitting = true
 
       try {
         const formData = new FormData()
 
-        // Add all form fields
         Object.entries(this.formData).forEach(([key, value]) => {
+          if (key === 'website') {
+            return
+          }
           formData.append(key, value)
         })
 
-        // Add reCAPTCHA response
+        formData.append('_honey', this.formData.website)
         formData.append('g-recaptcha-response', recaptchaResponse)
-
-        // Add FormSubmit specific fields
         formData.append('_captcha', 'false')
+        formData.append('_subject', "New Jenny's Flowers website enquiry")
+        formData.append('_template', 'table')
 
-        // Send to FormSubmit
-        await axios.post(
-          'https://formsubmit.co/ajax/Jennysflowersau@gmail.com',
-          formData
-        )
+        const response = await fetch(this.contactConfig.formSubmitUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json'
+          }
+        })
 
-        // Show thank you popup
+        if (!response.ok) {
+          throw new Error(`Form submit failed with status ${response.status}`)
+        }
+
         this.showThankYou = true
-
-        // Reset form
         this.resetForm()
 
-        // Reset reCAPTCHA
-        if (window.grecaptcha) {
-          window.grecaptcha.reset()
+        if (window.grecaptcha && this.recaptchaWidgetId !== null) {
+          window.grecaptcha.reset(this.recaptchaWidgetId)
         }
       } catch (error) {
-        console.error('Error submitting form:', error)
-        alert(
+        this.submissionError =
           'Sorry, there was a problem sending your message. Please try again.'
-        )
       } finally {
         this.submitting = false
       }
     },
 
+    handleRecaptchaVerified() {
+      this.recaptchaMessage = ''
+    },
+
+    handleRecaptchaExpired() {
+      this.recaptchaMessage = 'Please complete the reCAPTCHA.'
+    },
+
+    handleRecaptchaError() {
+      this.recaptchaMessage =
+        'Security verification failed. Please refresh and try again.'
+    },
+
+    clearFieldValidity(fieldRefName) {
+      const field = this.$refs[fieldRefName]
+
+      if (!field?.setCustomValidity) {
+        return
+      }
+
+      field.setCustomValidity('')
+    },
+
+    handlePhoneInput(event) {
+      const digitsOnly = event.target.value.replace(/\D+/g, '').slice(0, 15)
+      this.formData.phone = digitsOnly
+      this.clearFieldValidity('phoneField')
+    },
+
+    hasMeaningfulText(value) {
+      return value.trim().length > 0
+    },
+
+    isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
+    },
+
+    isValidPhone(value) {
+      return value === '' || /^\d{8,15}$/.test(value)
+    },
+
+    validateForm() {
+      this.formData = {
+        name: this.formData.name.trim(),
+        phone: this.formData.phone.trim(),
+        email: this.formData.email.trim(),
+        message: this.formData.message.trim(),
+        website: this.formData.website?.trim() || ''
+      }
+
+      const validations = [
+        {
+          refName: 'nameField',
+          isValid:
+            this.hasMeaningfulText(this.formData.name) &&
+            this.formData.name.length <= MAX_NAME_LENGTH,
+          message: `Please enter a name up to ${MAX_NAME_LENGTH} characters.`
+        },
+        {
+          refName: 'emailField',
+          isValid:
+            this.isValidEmail(this.formData.email) &&
+            this.formData.email.length <= MAX_EMAIL_LENGTH,
+          message: 'Please enter a valid email address.'
+        },
+        {
+          refName: 'phoneField',
+          isValid: this.isValidPhone(this.formData.phone),
+          message: 'Phone number must contain 8 to 15 digits only.'
+        },
+        {
+          refName: 'messageField',
+          isValid:
+            this.hasMeaningfulText(this.formData.message) &&
+            this.formData.message.length <= MAX_MESSAGE_LENGTH,
+          message: `Please enter a message up to ${MAX_MESSAGE_LENGTH} characters.`
+        }
+      ]
+
+      validations.forEach(({ refName, isValid, message }) => {
+        const field = this.$refs[refName]
+
+        if (!field?.setCustomValidity) {
+          return
+        }
+
+        field.setCustomValidity(isValid ? '' : message)
+      })
+
+      const form = this.$refs.contactForm
+
+      if (!form?.checkValidity()) {
+        form?.reportValidity()
+        return false
+      }
+
+      return true
+    },
+
     getRecaptchaResponse() {
-      return window.grecaptcha ? window.grecaptcha.getResponse() : ''
+      if (!window.grecaptcha || this.recaptchaWidgetId === null) {
+        return ''
+      }
+
+      try {
+        return window.grecaptcha.getResponse(this.recaptchaWidgetId)
+      } catch {
+        return ''
+      }
     },
 
     resetForm() {
@@ -179,8 +422,11 @@ export default {
         name: '',
         phone: '',
         email: '',
-        message: ''
+        message: '',
+        website: ''
       }
+      this.recaptchaMessage = ''
+      this.submissionError = ''
     },
 
     closePopup() {
@@ -192,87 +438,125 @@ export default {
 
 <style scoped>
 .contact-form-container {
-  max-width: 800px;
+  width: min(100%, 52rem);
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(1.25rem, 2vw, 2rem);
   position: relative;
+  background: var(--color-bg);
+  /* border: 1px solid var(--color-border); */
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .contact-intro {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 1.3rem;
+  margin-bottom: var(--space-4);
 }
+
+.contact-intro :deep(.contact-email-link) {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary-light);
+}
+
+.contact-form {
+  margin-top: var(--space-3);
+}
+
+.contact-form__honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
+.contact-form__error {
+  margin: 0 0 var(--space-3);
+  color: #b42318;
+}
+
 .client-info {
-  font-size: 1.3rem;
+  font-size: var(--font-size-body);
+}
+
+.form-group {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.form-group--spacious {
+  margin-bottom: var(--space-5);
+}
+
+.form-group--recaptcha {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  color: var(--color-primary-dark);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .form-control {
-  border: 2px solid #333;
-  border-radius: 0;
-  padding: 0.75rem;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 0.8rem;
+  padding: 0.85rem 1rem;
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.form-control::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.85;
 }
 
 .form-control:focus {
-  box-shadow: none;
-  border-color: rgb(48, 17, 35, 0.8);
+  box-shadow: 0 0 0 0.18rem rgba(126, 139, 97, 0.16);
+  border-color: var(--color-primary);
 }
 
-.btn {
-  min-width: 120px;
-  background-color: rgb(48, 17, 35, 0.8);
-  border-radius: 0;
-  font-size: 1.3rem;
-}
-.btn:hover {
-  background-color: rgb(180, 98, 152);
+textarea.form-control {
+  min-height: 8.75rem;
+  resize: vertical;
 }
 
-/* Thank you popup styling */
-.thank-you-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.submit-button {
+  min-width: 8.75rem;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
 }
 
-.popup-content {
-  background-color: rgba(48, 17, 35, 0.9);
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  position: relative;
-  max-width: 400px;
-  width: 90%;
+.submit-button:hover,
+.submit-button:focus-visible {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
 }
 
-.popup-content p {
-  font-size: 1.5rem;
-  margin-bottom: 0;
+.submit-button:disabled {
+  opacity: 0.8;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
+.recaptcha-slot {
+  transform-origin: left top;
 }
 
-/* Make the form look good on phones */
-@media (max-width: 768px) {
+@media (max-width: 767.98px) {
   .contact-form-container {
-    padding: 10px;
+    padding: 1rem;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .recaptcha-slot {
+    transform: scale(0.9);
   }
 }
 </style>

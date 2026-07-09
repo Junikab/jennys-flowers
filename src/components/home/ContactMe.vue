@@ -1,54 +1,46 @@
 <template>
-  <div class="container-fluid p-0 mt-3" id="contact">
-    <div class="row justify-content-center">
-      <!-- Gallery Images -->
-      <div class="container-fluid px-4">
-        <div class="row g-2 justify-content-center">
-          <div
-            v-for="(image, index) in galleryImages"
-            :key="index"
-            class="col-12 col-sm-6 col-md-3 mb-2"
-          >
-            <img
-              :src="image.src"
-              :alt="image.alt"
-              class="gallery-image rounded shadow img-fluid"
-            />
-          </div>
-        </div>
-      </div>
+  <section class="page-shell contact-section" id="contact">
+    <GalleryGrid
+      v-if="showGallery"
+      :images="contactGalleryImages"
+      outer-class="container-fluid px-0"
+      column-class="col-12 col-sm-6 col-xl-3"
+    />
 
-      <div class="info mt-5">
-        <div class="location mb-5" v-if="showLocation">
-          <h5>LOCATION</h5>
+    <div class="contact-info-hero" :style="contactBackgroundStyle">
+      <div class="info contact-info-stack">
+        <div class="page-panel contact-card" v-if="showLocation">
+          <h5 class="section-title">Location</h5>
           <ul class="list-unstyled contact-text">
             <li>
-              Based in Ropes Crossing NSW 2760 <br />
+              Based in Western Sydney NSW 2760 <br />
               Servicing Sydney & Beyond
             </li>
           </ul>
         </div>
-        <div class="opening" v-if="showHours">
-          <h5>OPENING HOURS</h5>
+        <div class="page-panel contact-card" v-if="showHours">
+          <h5 class="section-title">Opening Hours</h5>
           <ul class="list-unstyled contact-text">
             <li>By appointment only</li>
           </ul>
         </div>
       </div>
-      <ContactForm />
     </div>
-  </div>
+    <ContactForm />
+  </section>
 </template>
 
 <script>
 import ContactForm from '../forms/ContactForm.vue'
+import GalleryGrid from '../gallery/GalleryGrid.vue'
+import {
+  getGalleryImagesBySection,
+  getPrimaryGalleryImageBySection
+} from '../../data/galleryImages'
+
 export default {
   name: 'ContactMe',
   props: {
-    showContact: {
-      type: Boolean,
-      default: true
-    },
     showHours: {
       type: Boolean,
       default: true
@@ -57,66 +49,111 @@ export default {
       type: Boolean,
       default: true
     },
-    isFooter: {
-      type: Boolean,
-      default: false
-    },
-    fullWidth: {
+    showGallery: {
       type: Boolean,
       default: false
     }
   },
-  data() {
-    return {
-      galleryImages: [
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/orchidsRing_n77azh.jpg',
-          alt: 'Jenny with orchid ring'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/rustyWedding_umxq9i.jpg',
-          alt: 'Rustic wedding flowers'
-        },
-        {
-          src: 'https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/background/blueBride_iayrfw.jpg',
-          alt: 'Blue wedding bouquet'
-        },
-        {
-          src: `https://res.cloudinary.com/djgi23npu/image/upload/Jennys%20Flowers/jennysPhotos/jennyCrown1_a6sshy.jpg`,
-          alt: 'Jenny with flower crown'
-        }
-      ]
+  computed: {
+    contactGalleryImages() {
+      if (!this.showGallery) {
+        return []
+      }
+
+      return getGalleryImagesBySection('contact')
+    },
+    contactCoverImage() {
+      return getPrimaryGalleryImageBySection('contact-cover')
+    },
+    contactBackgroundStyle() {
+      if (!this.contactCoverImage) {
+        return null
+      }
+
+      return {
+        '--contact-background-image': `url('${this.contactCoverImage.src}')`
+      }
     }
   },
   components: {
-    ContactForm
+    ContactForm,
+    GalleryGrid
   }
 }
 </script>
-
 <style scoped>
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.contact-section {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: 0;
+}
+
+.contact-info-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  min-height: clamp(18rem, 42vw, 28rem);
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow: hidden;
+}
+
+.contact-info-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--contact-background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.contact-info-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(135, 135, 121, 0.32);
 }
 
 .info {
-  color: #301123;
-  text-align: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
+}
+
+.contact-info-stack {
+  display: grid;
+  gap: var(--space-4);
+  width: min(55vw, 64rem);
+  margin: 0 auto;
 }
 
 .contact-text {
-  color: #301123;
-  font-size: 1.3rem;
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: var(--font-size-body);
 }
 
-h5 {
-  color: #301123;
-  font-weight: bold;
-  margin-bottom: 1rem;
+.contact-card {
+  width: 100%;
+  max-width: 34rem;
+}
+
+.contact-card .section-title {
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .contact-info-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .contact-card {
+    max-width: none;
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ContactPage from '../views/ContactPage.vue'
 import AboutPage from '../views/AboutPage.vue'
+import GalleryPage from '../views/GalleryPage.vue'
 import HomePage from '../views/HomePage.vue'
 
 const routes = [
@@ -19,17 +20,16 @@ const routes = [
     path: '/about',
     name: 'About',
     component: AboutPage
+  },
+  {
+    path: '/gallery',
+    name: 'Gallery',
+    component: GalleryPage
   }
 ]
 
-// Determine the base URL based on environment
-const baseUrl =
-  process.env.NODE_ENV === 'production'
-    ? '/' // Use root path in production (for custom domain)
-    : '/jennys-flowers/' // Use the repository path for GitHub Pages development/testing
-
 const router = createRouter({
-  history: createWebHistory(baseUrl),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 export default router

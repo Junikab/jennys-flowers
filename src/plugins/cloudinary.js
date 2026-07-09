@@ -1,29 +1,38 @@
-import { Cloudinary } from '@cloudinary/url-gen'
+const CLOUDINARY_CLOUD_NAME = 'djgi23npu'
+const CLOUDINARY_BASE_URL = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload`
 
-// Initialize Cloudinary
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: 'djgi23npu' // Your Cloudinary cloud name
-  },
-  url: {
-    secure: true // Force HTTPS
-  }
-})
+function encodePublicId(publicId) {
+  return publicId
+    .split('/')
+    .map((segment) => encodeURIComponent(segment))
+    .join('/')
+}
 
-export default cld
-
-// Helper function to get a Cloudinary URL that handles spaces in folder names
 export const getImageUrl = (publicId, options = {}) => {
-  const { width, height, crop } = options
+  const transformations = ['f_auto']
 
-  // Ensure spaces are properly handled
-  const processedPublicId = publicId.replace(/ /g, '%20')
+  if (options.crop) {
+    transformations.push(`c_${options.crop}`)
+  }
 
-  let transformation = cld.image(processedPublicId)
+  if (options.width) {
+    transformations.push(`w_${options.width}`)
+  }
 
-  if (width) transformation = transformation.resize(`w_${width}`)
-  if (height) transformation = transformation.resize(`h_${height}`)
-  if (crop) transformation = transformation.resize(`c_${crop}`)
+  if (options.height) {
+    transformations.push(`h_${options.height}`)
+  }
 
-  return transformation.toURL()
+  const transformationPath = transformations.length
+    ? `${transformations.join(',')}/`
+    : ''
+
+  return `${CLOUDINARY_BASE_URL}/${transformationPath}${encodePublicId(
+    publicId
+  )}`
+}
+
+export default {
+  cloudName: CLOUDINARY_CLOUD_NAME,
+  getImageUrl
 }

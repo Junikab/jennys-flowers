@@ -21,3 +21,9 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+#docs
+NOTES.md
+IDEAS.md
+# local export files
+cloudinary-exports/
