@@ -10,7 +10,7 @@
       />
     </p>
     <div>
-      <form ref="contactForm" @submit.prevent="submitForm" class="contact-form">
+      <form @submit.prevent="submitForm" class="contact-form" novalidate>
         <div class="client-info text-start">
           <div class="contact-form__honeypot" aria-hidden="true">
             <label for="website">Website</label>
@@ -23,68 +23,100 @@
               autocomplete="off"
             />
           </div>
-          <div class="form-group">
-            <label for="name" class="form-label">Name *</label>
-            <input
-              ref="nameField"
-              type="text"
-              name="name"
-              v-model="formData.name"
-              class="form-control"
-              id="name"
-              autocomplete="name"
-              maxlength="100"
+          <FormField
+            ref="nameField"
+            id="name"
+            name="name"
+            label="Name"
+            v-model="formData.name"
+            required
+            :error="validationErrors.name"
+            autocomplete="name"
+            maxlength="100"
+            @input="clearFieldError('name')"
+          />
+          <FormField
+            ref="phoneField"
+            id="tel"
+            name="phone"
+            label="Phone"
+            type="tel"
+            v-model="formData.phone"
+            :error="validationErrors.phone"
+            inputmode="numeric"
+            autocomplete="tel"
+            maxlength="15"
+            @input="handlePhoneInput"
+          />
+          <FormField
+            ref="emailField"
+            id="email"
+            name="email"
+            label="Email address"
+            type="email"
+            v-model="formData.email"
+            required
+            :error="validationErrors.email"
+            placeholder="name@example.com"
+            autocomplete="email"
+            maxlength="254"
+            additional-class="form-group--spacious"
+            @input="clearFieldError('email')"
+          />
+
+          <div class="event-details">
+            <FormField
+              ref="eventDateField"
+              id="event-date"
+              name="eventDate"
+              label="Event date"
+              type="date"
+              v-model="formData.eventDate"
               required
-              @input="clearFieldValidity('nameField')"
-            />
-          </div>
-          <div class="form-group">
-            <label for="tel" class="form-label">Phone</label>
-            <input
-              ref="phoneField"
-              type="tel"
-              name="phone"
-              v-model="formData.phone"
-              class="form-control"
-              id="tel"
-              inputmode="numeric"
-              autocomplete="tel"
-              maxlength="15"
-              @input="handlePhoneInput"
-            />
-          </div>
-          <div class="form-group form-group--spacious">
-            <label for="email" class="form-label">Email address *</label>
-            <input
-              ref="emailField"
-              type="email"
-              name="email"
-              v-model="formData.email"
-              class="form-control"
-              id="email"
-              placeholder="name@example.com"
-              autocomplete="email"
-              maxlength="254"
+              :disabled="formData.eventDateUnknown"
+              :error="validationErrors.eventDate"
+              described-by="event-date-hint"
+              @input="clearFieldError('eventDate')"
+            >
+              <label class="date-unknown-option">
+                <input
+                  type="checkbox"
+                  name="eventDateUnknown"
+                  v-model="formData.eventDateUnknown"
+                  @change="handleUnknownDateChange"
+                />
+                <span id="event-date-hint">Date not known yet</span>
+              </label>
+            </FormField>
+
+            <FormField
+              ref="venueLocationField"
+              id="venue-location"
+              name="venueLocation"
+              label="Venue / Location"
+              v-model="formData.venueLocation"
               required
-              @input="clearFieldValidity('emailField')"
+              :error="validationErrors.venueLocation"
+              hint="Up to 50 characters"
+              maxlength="50"
+              @input="clearFieldError('venueLocation')"
             />
           </div>
 
-          <div class="form-group">
-            <label for="message" class="form-label">Message *</label>
-            <textarea
-              ref="messageField"
-              class="form-control"
-              name="message"
-              v-model="formData.message"
-              id="message"
-              rows="3"
-              maxlength="2000"
-              required
-              @input="clearFieldValidity('messageField')"
-            ></textarea>
-          </div>
-          <div class="form-group form-group--recaptcha">
+          <FormField
+            ref="messageField"
+            id="message"
+            name="message"
+            label="Message"
+            v-model="formData.message"
+            required
+            multiline
+            :error="validationErrors.message"
+            rows="3"
+            maxlength="2000"
+            @input="clearFieldError('message')"
+          />
+          <div class="recaptcha-group">
             <div ref="recaptcha" class="recaptcha-slot"></div>
             <small v-if="recaptchaMessage" class="text-danger">{{
               recaptchaMessage
@@ -109,103 +141,30 @@
 <script>
 import ThankYouPopup from '../ui/ThankYouPopup.vue'
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
+import FormField from './FormField.vue'
+import {
+  createEmptyContactFormData,
+  validateContactForm
+} from './contactFormValidation'
 import { getContactConfig } from '../../data/contactDetails'
+import { loadRecaptchaApi } from '../../services/recaptcha'
 
 const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
-const RECAPTCHA_SCRIPT_ID = 'google-recaptcha-script'
-const RECAPTCHA_ONLOAD_CALLBACK = '__jennysFlowersRecaptchaOnload'
-const MAX_NAME_LENGTH = 100
-const MAX_EMAIL_LENGTH = 254
-const MAX_MESSAGE_LENGTH = 2000
-
-let recaptchaApiPromise = null
-
-function waitForRecaptchaApi(timeout = 10000) {
-  return new Promise((resolve, reject) => {
-    const startedAt = Date.now()
-    const intervalId = window.setInterval(() => {
-      if (window.grecaptcha?.render) {
-        window.clearInterval(intervalId)
-        resolve(window.grecaptcha)
-        return
-      }
-
-      if (Date.now() - startedAt >= timeout) {
-        window.clearInterval(intervalId)
-        reject(new Error('reCAPTCHA API did not become available in time.'))
-      }
-    }, 50)
-  })
-}
-
-function loadRecaptchaApi() {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return Promise.reject(
-      new Error('reCAPTCHA can only be loaded in a browser environment.')
-    )
-  }
-
-  if (window.grecaptcha?.render) {
-    return Promise.resolve(window.grecaptcha)
-  }
-
-  if (recaptchaApiPromise) {
-    return recaptchaApiPromise
-  }
-
-  recaptchaApiPromise = new Promise((resolve, reject) => {
-    const handleError = () => {
-      delete window[RECAPTCHA_ONLOAD_CALLBACK]
-      recaptchaApiPromise = null
-      reject(new Error('Failed to load the reCAPTCHA API.'))
-    }
-
-    const existingScript = document.getElementById(RECAPTCHA_SCRIPT_ID)
-    if (existingScript) {
-      waitForRecaptchaApi()
-        .then(resolve)
-        .catch((error) => {
-          recaptchaApiPromise = null
-          reject(error)
-        })
-      return
-    }
-
-    window[RECAPTCHA_ONLOAD_CALLBACK] = () => {
-      delete window[RECAPTCHA_ONLOAD_CALLBACK]
-      resolve(window.grecaptcha)
-    }
-
-    const script = document.createElement('script')
-    script.id = RECAPTCHA_SCRIPT_ID
-    script.src = `https://www.google.com/recaptcha/api.js?onload=${RECAPTCHA_ONLOAD_CALLBACK}&render=explicit`
-    script.async = true
-    script.defer = true
-    script.onerror = handleError
-    document.head.appendChild(script)
-  })
-
-  return recaptchaApiPromise
-}
 
 export default {
   name: 'ContactForm',
   components: {
     ThankYouPopup,
-    CopyEmailButton
+    CopyEmailButton,
+    FormField
   },
   data() {
     return {
-      formData: {
-        name: '',
-        phone: '',
-        email: '',
-        message: '',
-        website: ''
-      },
+      formData: createEmptyContactFormData(),
       showThankYou: false,
       submitting: false,
       submissionError: '',
+      validationErrors: {},
       recaptchaMessage: '',
       recaptchaReady: false,
       recaptchaWidgetId: null
@@ -267,10 +226,18 @@ export default {
       try {
         const formData = new FormData()
 
-        Object.entries(this.formData).forEach(([key, value]) => {
-          if (key === 'website') {
-            return
-          }
+        const submissionFields = {
+          name: this.formData.name,
+          phone: this.formData.phone,
+          email: this.formData.email,
+          'Event date': this.formData.eventDateUnknown
+            ? 'Date not known yet'
+            : this.formData.eventDate,
+          'Venue / Location': this.formData.venueLocation,
+          message: this.formData.message
+        }
+
+        Object.entries(submissionFields).forEach(([key, value]) => {
           formData.append(key, value)
         })
 
@@ -319,86 +286,37 @@ export default {
         'Security verification failed. Please refresh and try again.'
     },
 
-    clearFieldValidity(fieldRefName) {
-      const field = this.$refs[fieldRefName]
+    clearFieldError(fieldKey) {
+      if (this.validationErrors[fieldKey]) {
+        this.validationErrors[fieldKey] = ''
+      }
+    },
 
-      if (!field?.setCustomValidity) {
-        return
+    handlePhoneInput(value) {
+      const digitsOnly = value.replace(/\D+/g, '').slice(0, 15)
+      this.formData.phone = digitsOnly
+      this.clearFieldError('phone')
+    },
+
+    handleUnknownDateChange() {
+      if (this.formData.eventDateUnknown) {
+        this.formData.eventDate = ''
       }
 
-      field.setCustomValidity('')
-    },
-
-    handlePhoneInput(event) {
-      const digitsOnly = event.target.value.replace(/\D+/g, '').slice(0, 15)
-      this.formData.phone = digitsOnly
-      this.clearFieldValidity('phoneField')
-    },
-
-    hasMeaningfulText(value) {
-      return value.trim().length > 0
-    },
-
-    isValidEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
-    },
-
-    isValidPhone(value) {
-      return value === '' || /^\d{8,15}$/.test(value)
+      this.clearFieldError('eventDate')
     },
 
     validateForm() {
-      this.formData = {
-        name: this.formData.name.trim(),
-        phone: this.formData.phone.trim(),
-        email: this.formData.email.trim(),
-        message: this.formData.message.trim(),
-        website: this.formData.website?.trim() || ''
-      }
+      const { formData, errors, firstInvalidField } = validateContactForm(
+        this.formData
+      )
+      this.formData = formData
+      this.validationErrors = errors
 
-      const validations = [
-        {
-          refName: 'nameField',
-          isValid:
-            this.hasMeaningfulText(this.formData.name) &&
-            this.formData.name.length <= MAX_NAME_LENGTH,
-          message: `Please enter a name up to ${MAX_NAME_LENGTH} characters.`
-        },
-        {
-          refName: 'emailField',
-          isValid:
-            this.isValidEmail(this.formData.email) &&
-            this.formData.email.length <= MAX_EMAIL_LENGTH,
-          message: 'Please enter a valid email address.'
-        },
-        {
-          refName: 'phoneField',
-          isValid: this.isValidPhone(this.formData.phone),
-          message: 'Phone number must contain 8 to 15 digits only.'
-        },
-        {
-          refName: 'messageField',
-          isValid:
-            this.hasMeaningfulText(this.formData.message) &&
-            this.formData.message.length <= MAX_MESSAGE_LENGTH,
-          message: `Please enter a message up to ${MAX_MESSAGE_LENGTH} characters.`
-        }
-      ]
-
-      validations.forEach(({ refName, isValid, message }) => {
-        const field = this.$refs[refName]
-
-        if (!field?.setCustomValidity) {
-          return
-        }
-
-        field.setCustomValidity(isValid ? '' : message)
-      })
-
-      const form = this.$refs.contactForm
-
-      if (!form?.checkValidity()) {
-        form?.reportValidity()
+      if (firstInvalidField) {
+        this.$nextTick(() => {
+          this.$refs[`${firstInvalidField}Field`]?.focus()
+        })
         return false
       }
 
@@ -418,13 +336,8 @@ export default {
     },
 
     resetForm() {
-      this.formData = {
-        name: '',
-        phone: '',
-        email: '',
-        message: '',
-        website: ''
-      }
+      this.formData = createEmptyContactFormData()
+      this.validationErrors = {}
       this.recaptchaMessage = ''
       this.submissionError = ''
     },
@@ -476,48 +389,40 @@ export default {
   font-size: var(--font-size-body);
 }
 
-.form-group {
+.recaptcha-group {
   display: grid;
   gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.form-group--spacious {
-  margin-bottom: var(--space-5);
-}
-
-.form-group--recaptcha {
   margin-bottom: var(--space-4);
 }
 
-.form-label {
-  color: var(--color-primary-dark);
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.event-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0 var(--space-4);
+  margin-bottom: var(--space-2);
 }
 
-.form-control {
-  border: 1.5px solid var(--color-primary-light);
-  border-radius: 0.8rem;
-  padding: 0.85rem 1rem;
-  background-color: var(--color-white);
-  color: var(--color-text);
+.event-details :deep(.form-control) {
+  height: 3.75rem;
 }
 
-.form-control::placeholder {
+.date-unknown-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: fit-content;
   color: var(--color-text-muted);
-  opacity: 0.85;
+  cursor: pointer;
+  line-height: 1.35;
 }
 
-.form-control:focus {
-  box-shadow: 0 0 0 0.18rem rgba(126, 139, 97, 0.16);
-  border-color: var(--color-primary);
-}
-
-textarea.form-control {
-  min-height: 8.75rem;
-  resize: vertical;
+.date-unknown-option input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
 }
 
 .submit-button {
@@ -551,6 +456,11 @@ textarea.form-control {
 
   .submit-button {
     width: 100%;
+  }
+
+  .event-details {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
