@@ -1,6 +1,6 @@
 # Jenny's Flowers Workflow
 
-Updated July 6, 2026.
+Updated September 3, 2026.
 
 This file is the simple day-to-day workflow for this project.
 
@@ -85,6 +85,15 @@ After that, check:
 - mobile menu
 - gallery lightbox
 - contact form
+
+When checking the contact form, confirm that:
+
+- an empty event date asks the visitor to choose a date or select
+  "Date not known yet"
+- an invalid calendar date shows "Please enter a valid event date."
+- a valid event date is accepted
+- "Date not known yet" works without a date
+- reCAPTCHA completes and the form can be submitted
 
 Important:
 
