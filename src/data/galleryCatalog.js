@@ -2,6 +2,7 @@ import {
   createGalleryImage,
   createGalleryImagesFromFolder
 } from './galleryImageHelpers'
+import { galleryCollections } from './galleryCategories'
 
 const backgroundImages = createGalleryImagesFromFolder('background', [
   {
@@ -162,6 +163,34 @@ const freshflowersChristmasImages = createGalleryImagesFromFolder(
   ]
 )
 
+// WEDDING GALLERIES
+
+const laurenAndMatthewWeddingImages = createGalleryImagesFromFolder(
+  'Events/laurenAndMatthew',
+  [
+    { asset: 'IMG_7164_l0mfz1', sortOrder: 539 },
+    { asset: 'IMG_7165_r8oiqg', sortOrder: 540 },
+    { asset: 'IMG_7166_sjtpmc', sortOrder: 541 },
+    { asset: 'IMG_7167_hwqnb1', sortOrder: 542 },
+    { asset: 'IMG_7168_einfkd', sortOrder: 543 },
+    { asset: 'IMG_7169_qcfnln', sortOrder: 544 },
+    { asset: 'IMG_7172_lsbpbv', sortOrder: 545 },
+    { asset: 'IMG_7173_t4kb7u', sortOrder: 546 },
+    { asset: 'IMG_7174_ftrbzy', sortOrder: 547 },
+    { asset: 'IMG_7177_pagykw', sortOrder: 548 },
+    { asset: 'IMG_7178_akh2h6', sortOrder: 549 },
+    { asset: 'IMG_7179_hsyozx', sortOrder: 550 },
+    { asset: 'IMG_7182_djlxpd', sortOrder: 551 },
+    { asset: 'IMG_7211_ry38tz', sortOrder: 552 },
+    { asset: 'IMG_7213_zzayco', sortOrder: 553 },
+    { asset: 'IMG_7214_k5ldqa', sortOrder: 554 },
+    { asset: 'IMG_7215_p2yzut', sortOrder: 555 },
+    { asset: 'IMG_7218_aw1aou', sortOrder: 556 },
+    { asset: 'IMG_7219_hemsez', sortOrder: 557 }
+  ],
+  { collections: [galleryCollections.laurenAndMatthew.value] }
+)
+
 const homeFeaturedImages = [
   createGalleryImage({
     id: 'home-featured-img-5343',
@@ -194,6 +223,7 @@ export const galleryImageCatalog = [
   ...fauxflowersImages,
   ...freshflowersImages,
   ...freshflowersBlueweddingImages,
-  ...freshflowersChristmasImages
+  ...freshflowersChristmasImages,
+  ...laurenAndMatthewWeddingImages
 ]
 export default galleryImageCatalog

@@ -2,7 +2,8 @@ import { getImageUrl } from '../plugins/cloudinary'
 
 const AUTO_CATEGORIES_BY_FOLDER = {
   freshFlowers: ['fresh-flowers'],
-  fauxFlowers: ['faux-flowers']
+  fauxFlowers: ['faux-flowers'],
+  Events: ['weddings']
 }
 
 function stripFileExtension(value) {
@@ -76,6 +77,7 @@ export function createGalleryImage(entry) {
     src: getImageUrl(publicId),
     alt: entry.alt || title,
     sections: entry.sections || [],
+    collections: entry.collections || [],
     categories: uniqueValues([
       ...inferCategoriesFromPublicId(publicId),
       ...(entry.categories || [])
