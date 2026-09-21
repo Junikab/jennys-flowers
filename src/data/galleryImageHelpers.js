@@ -5,6 +5,8 @@ const AUTO_CATEGORIES_BY_FOLDER = {
   fauxFlowers: ['faux-flowers'],
   Events: ['weddings']
 }
+const GALLERY_IMAGE_WIDTH = 1800
+const GALLERY_THUMBNAIL_WIDTH = 800
 
 function stripFileExtension(value) {
   return value.replace(/\.(avif|gif|jpe?g|png|svg|webp)$/i, '')
@@ -74,7 +76,14 @@ export function createGalleryImage(entry) {
     id: entry.id || buildImageId(publicId, title),
     title,
     publicId,
-    src: getImageUrl(publicId),
+    src: getImageUrl(publicId, {
+      crop: 'limit',
+      width: GALLERY_IMAGE_WIDTH
+    }),
+    thumbnailSrc: getImageUrl(publicId, {
+      crop: 'limit',
+      width: GALLERY_THUMBNAIL_WIDTH
+    }),
     alt: entry.alt || title,
     sections: entry.sections || [],
     collections: entry.collections || [],

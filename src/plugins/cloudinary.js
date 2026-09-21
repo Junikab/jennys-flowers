@@ -9,23 +9,28 @@ function encodePublicId(publicId) {
 }
 
 export const getImageUrl = (publicId, options = {}) => {
-  const transformations = ['f_auto']
+  const transformations = []
+  const resizeOptions = []
 
   if (options.crop) {
-    transformations.push(`c_${options.crop}`)
+    resizeOptions.push(`c_${options.crop}`)
   }
 
   if (options.width) {
-    transformations.push(`w_${options.width}`)
+    resizeOptions.push(`w_${options.width}`)
   }
 
   if (options.height) {
-    transformations.push(`h_${options.height}`)
+    resizeOptions.push(`h_${options.height}`)
   }
 
-  const transformationPath = transformations.length
-    ? `${transformations.join(',')}/`
-    : ''
+  if (resizeOptions.length) {
+    transformations.push(resizeOptions.join(','))
+  }
+
+  transformations.push('f_auto', 'q_auto')
+
+  const transformationPath = `${transformations.join('/')}/`
 
   return `${CLOUDINARY_BASE_URL}/${transformationPath}${encodePublicId(
     publicId
