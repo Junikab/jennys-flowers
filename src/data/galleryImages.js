@@ -1,7 +1,5 @@
 import galleryImageCatalog from './galleryCatalog'
 
-const galleryImages = [...galleryImageCatalog]
-
 function sortGalleryImages(images) {
   return [...images].sort((firstImage, secondImage) => {
     return firstImage.sortOrder - secondImage.sortOrder
@@ -12,7 +10,7 @@ function isGalleryVisible(image) {
   return image.showInGallery
 }
 
-const sortedGalleryImages = sortGalleryImages(galleryImages)
+const sortedGalleryImages = sortGalleryImages(galleryImageCatalog)
 const visibleGalleryImages = sortedGalleryImages.filter(isGalleryVisible)
 
 function buildGalleryLookup(images, key) {
@@ -41,9 +39,6 @@ const galleryImagesByCollection = buildGalleryLookup(
   visibleGalleryImages,
   'collections'
 )
-const galleryCategories = [
-  ...new Set(visibleGalleryImages.flatMap((image) => image.categories))
-].sort()
 
 export function getGalleryImages() {
   return [...visibleGalleryImages]
@@ -64,9 +59,3 @@ export function getGalleryImagesByCollection(collection) {
 export function getPrimaryGalleryImageBySection(section) {
   return galleryImagesBySection[section]?.[0] || null
 }
-
-export function getGalleryCategories() {
-  return [...galleryCategories]
-}
-
-export default galleryImages

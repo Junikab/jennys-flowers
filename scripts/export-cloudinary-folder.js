@@ -16,6 +16,7 @@ const DEFAULT_FIELDS = [
   'secure_url',
   'format',
   'created_at',
+  'tags',
   'resource_type',
   'type'
 ].join(',')
@@ -217,7 +218,8 @@ function buildJsonExport(folderPath, assets) {
       displayName: asset.display_name || getAssetName(asset.public_id),
       secureUrl: asset.secure_url,
       format: asset.format || '',
-      createdAt: asset.created_at || ''
+      createdAt: asset.created_at || '',
+      tags: asset.tags || []
     }))
   }
 }
@@ -407,7 +409,16 @@ async function main() {
   console.log(`Snippet file: ${path.relative(process.cwd(), snippetOutputPath)}`)
 }
 
-main().catch((error) => {
-  console.error(error.message)
-  process.exit(1)
-})
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error.message)
+    process.exit(1)
+  })
+}
+
+module.exports = {
+  fetchCloudinaryAssets,
+  getAssetName,
+  loadEnv,
+  normalizeFolderInput
+}

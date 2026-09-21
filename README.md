@@ -38,3 +38,22 @@ npm run build
 
 See [WORKFLOW.md](WORKFLOW.md) for the day-to-day development, staging, and
 production process.
+
+## Categorizing Wedding Photos
+
+Wedding photos stay in their wedding folder in Cloudinary. To also show a
+photo under Fresh Flowers or Faux Flowers, add one or both of these Cloudinary
+tags to the asset:
+
+- `fresh-flowers`
+- `faux-flowers`
+
+Tags can be applied to several selected assets at once in Cloudinary. After
+updating tags, refresh the site's gallery data with:
+
+```bash
+npm run cloudinary:sync-gallery
+```
+
+This keeps one Cloudinary asset and one gallery record per photo while allowing
+the same photo to appear in Weddings and the relevant flower categories.

@@ -1,8 +1,10 @@
-export const galleryCollections = {
-  laurenAndMatthew: {
-    label: 'Lauren & Matthew',
-    value: 'lauren-and-matthew',
-    coverAsset: 'IMG_7164_l0mfz1'
+import galleryCollectionDefinitions from './galleryCollections.json'
+
+function toCollectionOption({ label, value, coverAsset }) {
+  return {
+    label,
+    value,
+    coverAsset
   }
 }
 
@@ -13,10 +15,6 @@ export const galleryFilterOptions = [
   {
     label: 'Weddings',
     value: 'weddings',
-    collections: [galleryCollections.laurenAndMatthew]
+    collections: galleryCollectionDefinitions.map(toCollectionOption)
   }
 ]
-
-export const galleryFilterValues = galleryFilterOptions.map(
-  (filter) => filter.value
-)
