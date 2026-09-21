@@ -33,7 +33,7 @@
       >
         <img
           v-if="collection.coverImage"
-          :src="collection.coverImage.src"
+          :src="collection.coverImage.thumbnailSrc || collection.coverImage.src"
           :alt="`${collection.label} wedding gallery cover`"
           class="gallery-collection-cover"
         />
@@ -47,11 +47,19 @@
 
     <GalleryGrid
       v-if="!showCollectionIndex"
-      :images="filteredImages"
+      :images="displayedImages"
       layout-mode="masonry"
       clickable
       @select="openPreview"
     />
+    <button
+      v-if="!showCollectionIndex && hasMoreImages"
+      type="button"
+      class="pill-button load-more-button"
+      @click="loadMoreImages"
+    >
+      Load more photos
+    </button>
     <LightboxModal
       :show="Boolean(activeImage)"
       :image="activeImage"
@@ -74,6 +82,8 @@ import {
   getGalleryImagesByCollection
 } from '../data/galleryImages'
 
+const GALLERY_BATCH_SIZE = 24
+
 export default {
   name: 'GalleryPage',
   components: {
@@ -86,21 +96,16 @@ export default {
       filters: galleryFilterOptions,
       activeFilter: 'all',
       activeCollection: null,
+      visibleImageCount: GALLERY_BATCH_SIZE,
       activeImageId: null
     }
   },
   computed: {
-    filterValues() {
-      return this.filters.map((filter) => filter.value)
-    },
-    activeFilterOption() {
-      return (
-        this.filters.find((filter) => filter.value === this.activeFilter) ||
-        null
-      )
-    },
     activeCollections() {
-      return this.activeFilterOption?.collections || []
+      return (
+        this.filters.find((filter) => filter.value === this.activeFilter)
+          ?.collections || []
+      )
     },
     activeCollectionOption() {
       return (
@@ -134,6 +139,12 @@ export default {
 
       return getGalleryImagesByCategory(this.activeFilter)
     },
+    displayedImages() {
+      return this.filteredImages.slice(0, this.visibleImageCount)
+    },
+    hasMoreImages() {
+      return this.displayedImages.length < this.filteredImages.length
+    },
     activeImage() {
       return (
         this.filteredImages.find((image) => image.id === this.activeImageId) ||
@@ -148,8 +159,7 @@ export default {
   },
   watch: {
     activeFilter() {
-      this.closePreview()
-      this.activeCollection = null
+      this.setActiveCollection(null)
     },
     '$route.query.category': {
       immediate: true,
@@ -164,11 +174,9 @@ export default {
   },
   methods: {
     normalizeFilterValue(category) {
-      if (this.filterValues.includes(category)) {
-        return category
-      }
-
-      return 'all'
+      return this.filters.some((filter) => filter.value === category)
+        ? category
+        : 'all'
     },
     setActiveFilter(filterValue) {
       const normalizedFilter = this.normalizeFilterValue(filterValue)
@@ -177,7 +185,7 @@ export default {
         normalizedFilter === this.activeFilter &&
         this.activeCollections.length
       ) {
-        this.closeCollection()
+        this.setActiveCollection(null)
       }
 
       if (normalizedFilter !== this.activeFilter) {
@@ -196,10 +204,13 @@ export default {
     setActiveCollection(collectionValue) {
       this.activeCollection = collectionValue
       this.closePreview()
+      this.resetDisplayedImages()
     },
-    closeCollection() {
-      this.activeCollection = null
-      this.closePreview()
+    loadMoreImages() {
+      this.visibleImageCount += GALLERY_BATCH_SIZE
+    },
+    resetDisplayedImages() {
+      this.visibleImageCount = GALLERY_BATCH_SIZE
     },
     openPreview({ image }) {
       this.activeImageId = image.id
@@ -319,5 +330,10 @@ export default {
 .collection-heading h2 {
   margin: 0;
   font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+}
+
+.load-more-button {
+  justify-self: center;
+  padding: 0.6rem 1rem;
 }
 </style>
