@@ -10,10 +10,10 @@
     "deploy": "npm run deploy:prod",
     "deploy:prod": "npm run build && gh-pages -d dist",
     "deploy:staging": "npm run build && node scripts/remove-dist-cname.js && node scripts/write-staging-deploy-meta.js && gh-pages -d dist -r git@github.com:Junikab/Junikab.github.io.git -b gh-pages",
-    "cloudinary:export-folder": "node scripts/export-cloudinary-folder.js"
+    "cloudinary:export-folder": "node scripts/export-cloudinary-folder.js",
+    "cloudinary:sync-gallery": "node scripts/sync-cloudinary-gallery.js"
   },
   "dependencies": {
-    "@cloudinary/url-gen": "^1.21.0",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",

@@ -24,7 +24,7 @@
           @click="selectImage(image, index)"
         >
           <img
-            :src="image.src"
+            :src="image.thumbnailSrc || image.src"
             :alt="image.alt"
             :title="image.title || image.alt"
             :loading="index === 0 ? 'eager' : 'lazy'"
@@ -35,7 +35,7 @@
         </button>
         <img
           v-else
-          :src="image.src"
+          :src="image.thumbnailSrc || image.src"
           :alt="image.alt"
           :title="image.title || image.alt"
           :loading="index === 0 ? 'eager' : 'lazy'"
@@ -61,7 +61,7 @@
             @click="selectImage(image, index)"
           >
             <img
-              :src="image.src"
+              :src="image.thumbnailSrc || image.src"
               :alt="image.alt"
               :title="image.title || image.alt"
               :loading="index === 0 ? 'eager' : 'lazy'"
@@ -71,7 +71,7 @@
           </button>
           <img
             v-else
-            :src="image.src"
+            :src="image.thumbnailSrc || image.src"
             :alt="image.alt"
             :title="image.title || image.alt"
             :loading="index === 0 ? 'eager' : 'lazy'"

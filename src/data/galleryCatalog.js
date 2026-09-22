@@ -2,6 +2,8 @@ import {
   createGalleryImage,
   createGalleryImagesFromFolder
 } from './galleryImageHelpers'
+import galleryCollectionAssets from './galleryCollectionAssets.json'
+import galleryCollectionDefinitions from './galleryCollections.json'
 
 const backgroundImages = createGalleryImagesFromFolder('background', [
   {
@@ -162,6 +164,22 @@ const freshflowersChristmasImages = createGalleryImagesFromFolder(
   ]
 )
 
+// WEDDING GALLERIES
+
+const WEDDING_GALLERY_SORT_ORDER_START = 539
+const weddingGalleryImages = galleryCollectionDefinitions
+  .flatMap((collection) =>
+    createGalleryImagesFromFolder(
+      collection.folderName,
+      galleryCollectionAssets[collection.value] || [],
+      { collections: [collection.value] }
+    )
+  )
+  .map((image, index) => ({
+    ...image,
+    sortOrder: WEDDING_GALLERY_SORT_ORDER_START + index
+  }))
+
 const homeFeaturedImages = [
   createGalleryImage({
     id: 'home-featured-img-5343',
@@ -194,6 +212,7 @@ export const galleryImageCatalog = [
   ...fauxflowersImages,
   ...freshflowersImages,
   ...freshflowersBlueweddingImages,
-  ...freshflowersChristmasImages
+  ...freshflowersChristmasImages,
+  ...weddingGalleryImages
 ]
 export default galleryImageCatalog

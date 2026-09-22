@@ -1,6 +1,6 @@
 # Jenny's Flowers Workflow
 
-Updated September 3, 2026.
+Updated September 21, 2026.
 
 This file is the simple day-to-day workflow for this project.
 
@@ -83,6 +83,8 @@ After that, check:
 - Gallery
 - Contact
 - mobile menu
+- gallery filters and Load more button
+- Weddings cover and album
 - gallery lightbox
 - contact form
 
