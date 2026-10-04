@@ -1,6 +1,6 @@
 # Jenny's Flowers Workflow
 
-Updated September 21, 2026.
+Updated October 4, 2026.
 
 This file is the simple day-to-day workflow for this project.
 
@@ -52,6 +52,14 @@ If your change is important or visual, also run:
 npm run build
 ```
 
+This creates the production static HTML and validates that every public route
+contains real content and the production contact details. To check the staging
+configuration without deploying, run:
+
+```bash
+npm run build:staging
+```
+
 Then save your work:
 
 ```bash
@@ -74,6 +82,10 @@ Then deploy staging:
 ```bash
 npm run deploy:staging
 ```
+
+This command always runs the staging build first. It removes the production
+`CNAME` from the generated staging files, writes staging deployment metadata,
+and publishes to the staging repository.
 
 After that, check:
 
@@ -131,6 +143,10 @@ Then publish production:
 npm run deploy:prod
 ```
 
+This command always runs the production build and generated-HTML validation
+before publishing. The production build keeps `public/CNAME` so the custom
+domain remains attached.
+
 This deploy keeps the live custom domain:
 
 - `jennysflowers.com.au`
@@ -162,6 +178,12 @@ Build:
 
 ```bash
 npm run build
+```
+
+Build with staging configuration:
+
+```bash
+npm run build:staging
 ```
 
 Deploy staging:

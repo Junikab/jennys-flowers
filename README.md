@@ -11,7 +11,9 @@ the contact form.
 - A contact form with clear field and calendar-date validation
 - reCAPTCHA protection and direct submission through FormSubmit
 
-The site is built with Vue 3 and is currently front-end only.
+The site is built with Vue 3, Vite, and Vite SSG. The build generates real HTML
+for every public route, then Vue hydrates that HTML to enable the interactive
+features. It remains a front-end-only site hosted on GitHub Pages.
 
 ## Run It Locally
 
@@ -21,7 +23,7 @@ Install the dependencies:
 npm install
 ```
 
-Start the development server:
+Start the Vite development server:
 
 ```bash
 npm run serve
@@ -33,6 +35,33 @@ Before sharing a change, check it with:
 npm run lint
 npm run build
 ```
+
+`npm run build` is the production build. It generates and validates:
+
+- `dist/index.html`
+- `dist/about/index.html`
+- `dist/contact/index.html`
+- `dist/gallery/index.html`
+- `dist/404.html`
+
+Use `npm run build:staging` to generate the same pages with staging contact and
+site configuration. Both builds stop if required public configuration is
+missing or if the generated HTML contains the wrong environment's email.
+
+Internal links use trailing slashes for non-home routes, such as `/about/` and
+`/contact/`, because those URLs map directly to generated directory indexes on
+static hosting.
+
+## Public Build Configuration
+
+The tracked `.env.development`, `.env.staging`, and `.env.production` files
+contain values that are intentionally public in the browser: the site origin,
+contact email, and reCAPTCHA site key. Update the correct environment file when
+one of those public values changes.
+
+Never put Cloudinary API secrets or other private credentials in a `VITE_`
+variable. Keep private Cloudinary credentials in `.env.cloudinary.local`, which
+is ignored by Git.
 
 ## Development Guide
 
