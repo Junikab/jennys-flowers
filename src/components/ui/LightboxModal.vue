@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport to="body" :disabled="!isMounted">
     <div
       v-if="show && image"
       class="lightbox-modal"
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      isMounted: false,
       previousBodyOverflow: '',
       touchStartX: null,
       touchStartY: null
@@ -103,6 +104,7 @@ export default {
     }
   },
   mounted() {
+    this.isMounted = true
     window.addEventListener('keydown', this.handleKeydown)
   },
   beforeUnmount() {

@@ -162,21 +162,26 @@ export default {
       this.setActiveCollection(null)
     },
     '$route.query.category': {
-      immediate: true,
       handler(category) {
-        const normalizedCategory = this.normalizeFilterValue(category)
-
-        if (normalizedCategory !== this.activeFilter) {
-          this.activeFilter = normalizedCategory
-        }
+        this.syncFilterFromRoute(category)
       }
     }
+  },
+  mounted() {
+    this.syncFilterFromRoute(this.$route.query.category)
   },
   methods: {
     normalizeFilterValue(category) {
       return this.filters.some((filter) => filter.value === category)
         ? category
         : 'all'
+    },
+    syncFilterFromRoute(category) {
+      const normalizedCategory = this.normalizeFilterValue(category)
+
+      if (normalizedCategory !== this.activeFilter) {
+        this.activeFilter = normalizedCategory
+      }
     },
     setActiveFilter(filterValue) {
       const normalizedFilter = this.normalizeFilterValue(filterValue)
