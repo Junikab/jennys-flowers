@@ -1,35 +1,39 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import ContactPage from '../views/ContactPage.vue'
-import AboutPage from '../views/AboutPage.vue'
-import GalleryPage from '../views/GalleryPage.vue'
 import HomePage from '../views/HomePage.vue'
 
-const routes = [
+const AboutPage = () => import('../views/AboutPage.vue')
+const ContactPage = () => import('../views/ContactPage.vue')
+const GalleryPage = () => import('../views/GalleryPage.vue')
+const NotFoundPage = () => import('../views/NotFoundPage.vue')
+
+export const routes = [
   {
     path: '/',
     name: 'HomePage',
-    component: HomePage,
-    props: { msg: 'Welcome to Jennys Flowers' }
+    component: HomePage
   },
   {
-    path: '/contact',
+    path: '/contact/',
     name: 'Contact',
     component: ContactPage
   },
   {
-    path: '/about',
+    path: '/about/',
     name: 'About',
     component: AboutPage
   },
   {
-    path: '/gallery',
+    path: '/gallery/',
     name: 'Gallery',
     component: GalleryPage
+  },
+  {
+    path: '/404',
+    name: 'NotFoundBuild',
+    component: NotFoundPage
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundPage
   }
 ]
-
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
-export default router

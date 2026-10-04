@@ -23,17 +23,17 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about" @click="closeMenu"
+            <router-link class="nav-link" to="/about/" @click="closeMenu"
               >ABOUT</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/gallery" @click="closeMenu"
+            <router-link class="nav-link" to="/gallery/" @click="closeMenu"
               >GALLERY</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/contact" @click="closeMenu"
+            <router-link class="nav-link" to="/contact/" @click="closeMenu"
               >CONTACT</router-link
             >
           </li>

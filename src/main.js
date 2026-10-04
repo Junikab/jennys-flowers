@@ -1,10 +1,18 @@
-import { createApp } from 'vue'
+import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
-import router from './router/index.js'
+import { routes } from './router/index.js'
 import './assets/styles/base.scss'
 
 import 'bootstrap/dist/css/bootstrap.css'
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+export const createApp = ViteSSG(
+  App,
+  {
+    base: import.meta.env.BASE_URL,
+    routes
+  },
+  undefined,
+  {
+    hydration: true
+  }
+)

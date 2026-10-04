@@ -6,9 +6,9 @@
           <h4 class="footer-heading">Quick Links</h4>
           <nav class="footer-nav" aria-label="Footer quick links">
             <router-link to="/">Home</router-link>
-            <router-link to="/about">About</router-link>
-            <router-link to="/gallery">Gallery</router-link>
-            <router-link to="/contact">Contact</router-link>
+            <router-link to="/about/">About</router-link>
+            <router-link to="/gallery/">Gallery</router-link>
+            <router-link to="/contact/">Contact</router-link>
           </nav>
         </div>
 
@@ -63,7 +63,10 @@
 
 <script>
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
-import { getContactConfig } from '../../data/contactDetails'
+import {
+  contactConfig as siteContactConfig,
+  siteConfig
+} from '../../config/site'
 
 export default {
   name: 'TheFooter',
@@ -77,10 +80,10 @@ export default {
   },
   computed: {
     currentYear() {
-      return new Date().getFullYear()
+      return siteConfig.displayYear
     },
     contactConfig() {
-      return getContactConfig()
+      return siteContactConfig
     },
     dividerStyle() {
       if (!this.dividerWidth) {

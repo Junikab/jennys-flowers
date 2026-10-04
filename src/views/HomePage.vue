@@ -21,7 +21,7 @@
           <h2 class="section-title">Price Guides for {{ currentYear }}</h2>
           <p class="body-copy">
             For a personal quote, please fill out
-            <router-link to="/contact" class="price-guide-intro__contact-link"
+            <router-link to="/contact/" class="price-guide-intro__contact-link"
               >the form</router-link
             >
             on our website with details about your event.
@@ -99,6 +99,7 @@
 <script>
 import HeroSlideshow from '../components/home/HeroSlideshow.vue'
 import PriceListCard from '../components/ui/PriceListCard.vue'
+import { siteConfig } from '../config/site'
 import { getGalleryImagesBySection } from '../data/galleryImages'
 import { fauxWeddingPriceList, freshWeddingPriceList } from '../data/priceLists'
 import { getImageUrl } from '../plugins/cloudinary'
@@ -111,7 +112,7 @@ export default {
   },
   computed: {
     currentYear() {
-      return new Date().getFullYear()
+      return siteConfig.displayYear
     }
   },
   data() {

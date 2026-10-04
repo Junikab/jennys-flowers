@@ -52,7 +52,7 @@
 <script>
 import CopyEmailButton from '../ui/CopyEmailButton.vue'
 import TheNavigation from './TheNavigation.vue'
-import { getContactConfig } from '../../data/contactDetails'
+import { contactConfig as siteContactConfig } from '../../config/site'
 
 export default {
   name: 'TheHeader',
@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     contactConfig() {
-      return getContactConfig()
+      return siteContactConfig
     }
   }
 }

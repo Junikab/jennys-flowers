@@ -146,10 +146,11 @@ import {
   createEmptyContactFormData,
   validateContactForm
 } from './contactFormValidation'
-import { getContactConfig } from '../../data/contactDetails'
+import {
+  contactConfig as siteContactConfig,
+  siteConfig
+} from '../../config/site'
 import { loadRecaptchaApi } from '../../services/recaptcha'
-
-const RECAPTCHA_SITE_KEY = '6Ld7xDArAAAAAAvbJMfFCgIcZlzmkXX2W0Tr_JdC'
 
 export default {
   name: 'ContactForm',
@@ -172,7 +173,7 @@ export default {
   },
   computed: {
     contactConfig() {
-      return getContactConfig()
+      return siteContactConfig
     }
   },
   mounted() {
@@ -188,7 +189,7 @@ export default {
         }
 
         this.recaptchaWidgetId = grecaptcha.render(this.$refs.recaptcha, {
-          sitekey: RECAPTCHA_SITE_KEY,
+          sitekey: siteConfig.recaptchaSiteKey,
           callback: this.handleRecaptchaVerified,
           'expired-callback': this.handleRecaptchaExpired,
           'error-callback': this.handleRecaptchaError
@@ -265,7 +266,7 @@ export default {
         if (window.grecaptcha && this.recaptchaWidgetId !== null) {
           window.grecaptcha.reset(this.recaptchaWidgetId)
         }
-      } catch (error) {
+      } catch {
         this.submissionError =
           'Sorry, there was a problem sending your message. Please try again.'
       } finally {

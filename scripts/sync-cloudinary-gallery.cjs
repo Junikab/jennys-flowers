@@ -6,7 +6,7 @@ const {
   getAssetName,
   loadEnv,
   normalizeFolderInput
-} = require('./export-cloudinary-folder')
+} = require('./export-cloudinary-folder.cjs')
 
 const GALLERY_CATEGORY_TAGS = new Set(['fresh-flowers', 'faux-flowers'])
 const OUTPUT_PATH = path.join(

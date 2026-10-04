@@ -83,7 +83,7 @@ export default {
         try {
           await navigator.clipboard.writeText(value)
           return true
-        } catch (error) {
+        } catch {
           // Fallback below handles browsers that block clipboard API.
         }
       }
@@ -98,7 +98,7 @@ export default {
 
       try {
         return document.execCommand('copy')
-      } catch (error) {
+      } catch {
         return false
       } finally {
         document.body.removeChild(fallbackField)
