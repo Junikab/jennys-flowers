@@ -13,6 +13,6 @@ export const createApp = ViteSSG(
   },
   undefined,
   {
-    hydration: true
+    hydration: import.meta.env.PROD
   }
 )
