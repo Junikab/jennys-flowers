@@ -7,6 +7,7 @@
     >
       <div class="page-copy hero-copy">
         <div class="title-container">
+          <h1 class="hero-heading">Jenny's Flowers Event Florist</h1>
           <p class="lead-copy">
             From intimate gatherings to grand events, we create elegant florals
             that leave a lasting impression.
@@ -163,6 +164,15 @@ export default {
 .title-container {
   text-align: center;
   backdrop-filter: blur(2px);
+}
+
+.hero-heading {
+  margin: 0 0 var(--space-3);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
 }
 
 .price-guide-intro {

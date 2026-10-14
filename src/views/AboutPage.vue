@@ -4,7 +4,7 @@
       <div class="page-copy about-copy">
         <div class="page-panel about-panel">
           <div class="about-section">
-            <h2 class="section-title">My Story</h2>
+            <h1 class="section-title">My Story</h1>
             <p class="body-copy">
               My love for flowers began in my childhood, watching my mother tend
               to our summer garden in Russia. Even though we had only three

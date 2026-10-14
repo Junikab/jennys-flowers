@@ -1,8 +1,15 @@
+import fs from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv } from 'vite'
 
-const STATIC_ROUTES = ['/', '/about/', '/contact/', '/gallery/', '/404']
+const publicPages = JSON.parse(
+  fs.readFileSync(
+    fileURLToPath(new URL('./src/config/publicPages.json', import.meta.url)),
+    'utf8'
+  )
+)
+const STATIC_ROUTES = [...publicPages.map((page) => page.path), '/404']
 const REQUIRED_PUBLIC_ENV = [
   'VITE_SITE_ENV',
   'VITE_SITE_URL',

@@ -10,15 +10,57 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useHead } from '@unhead/vue'
+import { useRoute } from 'vue-router'
 import TheFooter from './components/layout/TheFooter.vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import ScrollTopButton from './components/ui/ScrollTopButton.vue'
+import { siteConfig } from './config/site'
+
 export default {
   name: 'App',
   components: {
     ScrollTopButton,
     TheHeader,
     TheFooter
+  },
+  setup() {
+    const route = useRoute()
+
+    useHead(
+      computed(() => {
+        const seo = route.meta.seo || {}
+        const shouldPreventIndexing =
+          siteConfig.environment !== 'production' || seo.noindex
+        const head = {
+          title: seo.title || "Jenny's Flowers",
+          meta: [
+            {
+              name: 'description',
+              content: seo.description || ''
+            }
+          ],
+          link: seo.canonicalPath
+            ? [
+                {
+                  rel: 'canonical',
+                  href: new URL(
+                    seo.canonicalPath,
+                    `${siteConfig.siteUrl}/`
+                  ).href
+                }
+              ]
+            : []
+        }
+
+        if (shouldPreventIndexing) {
+          head.meta.push({ name: 'robots', content: 'noindex, nofollow' })
+        }
+
+        return head
+      })
+    )
   }
 }
 </script>

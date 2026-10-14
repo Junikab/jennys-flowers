@@ -1,0 +1,26 @@
+[
+  {
+    "name": "HomePage",
+    "path": "/",
+    "title": "Jenny's Flowers | Wedding & Event Florist Sydney",
+    "description": "Jenny's Flowers creates elegant fresh and faux florals for weddings, intimate gatherings and grand events across Sydney and beyond."
+  },
+  {
+    "name": "About",
+    "path": "/about/",
+    "title": "About Jenny | Jenny's Flowers Sydney",
+    "description": "Meet Jenny and discover the story, passion and creative approach behind Jenny's Flowers and its meaningful floral designs."
+  },
+  {
+    "name": "Gallery",
+    "path": "/gallery/",
+    "title": "Wedding Flower Gallery | Jenny's Flowers Sydney",
+    "description": "Explore fresh flower, faux flower and wedding floral designs created by Jenny's Flowers for celebrations across Sydney and beyond."
+  },
+  {
+    "name": "Contact",
+    "path": "/contact/",
+    "title": "Contact Jenny's Flowers | Sydney Event Florist",
+    "description": "Contact Jenny's Flowers about wedding and event florals in Sydney and beyond. Consultations are available by appointment only."
+  }
+]

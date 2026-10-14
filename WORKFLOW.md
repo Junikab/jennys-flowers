@@ -1,6 +1,6 @@
 # Jenny's Flowers Workflow
 
-Updated October 4, 2026.
+Updated October 15, 2026.
 
 This file is the simple day-to-day workflow for this project.
 
@@ -53,12 +53,17 @@ npm run build
 ```
 
 This creates the production static HTML and validates that every public route
-contains real content and the production contact details. To check the staging
-configuration without deploying, run:
+contains real content, the production contact details, unique search metadata,
+canonical URLs, and the four-page sitemap. To check the staging configuration
+without deploying, run:
 
 ```bash
 npm run build:staging
 ```
+
+The staging build uses staging canonical URLs, marks every page as `noindex`,
+and does not generate a sitemap. This prevents the review site from competing
+with the live website in search results.
 
 Then save your work:
 
@@ -150,6 +155,11 @@ domain remains attached.
 This deploy keeps the live custom domain:
 
 - `jennysflowers.com.au`
+
+After publishing, also check:
+
+- `https://jennysflowers.com.au/sitemap.xml`
+- `https://jennysflowers.com.au/robots.txt`
 
 ## 6. The Safe Simple Rule
 

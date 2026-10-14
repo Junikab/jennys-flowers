@@ -1,6 +1,7 @@
 <template>
   <div class="contact-form-container">
     <ThankYouPopup :show="showThankYou" @close="closePopup" />
+    <h2 class="page-heading text-center">Contact Jenny's Flowers</h2>
     <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
       <CopyEmailButton
