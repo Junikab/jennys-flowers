@@ -77,7 +77,7 @@ tags to the original asset:
 - `fresh-flowers`
 - `faux-flowers`
 
-After adding, removing, or tagging wedding photos, refresh the gallery data:
+After adding, removing, or tagging gallery photos, refresh the gallery data:
 
 ```bash
 npm run cloudinary:sync-gallery
@@ -87,9 +87,14 @@ This requires `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in
 `.env.cloudinary.local`.
 
 The command reads the albums listed in
-`src/data/galleryCollections.json` and updates
-`src/data/galleryCollectionAssets.json`. Do not edit the generated asset file
-by hand.
+`src/data/galleryCollections.json`, updates
+`src/data/galleryCollectionAssets.json`, and records Cloudinary upload dates in
+`src/data/galleryUploadDates.json`. Do not edit these generated files by hand.
+
+The All gallery uses those upload dates to show the newest uploads first.
+Older projects can be kept at the end of All by setting `showLastInAll: true`
+in their gallery catalog entries. The Fresh Flowers, Faux Flowers, and
+individual wedding galleries retain their curated order.
 
 To add another wedding, add its title, Cloudinary folder, and cover asset to
 `src/data/galleryCollections.json`, then run the sync command. This keeps one

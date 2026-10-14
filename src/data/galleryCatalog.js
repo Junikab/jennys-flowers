@@ -146,7 +146,8 @@ const freshflowersBlueweddingImages = createGalleryImagesFromFolder(
     { asset: 'DSC09384_aefwsl', sortOrder: 504 },
     { asset: 'DSC09388_p5zexj', sortOrder: 505 },
     { asset: 'DSC09391_o0kbgn', sortOrder: 506 }
-  ]
+  ],
+  { showLastInAll: true }
 )
 
 const freshflowersChristmasImages = createGalleryImagesFromFolder(
@@ -161,7 +162,8 @@ const freshflowersChristmasImages = createGalleryImagesFromFolder(
     { asset: 'DSC09461_syhnjb', sortOrder: 515 },
     { asset: 'DSC09465_zbpvjd', sortOrder: 516 },
     { asset: 'DSC09472_vahipg', sortOrder: 518 }
-  ]
+  ],
+  { showLastInAll: true }
 )
 
 // WEDDING GALLERIES

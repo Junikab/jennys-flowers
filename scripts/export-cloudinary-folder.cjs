@@ -419,6 +419,7 @@ if (require.main === module) {
 module.exports = {
   fetchCloudinaryAssets,
   getAssetName,
+  getAssetFolder,
   loadEnv,
   normalizeFolderInput
 }

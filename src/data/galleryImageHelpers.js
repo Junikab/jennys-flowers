@@ -1,4 +1,5 @@
 import { getImageUrl } from '../plugins/cloudinary'
+import galleryUploadDates from './galleryUploadDates.json'
 
 const AUTO_CATEGORIES_BY_FOLDER = {
   freshFlowers: ['fresh-flowers'],
@@ -76,6 +77,7 @@ export function createGalleryImage(entry) {
     id: entry.id || buildImageId(publicId, title),
     title,
     publicId,
+    uploadedAt: entry.uploadedAt || galleryUploadDates[publicId] || '',
     src: getImageUrl(publicId, {
       crop: 'limit',
       width: GALLERY_IMAGE_WIDTH

@@ -3,6 +3,7 @@ const path = require('path')
 const galleryCollectionDefinitions = require('../src/data/galleryCollections.json')
 const {
   fetchCloudinaryAssets,
+  getAssetFolder,
   getAssetName,
   loadEnv,
   normalizeFolderInput
@@ -12,6 +13,10 @@ const GALLERY_CATEGORY_TAGS = new Set(['fresh-flowers', 'faux-flowers'])
 const OUTPUT_PATH = path.join(
   process.cwd(),
   'src/data/galleryCollectionAssets.json'
+)
+const UPLOAD_DATES_OUTPUT_PATH = path.join(
+  process.cwd(),
+  'src/data/galleryUploadDates.json'
 )
 
 function getCategoriesFromTags(tags = []) {
@@ -29,6 +34,17 @@ function buildAssetEntry(asset) {
   return entry
 }
 
+function buildUploadDates(assets) {
+  return Object.fromEntries(
+    assets
+      .filter((asset) => asset.public_id && asset.created_at)
+      .sort((firstAsset, secondAsset) =>
+        firstAsset.public_id.localeCompare(secondAsset.public_id)
+      )
+      .map((asset) => [asset.public_id, asset.created_at])
+  )
+}
+
 async function main() {
   const env = loadEnv()
   const cloudName = env.CLOUDINARY_CLOUD_NAME || 'djgi23npu'
@@ -41,49 +57,51 @@ async function main() {
     )
   }
 
-  const collectionEntries = await Promise.all(
-    galleryCollectionDefinitions.map(async (collection) => {
-      const folderPath = normalizeFolderInput(collection.folderName)
-      const assets = await fetchCloudinaryAssets({
-        cloudName,
-        apiKey,
-        apiSecret,
-        folderPath,
-        recursive: false,
-        maxResults: 500
-      })
+  const allAssets = await fetchCloudinaryAssets({
+    cloudName,
+    apiKey,
+    apiSecret,
+    folderPath: normalizeFolderInput(),
+    recursive: true,
+    maxResults: 500
+  })
 
-      if (!assets.length) {
-        throw new Error(`No images found for ${collection.label}.`)
-      }
+  const collectionEntries = galleryCollectionDefinitions.map((collection) => {
+    const folderPath = normalizeFolderInput(collection.folderName)
+    const assets = allAssets.filter(
+      (asset) => getAssetFolder(asset) === folderPath
+    )
 
-      if (
-        !assets.some(
-          (asset) => getAssetName(asset.public_id) === collection.coverAsset
-        )
-      ) {
-        throw new Error(`Cover image not found for ${collection.label}.`)
-      }
+    if (!assets.length) {
+      throw new Error(`No images found for ${collection.label}.`)
+    }
 
-      const entries = assets.map(buildAssetEntry)
-      const countCategory = (category) =>
-        entries.filter((entry) => entry.categories?.includes(category)).length
-      const untaggedCount = entries.filter(
-        (entry) => !entry.categories
-      ).length
-
-      console.log(
-        [
-          `${collection.label}: ${entries.length} images`,
-          `${countCategory('fresh-flowers')} fresh`,
-          `${countCategory('faux-flowers')} faux`,
-          `${untaggedCount} untagged`
-        ].join(' | ')
+    if (
+      !assets.some(
+        (asset) => getAssetName(asset.public_id) === collection.coverAsset
       )
+    ) {
+      throw new Error(`Cover image not found for ${collection.label}.`)
+    }
 
-      return [collection.value, entries]
-    })
-  )
+    const entries = assets.map(buildAssetEntry)
+    const countCategory = (category) =>
+      entries.filter((entry) => entry.categories?.includes(category)).length
+    const untaggedCount = entries.filter(
+      (entry) => !entry.categories
+    ).length
+
+    console.log(
+      [
+        `${collection.label}: ${entries.length} images`,
+        `${countCategory('fresh-flowers')} fresh`,
+        `${countCategory('faux-flowers')} faux`,
+        `${untaggedCount} untagged`
+      ].join(' | ')
+    )
+
+    return [collection.value, entries]
+  })
 
   const galleryCollectionAssets = Object.fromEntries(collectionEntries)
 
@@ -91,8 +109,15 @@ async function main() {
     OUTPUT_PATH,
     `${JSON.stringify(galleryCollectionAssets, null, 2)}\n`
   )
+  fs.writeFileSync(
+    UPLOAD_DATES_OUTPUT_PATH,
+    `${JSON.stringify(buildUploadDates(allAssets), null, 2)}\n`
+  )
 
   console.log(`Updated: ${path.relative(process.cwd(), OUTPUT_PATH)}`)
+  console.log(
+    `Updated: ${path.relative(process.cwd(), UPLOAD_DATES_OUTPUT_PATH)}`
+  )
 }
 
 main().catch((error) => {

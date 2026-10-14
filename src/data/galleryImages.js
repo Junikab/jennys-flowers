@@ -6,12 +6,41 @@ function sortGalleryImages(images) {
   })
 }
 
+function getUploadTime(image) {
+  const uploadTime = Date.parse(image.uploadedAt)
+
+  return Number.isNaN(uploadTime) ? Number.NEGATIVE_INFINITY : uploadTime
+}
+
+function sortGalleryImagesByNewest(images) {
+  return [...images].sort((firstImage, secondImage) => {
+    const firstImageShowsLast = Boolean(firstImage.showLastInAll)
+    const secondImageShowsLast = Boolean(secondImage.showLastInAll)
+
+    if (firstImageShowsLast !== secondImageShowsLast) {
+      return firstImageShowsLast ? 1 : -1
+    }
+
+    const firstUploadTime = getUploadTime(firstImage)
+    const secondUploadTime = getUploadTime(secondImage)
+
+    if (firstUploadTime !== secondUploadTime) {
+      return secondUploadTime - firstUploadTime
+    }
+
+    return firstImage.sortOrder - secondImage.sortOrder
+  })
+}
+
 function isGalleryVisible(image) {
   return image.showInGallery
 }
 
 const sortedGalleryImages = sortGalleryImages(galleryImageCatalog)
 const visibleGalleryImages = sortedGalleryImages.filter(isGalleryVisible)
+const newestVisibleGalleryImages = sortGalleryImagesByNewest(
+  visibleGalleryImages
+)
 
 function buildGalleryLookup(images, key) {
   return images.reduce((lookup, image) => {
@@ -41,7 +70,7 @@ const galleryImagesByCollection = buildGalleryLookup(
 )
 
 export function getGalleryImages() {
-  return [...visibleGalleryImages]
+  return [...newestVisibleGalleryImages]
 }
 
 export function getGalleryImagesBySection(section) {
