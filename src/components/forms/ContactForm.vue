@@ -1,7 +1,9 @@
 <template>
   <div class="contact-form-container">
     <ThankYouPopup :show="showThankYou" @close="closePopup" />
-    <h2 class="page-heading text-center">Contact Jenny's Flowers</h2>
+    <h1 class="page-heading contact-form-heading text-center">
+      Contact Jenny's Flowers
+    </h1>
     <p class="text-center contact-intro body-copy">
       Please fill in the contact form below or email us at
       <CopyEmailButton
@@ -361,6 +363,10 @@ export default {
   /* border: 1px solid var(--color-border); */
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow-soft);
+}
+
+.contact-form-heading {
+  font-size: var(--font-size-section);
 }
 
 .contact-intro {
