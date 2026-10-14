@@ -9,7 +9,10 @@
     <div
       v-if="layoutMode === 'masonry'"
       ref="masonryGrid"
-      class="gallery-masonry"
+      :class="[
+        'gallery-masonry',
+        { 'gallery-masonry--enhanced': masonryEnhanced }
+      ]"
     >
       <figure
         v-for="(image, index) in images"
@@ -120,15 +123,16 @@ export default {
   },
   data() {
     return {
-      masonryFrame: null
+      masonryFrame: null,
+      masonryEnhanced: false
     }
   },
   watch: {
     images() {
       this.scheduleMasonryLayout()
     },
-    layoutMode() {
-      this.scheduleMasonryLayout()
+    layoutMode(layoutMode) {
+      this.setMasonryEnhancement(layoutMode)
     }
   },
   mounted() {
@@ -138,7 +142,7 @@ export default {
       })
     }
 
-    this.scheduleMasonryLayout()
+    this.setMasonryEnhancement(this.layoutMode)
   },
   beforeUnmount() {
     if (typeof window !== 'undefined') {
@@ -147,6 +151,10 @@ export default {
     }
   },
   methods: {
+    setMasonryEnhancement(layoutMode) {
+      this.masonryEnhanced = layoutMode === 'masonry'
+      this.scheduleMasonryLayout()
+    },
     scheduleMasonryLayout() {
       if (typeof window === 'undefined' || this.layoutMode !== 'masonry') {
         return
@@ -222,10 +230,16 @@ export default {
 }
 
 .gallery-masonry {
+  column-count: 2;
+  column-gap: 0.45rem;
+}
+
+.gallery-masonry--enhanced {
   --gallery-masonry-row-height: 8px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: var(--gallery-masonry-row-height);
+  column-count: auto;
   gap: 0.45rem;
   align-items: start;
 }
@@ -246,12 +260,20 @@ export default {
 
 .gallery-tile--masonry {
   grid-row-end: span 1;
-  margin-bottom: 0;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.45rem;
   overflow: hidden;
+  break-inside: avoid;
   aspect-ratio: auto;
   border-radius: var(--radius-panel);
   background: transparent;
   box-shadow: none;
+}
+
+.gallery-masonry--enhanced .gallery-tile--masonry {
+  display: block;
+  margin-bottom: 0;
 }
 
 .gallery-image {
@@ -274,13 +296,23 @@ export default {
 
 @media (min-width: 900px) {
   .gallery-masonry {
+    column-count: 3;
+  }
+
+  .gallery-masonry--enhanced {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-count: auto;
   }
 }
 
 @media (min-width: 1200px) {
   .gallery-masonry {
+    column-count: 4;
+  }
+
+  .gallery-masonry--enhanced {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-count: auto;
   }
 }
 </style>
