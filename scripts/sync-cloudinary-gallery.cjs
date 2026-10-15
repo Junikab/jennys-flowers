@@ -23,9 +23,16 @@ function getCategoriesFromTags(tags = []) {
   return tags.filter((tag) => GALLERY_CATEGORY_TAGS.has(tag))
 }
 
-function buildAssetEntry(asset) {
+function buildAssetEntry(asset, defaultCategories = []) {
   const entry = { asset: getAssetName(asset.public_id) }
-  const categories = getCategoriesFromTags(asset.tags)
+  const categories = [
+    ...new Set([
+      ...defaultCategories.filter((category) =>
+        GALLERY_CATEGORY_TAGS.has(category)
+      ),
+      ...getCategoriesFromTags(asset.tags)
+    ])
+  ]
 
   if (categories.length) {
     entry.categories = categories
@@ -84,7 +91,9 @@ async function main() {
       throw new Error(`Cover image not found for ${collection.label}.`)
     }
 
-    const entries = assets.map(buildAssetEntry)
+    const entries = assets.map((asset) =>
+      buildAssetEntry(asset, collection.defaultCategories)
+    )
     const countCategory = (category) =>
       entries.filter((entry) => entry.categories?.includes(category)).length
     const untaggedCount = entries.filter(

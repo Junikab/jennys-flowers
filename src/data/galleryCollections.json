@@ -4,5 +4,14 @@
     "value": "lauren-and-matthew",
     "folderName": "Events/laurenAndMatthew",
     "coverAsset": "IMG_7164_l0mfz1"
+  },
+  {
+    "label": "Eden & Arthur",
+    "value": "eden-and-arthur",
+    "folderName": "Events/Eden and Arthur",
+    "coverAsset": "IMG_7807_cqaugz",
+    "defaultCategories": [
+      "fresh-flowers"
+    ]
   }
 ]

@@ -284,6 +284,7 @@ export default {
 .gallery-collections {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 360px));
+  gap: var(--space-3);
   justify-content: center;
   width: min(90vw, 1600px);
   margin: 0 auto;
@@ -320,6 +321,7 @@ export default {
 .gallery-collection-title {
   display: block;
   padding: var(--space-2);
+  background-color: var(--color-white);
   font-family: var(--font-display);
   font-size: clamp(1rem, 2vw, 1.25rem);
   letter-spacing: 0.04em;
