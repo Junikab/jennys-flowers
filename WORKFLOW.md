@@ -8,11 +8,14 @@ This file is the simple day-to-day workflow for this project.
 
 - `main` = live production branch
 - `dev` = working branch
+- a named feature or fix branch = isolated work that must be reviewed and
+  merged before deployment
 
 Simple rule:
 
 - do not work directly on `main`
 - do your normal work in `dev`
+- use a dedicated branch for larger or riskier changes
 
 ## 2. Staging Meaning
 
@@ -65,6 +68,16 @@ The staging build uses staging canonical URLs, marks every page as `noindex`,
 and does not generate a sitemap. This prevents the review site from competing
 with the live website in search results.
 
+For a browser preview of the completed production files, run:
+
+```bash
+npx vite preview
+```
+
+The usual `http://localhost:4173/` address works only while that command is
+running. Normal development remains on the Vite address, usually
+`http://localhost:5173/`.
+
 Then save your work:
 
 ```bash
@@ -101,7 +114,8 @@ After that, check:
 - Contact
 - mobile menu
 - gallery filters and Load more button
-- Weddings cover and album
+- both Weddings covers and albums
+- Eden & Arthur appears in Fresh Flowers
 - gallery lightbox
 - contact form
 
@@ -170,7 +184,41 @@ Use this rule every time:
 - merge to `main`
 - deploy production from `main`
 
-## 7. Commands You Will Use Most
+## 7. Updating Wedding Photos
+
+Keep each wedding in its own Cloudinary folder. After adding, removing, or
+tagging photos, run:
+
+```bash
+npm run cloudinary:sync-gallery
+```
+
+The command updates both generated data files:
+
+- `src/data/galleryCollectionAssets.json`
+- `src/data/galleryUploadDates.json`
+
+Do not edit those two files manually. The sync needs the private Cloudinary API
+key and secret in `.env.cloudinary.local`; never put those credentials in a
+tracked file or a `VITE_` variable.
+
+For a new wedding, first add its label, URL-safe value, exact Cloudinary folder,
+and cover asset to `src/data/galleryCollections.json`. Use photo tags when the
+Fresh/Faux category differs per photo. Use `defaultCategories` when the whole
+album shares a category.
+
+After syncing, check:
+
+- the image count printed by the command
+- the Weddings card and cover
+- every photo in the album
+- All and the relevant Fresh/Faux filter
+- the lightbox
+
+Current special rule: Eden & Arthur defaults to Fresh Flowers, so future photos
+in that album inherit Fresh Flowers on the next sync.
+
+## 8. Commands You Will Use Most
 
 Local dev:
 
@@ -208,7 +256,13 @@ Deploy production:
 npm run deploy:prod
 ```
 
-## 8. One Important Warning
+Sync wedding galleries:
+
+```bash
+npm run cloudinary:sync-gallery
+```
+
+## 9. One Important Warning
 
 Do not run production deploy from `dev`.
 
@@ -216,3 +270,6 @@ Best habit:
 
 - staging deploy from `dev`
 - production deploy from `main`
+
+The client's address is a private home. Do not add it to public page text,
+metadata, or structured data. “By appointment only” is intentional.
