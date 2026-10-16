@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jennysflowers.com.au/sitemap.xml
